@@ -160,7 +160,7 @@ EOD;
 
 function getTopIncludes($ruta = ''){
     $html = <<<EOD
-    <link rel="shortcut icon" type="image/png" href="{$ruta}img/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="{$ruta}img/favicon.jpg"/>
     
     <!-- Custom fonts for this template-->
     <link href="{$ruta}vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -191,14 +191,15 @@ function getBottomIncudes($ruta = ''){
     <script src="{$ruta}vendor/datatables/dataTables.bootstrap4.js"></script>
         
     <!-- Custom scripts for all pages-->
-    <script src="{$ruta}js/sb-admin.min.js"></script>
+    <script src="{$ruta}js/dataTables.spanish.js"></script>
+    <script src="{$ruta}js/sb-admin.js"></script>
 
     <script src="{$ruta}js/demo/chart-area-demo.js"></script>
     <script src="{$ruta}js/demo/chart-bar-demo.js"></script>
     <script src="{$ruta}js/demo/chart-pie-demo.js"></script>
 
 
-    <script src="{$ruta}js/demo/datatables-demo.js"></script>
+    
 EOD;
 
     echo $html;
