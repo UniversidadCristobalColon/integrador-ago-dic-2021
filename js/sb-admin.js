@@ -41,6 +41,10 @@
 
 $(document).ready(function() {
   $('.dataTable').DataTable({
-    language: spanish
+    language: spanish,
+    columnDefs: [ {
+      orderable: false,
+      targets:   -1
+    }]
   });
 });

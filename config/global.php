@@ -7,25 +7,34 @@ function getSidebar($ruta = ''){
 <ul class="sidebar navbar-nav">
     <li class="nav-item">
         <a class="nav-link" href="{$ruta}index.php">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Inicio</span>
+            <i class="fas fa-calculator"></i>
+            <span>Cotizaciones</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{$ruta}index.php">
+            <i class="fas fa-truck"></i>
+            <span>Envíos</span>
         </a>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Páginas</span>
+            <span>Catálogos</span>
         </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Sección</h6>            
-            <a class="dropdown-item" href="#">Página W</a>
-            <a class="dropdown-item" href="#">Página X</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Otra sección</h6>
-            <a class="dropdown-item" href="#">Página Y</a>
-            <a class="dropdown-item active" href="#">Página Z</a>
-        </div>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">                        
+            <a class="dropdown-item" href="#">Usuarios</a>
+            <a class="dropdown-item" href="#">Clientes</a>            
+            <a class="dropdown-item" href="#">Sucursales</a>
+            <div class="dropdown-divider"></div>        
+            <a class="dropdown-item" href="#">Paqueterías</a>            
+            <a class="dropdown-item" href="#">Tipos de paquetes</a>
+            <div class="dropdown-divider"></div>            
+            <a class="dropdown-item" href="#">Colonias</a>
+            <a class="dropdown-item" href="#">Localidades</a>
+            <a class="dropdown-item" href="#">Municipios</a>            
+        </div> 
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{$ruta}charts.php">
@@ -49,7 +58,7 @@ function getNavbar($ruta = ''){
     $html = <<<EOD
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="{$ruta}index.php">Packmail</a>
+    <a class="navbar-brand mr-1" href="{$ruta}index.php">Pakmail</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -70,46 +79,26 @@ function getNavbar($ruta = ''){
 
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0 mr-md-3 my-2 my-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger">9+</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger">7</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
+        <li class="nav-item mx-1">
+            <a class="nav-link" href="#" id="alertsDropdown">                
+                <i class="fas fa-bell fa-fw"></i>                
+            </a>            
+        </li>        
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user-circle fa-fw"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Settings</a>
-                <a class="dropdown-item" href="#">Activity Log</a>
+                <a class="dropdown-item" href="#">Mi perfil</a>
+                <a class="dropdown-item" href="#">Mis direcciones</a>
+                <a class="dropdown-item" href="#">Mis facturas</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Salir</a>
             </div>
         </li>
     </ul>
-</nav>
+</nav> 
 EOD;
 
     echo $html;
@@ -139,15 +128,15 @@ function getModalLogout($ruta = ''){
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">¿Cerrar sesión?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="{$ruta}login.php">Logout</a>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="{$ruta}login.php">Salir</a>
             </div>
         </div>
     </div>

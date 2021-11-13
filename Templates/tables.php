@@ -55,22 +55,24 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                 <table class="table table-bordered dataTable">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Oficina</th>
+                        <th>Edad</th>
+                        <th>Fecha de inicio</th>
+                        <th>Salario</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Oficina</th>
+                        <th>Edad</th>
+                        <th>Fecha de inicio</th>
+                        <th>Salario</th>
+                        <th>Acciones</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -81,14 +83,16 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>61</td>
                         <td>2011/04/25</td>
                         <td>$320,800</td>
+                        <td><a href="#" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Garrett Winters</td>
                         <td>Accountant</td>
                         <td>Tokyo</td>
-                        <td>63</td>
+                        <td>63</td> 
                         <td>2011/07/25</td>
                         <td>$170,750</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Ashton Cox</td>
@@ -97,6 +101,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>66</td>
                         <td>2009/01/12</td>
                         <td>$86,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Cedric Kelly</td>
@@ -105,6 +110,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>22</td>
                         <td>2012/03/29</td>
                         <td>$433,060</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Airi Satou</td>
@@ -113,6 +119,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>33</td>
                         <td>2008/11/28</td>
                         <td>$162,700</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Brielle Williamson</td>
@@ -121,6 +128,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>61</td>
                         <td>2012/12/02</td>
                         <td>$372,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Herrod Chandler</td>
@@ -129,6 +137,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>59</td>
                         <td>2012/08/06</td>
                         <td>$137,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Rhona Davidson</td>
@@ -137,6 +146,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>55</td>
                         <td>2010/10/14</td>
                         <td>$327,900</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Colleen Hurst</td>
@@ -145,6 +155,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>39</td>
                         <td>2009/09/15</td>
                         <td>$205,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Sonya Frost</td>
@@ -153,6 +164,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>23</td>
                         <td>2008/12/13</td>
                         <td>$103,600</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jena Gaines</td>
@@ -161,6 +173,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>30</td>
                         <td>2008/12/19</td>
                         <td>$90,560</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Quinn Flynn</td>
@@ -169,6 +182,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>22</td>
                         <td>2013/03/03</td>
                         <td>$342,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Charde Marshall</td>
@@ -177,6 +191,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>36</td>
                         <td>2008/10/16</td>
                         <td>$470,600</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Haley Kennedy</td>
@@ -185,6 +200,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>43</td>
                         <td>2012/12/18</td>
                         <td>$313,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Tatyana Fitzpatrick</td>
@@ -193,6 +209,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>19</td>
                         <td>2010/03/17</td>
                         <td>$385,750</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Michael Silva</td>
@@ -201,6 +218,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>66</td>
                         <td>2012/11/27</td>
                         <td>$198,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Paul Byrd</td>
@@ -209,6 +227,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>64</td>
                         <td>2010/06/09</td>
                         <td>$725,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Gloria Little</td>
@@ -217,6 +236,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>59</td>
                         <td>2009/04/10</td>
                         <td>$237,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Bradley Greer</td>
@@ -225,6 +245,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>41</td>
                         <td>2012/10/13</td>
                         <td>$132,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Dai Rios</td>
@@ -233,6 +254,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>35</td>
                         <td>2012/09/26</td>
                         <td>$217,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jenette Caldwell</td>
@@ -241,6 +263,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>30</td>
                         <td>2011/09/03</td>
                         <td>$345,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Yuri Berry</td>
@@ -249,6 +272,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>40</td>
                         <td>2009/06/25</td>
                         <td>$675,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Caesar Vance</td>
@@ -257,6 +281,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>21</td>
                         <td>2011/12/12</td>
                         <td>$106,450</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Doris Wilder</td>
@@ -265,6 +290,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>23</td>
                         <td>2010/09/20</td>
                         <td>$85,600</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Angelica Ramos</td>
@@ -273,6 +299,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>47</td>
                         <td>2009/10/09</td>
                         <td>$1,200,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Gavin Joyce</td>
@@ -281,6 +308,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>42</td>
                         <td>2010/12/22</td>
                         <td>$92,575</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jennifer Chang</td>
@@ -289,6 +317,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>28</td>
                         <td>2010/11/14</td>
                         <td>$357,650</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Brenden Wagner</td>
@@ -297,6 +326,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>28</td>
                         <td>2011/06/07</td>
                         <td>$206,850</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Fiona Green</td>
@@ -305,6 +335,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>48</td>
                         <td>2010/03/11</td>
                         <td>$850,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Shou Itou</td>
@@ -313,6 +344,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>20</td>
                         <td>2011/08/14</td>
                         <td>$163,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Michelle House</td>
@@ -321,6 +353,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>37</td>
                         <td>2011/06/02</td>
                         <td>$95,400</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Suki Burks</td>
@@ -329,6 +362,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>53</td>
                         <td>2009/10/22</td>
                         <td>$114,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Prescott Bartlett</td>
@@ -337,6 +371,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>27</td>
                         <td>2011/05/07</td>
                         <td>$145,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Gavin Cortez</td>
@@ -345,6 +380,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>22</td>
                         <td>2008/10/26</td>
                         <td>$235,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Martena Mccray</td>
@@ -353,6 +389,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>46</td>
                         <td>2011/03/09</td>
                         <td>$324,050</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Unity Butler</td>
@@ -361,6 +398,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>47</td>
                         <td>2009/12/09</td>
                         <td>$85,675</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Howard Hatfield</td>
@@ -369,6 +407,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>51</td>
                         <td>2008/12/16</td>
                         <td>$164,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Hope Fuentes</td>
@@ -377,6 +416,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>41</td>
                         <td>2010/02/12</td>
                         <td>$109,850</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Vivian Harrell</td>
@@ -385,6 +425,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>62</td>
                         <td>2009/02/14</td>
                         <td>$452,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Timothy Mooney</td>
@@ -393,6 +434,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>37</td>
                         <td>2008/12/11</td>
                         <td>$136,200</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jackson Bradshaw</td>
@@ -401,6 +443,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>65</td>
                         <td>2008/09/26</td>
                         <td>$645,750</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Olivia Liang</td>
@@ -409,6 +452,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>64</td>
                         <td>2011/02/03</td>
                         <td>$234,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Bruno Nash</td>
@@ -417,6 +461,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>38</td>
                         <td>2011/05/03</td>
                         <td>$163,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Sakura Yamamoto</td>
@@ -425,6 +470,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>37</td>
                         <td>2009/08/19</td>
                         <td>$139,575</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Thor Walton</td>
@@ -433,6 +479,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>61</td>
                         <td>2013/08/11</td>
                         <td>$98,540</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Finn Camacho</td>
@@ -441,6 +488,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>47</td>
                         <td>2009/07/07</td>
                         <td>$87,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Serge Baldwin</td>
@@ -449,6 +497,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>64</td>
                         <td>2012/04/09</td>
                         <td>$138,575</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Zenaida Frank</td>
@@ -457,6 +506,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>63</td>
                         <td>2010/01/04</td>
                         <td>$125,250</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Zorita Serrano</td>
@@ -465,6 +515,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>56</td>
                         <td>2012/06/01</td>
                         <td>$115,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jennifer Acosta</td>
@@ -473,6 +524,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>43</td>
                         <td>2013/02/01</td>
                         <td>$75,650</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Cara Stevens</td>
@@ -481,6 +533,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>46</td>
                         <td>2011/12/06</td>
                         <td>$145,600</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Hermione Butler</td>
@@ -489,6 +542,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>47</td>
                         <td>2011/03/21</td>
                         <td>$356,250</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Lael Greer</td>
@@ -497,6 +551,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>21</td>
                         <td>2009/02/27</td>
                         <td>$103,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Jonas Alexander</td>
@@ -505,6 +560,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>30</td>
                         <td>2010/07/14</td>
                         <td>$86,500</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Shad Decker</td>
@@ -513,6 +569,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>51</td>
                         <td>2008/11/13</td>
                         <td>$183,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Michael Bruce</td>
@@ -521,6 +578,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>29</td>
                         <td>2011/06/27</td>
                         <td>$183,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td>Donna Snider</td>
@@ -529,6 +587,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
                         <td>27</td>
                         <td>2011/01/25</td>
                         <td>$112,000</td>
+                        <td><a href="#" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
                     </tr>
                     </tbody>
                 </table>
