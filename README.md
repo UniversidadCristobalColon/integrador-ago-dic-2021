@@ -5,22 +5,15 @@
 1. Ingeniería de Software II
 2. Programación Web II
 
-## Problema a resolver
-
-El área de Recursos Humanos de ICAVE tiene la necesidad de implementar un sistema de información que permita el registro, análisis y obtención de resultados de las evaluaciones de desempeño 360° que se aplican a la gerencia media, de una manera ágil, sencilla y automatizada, con el objetivo de alcanzar el desarrollo profesional de los colaboradores en la empresa. Se busca que la herramienta proporcione una retroalimentación que acompañada de alternativas permita ayudarle al evaluado a su desarrollo y éxito profesional.
-
 ## Requerimientos funcionales
 
-1. El Personal Encargado (PE) diseña y configura los distintos cuestionarios que se aplicarán. Registra el tipo de pregunta, enunciado y si aplica, las distintas opciones de respuesta. Define la paginación (cantidad de preguntas por página)
-2. El PE crea una evaluación en la cual define el cuestionario, evaluado y el evaluador.
-3. El sistema envía un correo electrónico a todos los personajes definidos en la evaluación con instrucciones sobre cómo contestar el cuestionario.
-4. El evaluador responde las preguntas del cuestionario el cual cuenta con un identificador único y solo permite responderse una vez.
-5. El PE verifica el estado de avance de la evaluación.
-6. El PE reenvía correo electrónico de instrucciones en caso de ser necesario.
-7. El PE determina el cierre de la evaluación e inicia el procesamiento de los resultados.
-8. El sistema realiza los cálculos necesarios para la generación de los distintos informes y estadísticas.
-9. El PE consulta la información estadística global.
-10. El PE imprime o descarga informes detallados sobre un trabajador en particular.
+1. Creación y cancelación de una cotización de envío.
+2. Administración de libreta de direcciones de envío y recolección.
+3. Asignación de costos de guías y paqueterías disponibles a las cotizaciones.
+4. Impresión de comprobante del envío.
+5. Gestión de envíos pagados y facturas.
+6. Generación de informes o reportes.
+7. Envío de correos electrónicos informaticos sobre el estado de una cotización o envío.
 
 ## Requerimientos no funcionales
 
@@ -29,17 +22,24 @@ El área de Recursos Humanos de ICAVE tiene la necesidad de implementar un siste
 1. Cada uno de los catálogos del sistema deberá contar con las funcionalidades de alta, bajas y cambios, cuidando siempre la intregridad referencial de los datos.
 2. Permitir la configuración del texto que será enviado en cada email que envíe el sistema.
 3. El usuario administrador podrá realizar la configuración o parametrización del servicio de envío de e-mail (SMTP)
-4. La encuesta deberá: 
-   1. Contar con una fecha y hora de caducidad.
-   2. Mostrar en una o más páginas las preguntas a responder (paginación).
-   3. Mostrar al respondiente el porcentaje o información sobre su avance.
-   4. Validar que sean respondidas aquellas preguntas que sean obligatorias.
-   5. Guardar las respuestas que el respondiente ha registrado.
-   6. Permitir reanudar en otro momento al respondiente.
-   7. Validar que solo se ha contestada una vez. 
-   8. Permitir desactivarla/cancelarla para prevenir sea respondida.
-5. Posibilidad de agregar empleados de manera masiva (importar) a través de un archivo csv.
-6. Posibilidad de exportación de datos (resultados, puntajes, etc.)
+4. Un usuario de tipo cliente podrá realizar cotizaciones y envíos a su nombre.
+6. Un usuario de tipo empleado o administrador podrá realizar contizaciones a nombre de cualquier cliente del sistema.
+7. Un cliente podrá tener un libro de direcciones, las cuales serán validadas a través del código postal.
+8. Una cotización deberá:
+   1. Contar con los datos del cliente que realizará el envío.
+   2. Tener la información del paquete o mercancía a enviar.
+   3. Identificar el destino del envío.
+   4. Poseer información de recolección o entrega en sucursal.
+   5. Permitir cancelarla.
+   6. Permitir asignar costos y empresas de paqueterías.
+   7. Permitir responderla indicando costo y empresa de envío.
+   8. Generar un archivo PDF con toda la información generada.
+   9. Manejar un estado o situación que permita identificar la etapa del proceso.
+9. Un envío deberá:
+   1. Manejar un estado o situación que permita identificar la etapa del proceso.
+   2. Registrar la información del pago.
+   3. Adjuntar la factura electrónico del pago (PDF y XML)
+10. Generación de informes por cliente, empresa de paqutería, periodo de tiempo, estados de la cotización o del envío.
 
 ### De interfaz de usuario
 
@@ -69,31 +69,31 @@ El área de Recursos Humanos de ICAVE tiene la necesidad de implementar un siste
 
 ### Administración de catálogos
 1. Usuarios del sistema.
-2. Empleados.
-3. Áreas.
-4. Puestos.
-5. Niveles.
-6. Competencias.
-7. Periodo de evaluación.
+2. Clientes.
+3. Sucursales.
+4. Países.
+5. Estados.
+6. Municipios.
+7. Localidades.
+8. Colonias.
+9. Paqueterías.
+10. Tipos de paquetes.
 
-### Administración de evaluaciones
-1. Categorías de preguntas.
-2. Banco de preguntas y respuestas.
-3. Diseño de cuestionarios.
-4. Gestión de evaluaciones.
-5. Cuestionario en línea.
+### Proceso de negocio
+1. Generación de un PDF con información de cotización o envío.
+2. Administración de cotizaciones (cliente y pakmail).
+3. Administración de envíos (cliente y pakmail).
+4. Administración de direcciones.
 
 ### Informes y estadísticas
-1. Resultados de un evaluado.
-2. Análisis por fortalezas, debilidades y áreas de oportunidad de un evaluado.
-3. Informe individualizado (pdf).
-4. Histórico comparativo de un evaluado.
-5. Consulta de respuestas por cuestonario.   
+1. Cotizaciones por estado, cliente, destinatario o periodo de tiempo.
+2. Envíos por estado, cliente, destinatario, periodo de tiempo o paquetería.  
    
 ### Globales
-1. Login
-2. Control de acceso / sesión
-3. Recuperación de contraseña
+1. Login.
+2. Control de acceso / sesión.
+3. Recuperación de contraseña.
+4. Envíos de correos electrónicos.
 
 ### Otras tareas
-1. Administración de base de datos
+1. Administración de base de datos.
