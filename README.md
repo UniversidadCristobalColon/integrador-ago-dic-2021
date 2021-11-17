@@ -39,7 +39,7 @@
    1. Manejar un estado o situación que permita identificar la etapa del proceso.
    2. Registrar la información del pago.
    3. Adjuntar la factura electrónico del pago (PDF y XML)
-10. Generación de informes por cliente, empresa de paqutería, periodo de tiempo, estados de la cotización o del envío.
+10. Generación de informes por cliente, empresa de paquetería, periodo de tiempo, estados de la cotización o del envío.
 
 ### De interfaz de usuario
 
@@ -47,7 +47,7 @@
 2. Contar con la imagen (colores) y logotipo de la empresa.
 3. Toda la interfaz del sistema deberá ser adaptativa en dispositivos móviles.
 4. Cuidar la ortografía y redacción de los mensaje del sistema.
-5. Mostrar mensajes de retroalmentación claros y concisos.
+5. Mostrar mensajes de retroalimentación claros y concisos.
 6. Mostrar mensajes como "No hay elementos" o "No hay información" en aquellas pantallas que no tengan información registrada.
 7. Procurar la consistencia visual/gráfica en todas las pantallas del sistema, cuidando estilo de texto, tamaño de fuente, iconos, colores, fuentes, márgenes, etc.
 8. Realizar las validaciones de tipo de datos o datos faltantes en aquellos controles o campos de entrada que así lo requieran.
