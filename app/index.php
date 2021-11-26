@@ -1,3 +1,6 @@
+<?php
+session_start()
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,7 +29,8 @@
     <div class="card card-login mx-auto mt-5">
         <div class="card-header">¡Bienvenido!</div>
         <div class="card-body">
-            <form>
+        <!--Empieza el form-->
+            <form action="login.php" method="POST">
                 <div class="form-group">
                     <div class="form-label-group">
                         <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico"
@@ -44,6 +48,21 @@
 
                 <a class="btn btn-primary btn-block" href="index.php">Ingresar</a>
                 <a class="btn btn-secondary btn-block" href="registrar.php">¿No tiene una cuenta? Regístrese aquí</a>
+            <!--Mio-->
+                <?php 
+                    if(isset($_SESSION['login_error'])==true && $_SESSION['login_error']==1){
+                        $_SESSION['login_error']=0;
+                ?>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="alert alert-danger">Usuario o contraseña incorrecta</div>
+                    </div>
+                </div>
+
+            <?php
+                }
+            ?>
+            <!--Mio-->   
             </form>
             <div class="text-center">
                 <a class="d-block small mt-3" href="recuperar.php">¿Olvidó su contraseña?</a>
