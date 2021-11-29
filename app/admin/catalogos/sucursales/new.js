@@ -1,26 +1,20 @@
-window.onload = function() {
-    const get_municipios_estado = id_estado => {
-        const municipiosEstado = [];
-        for( const municipio of municipios )
-            if (municipio.id_estado.toString() === id_estado)
-                municipiosEstado.push(municipio);
-        return municipiosEstado;
+window.onload = async function() {
+
+    let colonias = [];
+
+    const get_municipios_estado = async id_estado => {
+        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getMunicipios.php?id_estado=' + id_estado)
+            .then(response => response.json());
     };
 
     const get_localidades_municipio = id_municipio => {
-        const localidadesMunicipio = [];
-        for( const localidad of localidades )
-            if( localidad.id_municipio.toString() === id_municipio )
-                localidadesMunicipio.push(localidad);
-        return localidadesMunicipio;
+        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getLocalidades.php?id_municipio=' + id_municipio)
+            .then(response => response.json());
     };
 
-    const get_colonias_localidad = id_localidad => {
-        const coloniasLocalidad = [];
-        for( const colonia of colonias )
-            if( colonia.id_localidad.toString() === id_localidad )
-                coloniasLocalidad.push(colonia);
-        return coloniasLocalidad;
+    const get_colonias_municipio = id_municipio => {
+        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getColonias.php?id_municipio=' + id_municipio)
+            .then(response => response.json());
     }
 
     const get_colonia = id_colonia => {
@@ -45,21 +39,21 @@ window.onload = function() {
         }
     }
 
-    document.getElementById("estado").addEventListener("change",function(e){
-        const municipios = get_municipios_estado(this.value);
+    document.getElementById("estado").addEventListener("change",async function(e){
+        const municipios = await get_municipios_estado(this.value);
         llena_select("municipio",municipios, "Seleccione un municipio");
         vacia_selects(["localidad","colonia"]);
     });
 
-    document.getElementById("municipio").addEventListener("change",function(e){
-        const localidades = get_localidades_municipio(this.value);
+    document.getElementById("municipio").addEventListener("change",async function(e){
+        const localidades = await get_localidades_municipio(this.value);
         llena_select("localidad",localidades, "Seleccione una localidad");
-        vacia_selects(["colonia"]);
+        colonias = await get_colonias_municipio(this.value);
+        llena_select("colonia",colonias, "Seleccione una localidad");
     })
 
     document.getElementById("localidad").addEventListener("change",function(e){
-        const colonias = get_colonias_localidad(this.value);
-        llena_select("colonia",colonias, "Seleccione una colonia");
+
     })
 
     document.getElementById("colonia").addEventListener("change",function(e){
@@ -102,15 +96,15 @@ window.onload = function() {
         });
     }
 
-    if( sucursal ){
+    if( typeof sucursal !== "undefined" && sucursal ){
         document.getElementById("estado").value = sucursal.id_estado;
-        const municipios = get_municipios_estado(sucursal.id_estado);
+        const municipios = await get_municipios_estado(sucursal.id_estado);
         llena_select("municipio",municipios,"Seleccione un municipio");
         document.getElementById("municipio").value = sucursal.id_municipio;
-        const localidades = get_localidades_municipio(sucursal.id_municipio);
+        const localidades = await get_localidades_municipio(sucursal.id_municipio);
         llena_select("localidad",localidades,"Selecciona una localidad");
         document.getElementById("localidad").value = sucursal.id_localidad;
-        const colonias = get_colonias_localidad(sucursal.id_localidad);
+        colonias = await get_colonias_municipio(sucursal.id_municipio);
         llena_select("colonia",colonias,"Seleccione una colonia");
         document.getElementById("colonia").value = sucursal.id_colonia;
         document.getElementById("cp").value = sucursal.cp;
