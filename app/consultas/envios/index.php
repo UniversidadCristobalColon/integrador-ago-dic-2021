@@ -318,8 +318,29 @@ if ($resultado) {
                         <td></td>
                         <td>
                             <a onclick="confirmar(2)" href="#" class="btn btn-danger btn-sm">Cancelar</a>
-                            <a href="#" class="btn btn-primary btn-sm">Asignar
-                                factura</a>
+                            <button type="submit" class="btn btn-primary btn-sm" onclick="openForm2()">Asignar
+                                factura
+                            </button>
+                            <div class="form-popup" id="factForm">
+                                <form action="factura.php" class="form-container">
+                                    <h1>Número de guía</h1>
+
+                                    <label for="fact" class="form-label"><b>Factura (PDF o XML)</b></label>
+                                    <input type="file" class="form-control" name="fact" required>
+                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+
+                                    <div class="row my-3">
+                                        <div class="col text-right">
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                Guardar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="closeForm2()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -334,8 +355,29 @@ if ($resultado) {
                         <td></td>
                         <td></td>
                         <td>
-                            <a onclick="confirmar(<?php echo $e['id'] ?>)" href="#" class="btn btn-primary btn-sm">Asignar
-                                factura</a>
+                            <button type="submit" class="btn btn-primary btn-sm" onclick="openForm2()">Asignar
+                                factura
+                            </button>
+                            <div class="form-popup" id="factForm">
+                                <form action="factura.php" class="form-container">
+                                    <h1>Número de guía</h1>
+
+                                    <label for="fact" class="form-label"><b>Factura (PDF o XML)</b></label>
+                                    <input type="file" class="form-control" name="fact" required>
+                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+
+                                    <div class="row my-3">
+                                        <div class="col text-right">
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                Guardar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="closeForm2()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr>
