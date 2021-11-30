@@ -81,7 +81,7 @@ if( isset($_POST) && count($_POST) ){
                     <?php
                     if( $sucursal ){
                         ?>
-                            <input name="id" id="id" type="hidden" value="<?php echo $sucursal["id"]; ?>">
+                        <input name="id" id="id" type="hidden" value="<?php echo $sucursal["id"]; ?>">
                         <?php
                     }
                     ?>
@@ -89,10 +89,10 @@ if( isset($_POST) && count($_POST) ){
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de la sucursal"
-                        <?php
-                        if( $sucursal )
-                            echo " value='". $sucursal["sucursal"] ."' ";
-                        ?>
+                            <?php
+                            if( $sucursal )
+                                echo " value='". $sucursal["sucursal"] ."' ";
+                            ?>
                         >
                         <div class="invalid-feedback">Ingrese el nombre de la sucursal</div>
                     </div>
@@ -130,7 +130,7 @@ if( isset($_POST) && count($_POST) ){
                     <div class="form-row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="localidad">Localidad</label>
-                            <select name="colonia" id="localidad" class="form-control custom-select"></select>
+                            <select name="localidad" id="localidad" class="form-control custom-select"></select>
                             <div class="invalid-feedback">Seleccione una localidad</div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -170,15 +170,12 @@ if( isset($_POST) && count($_POST) ){
 
     <script>
         const sucursal = <?php if ($sucursal) echo json_encode($sucursal); else echo "null";  ?>;
-        const municipios = <?php echo json_encode(get_municipios()); ?>;
-        const localidades = <?php echo json_encode(get_localidades()); ?>;
-        const colonias = <?php echo json_encode(get_colonias()); ?>;
     </script>
     <script src="./new.js"></script>
 
     </body>
 
     </html>
-<?php
+    <?php
 
 }

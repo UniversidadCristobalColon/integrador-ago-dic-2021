@@ -39,23 +39,23 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             </nav>
 
             <?php
-                if( isset($_GET["alert"]) && isset($_GET["message"]) && !empty($_GET["message"]) ){
-                    if( $_GET["alert"] ==  "true" ){
-                        ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fas fa-check"></i> <?php echo $_GET["message"]; ?>
-                        </div>
-                        <script>window.history.replaceState({}, document.title, window.location.href.split("?")[0]);</script>
-                        <?php
-                    }else if( $_GET["alert"] == "false" ){
-                        ?>
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fas fa-exclamation-triangle"></i> <?php echo $_GET["message"]; ?>
-                        </div>
-                        <script>window.history.replaceState({}, document.title, window.location.href.split("?")[0]);</script>
-                        <?php
-                    }
+            if( isset($_GET["alert"]) && isset($_GET["message"]) && !empty($_GET["message"]) ){
+                if( $_GET["alert"] ==  "true" ){
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-check"></i> <?php echo $_GET["message"]; ?>
+                    </div>
+                    <script>window.history.replaceState({}, document.title, window.location.href.split("?")[0]);</script>
+                <?php
+                }else if( $_GET["alert"] == "false" ){
+                ?>
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> <?php echo $_GET["message"]; ?>
+                    </div>
+                    <script>window.history.replaceState({}, document.title, window.location.href.split("?")[0]);</script>
+                    <?php
                 }
+            }
             ?>
 
             <div class="row my-3">
@@ -95,28 +95,28 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     </tr>
                     </tfoot>
                     <tbody>
-                        <?php
-                            foreach(get_sucursales() as $sucursal){
-                                $id = $sucursal["id"];
-                                ?>
-                                    <tr>
-                                        <td><?php echo $sucursal["sucursal"]; ?></td>
-                                        <td><?php echo $sucursal["domicilio"]; ?></td>
-                                        <td><?php echo $sucursal["cp"]; ?></td>
-                                        <td><?php echo $sucursal["colonia"]; ?></td>
-                                        <td><?php echo $sucursal["localidad"]; ?></td>
-                                        <td><?php echo $sucursal["municipio"]; ?></td>
-                                        <td><?php echo get_parse_fecha($sucursal["creacion"]); ?></td>
-                                        <td><?php echo get_parse_fecha($sucursal["actualizacion"]); ?></td>
-                                        <td><?php echo $sucursal["status"] == "A" ? "Activa" : "Inactiva"; ?></td>
-                                        <td>
-                                            <a href="./new.php?id=<?php echo $id; ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
-                                            <?php echo $sucursal["status"] == "A" ? "<a href='./delete.php?id=$id' class='btn btn-link btn-sm'>Eliminar</a>" : "<a href='./reactivar.php?id=$id' class='btn btn-link btn-sm'>Reactivar</a>"; ?>
-                                        </td>
-                                    </tr>
-                                <?php
-                            }
+                    <?php
+                    foreach(get_sucursales() as $sucursal){
+                        $id = $sucursal["id"];
                         ?>
+                        <tr>
+                            <td><?php echo $sucursal["sucursal"]; ?></td>
+                            <td><?php echo $sucursal["domicilio"]; ?></td>
+                            <td><?php echo $sucursal["cp"]; ?></td>
+                            <td><?php echo $sucursal["colonia"]; ?></td>
+                            <td><?php echo $sucursal["localidad"]; ?></td>
+                            <td><?php echo $sucursal["municipio"]; ?></td>
+                            <td><?php echo get_parse_fecha($sucursal["creacion"]); ?></td>
+                            <td><?php echo get_parse_fecha($sucursal["actualizacion"]); ?></td>
+                            <td><?php echo $sucursal["status"] == "A" ? "Activa" : "Inactiva"; ?></td>
+                            <td>
+                                <a href="./new.php?id=<?php echo $id; ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+                                <?php echo $sucursal["status"] == "A" ? "<a href='./delete.php?id=$id' class='btn btn-link btn-sm'>Eliminar</a>" : "<a href='./reactivar.php?id=$id' class='btn btn-link btn-sm'>Reactivar</a>"; ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
                     </tbody>
                 </table>
             </div>

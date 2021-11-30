@@ -7,7 +7,12 @@ function get_sucursales(): array
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, l.localidad, m.municipio, e.estado, s.creacion, s.actualizacion, s.status FROM sucursales s LEFT JOIN colonias c on s.id_colonia = c.id LEFT JOIN localidades l on l.id = c.id_localidad left join municipios m on m.id = l.id_municipio left join estados e on e.id = m.id_estado order by s.id desc;";
+        $query =    "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, m.municipio, e.estado, s.creacion, s.actualizacion, s.status, l.localidad
+                    FROM sucursales s 
+                    LEFT JOIN colonias c on s.id_colonia = c.id 
+                    LEFT JOIN localidades l on s.id_localidad = l.id    
+                    left join municipios m on m.id = c.id_municipio 
+                    left join estados e on e.id = m.id_estado order by s.id desc;";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($sucursales, $row);
@@ -24,7 +29,7 @@ function get_sucursal($id): array
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, c.id as id_colonia, l.localidad, l.id as id_localidad, m.municipio, m.id as id_municipio, e.estado, e.id as id_estado, s.creacion, s.actualizacion, s.status FROM sucursales s LEFT JOIN colonias c on s.id_colonia = c.id LEFT JOIN localidades l on l.id = c.id_localidad left join municipios m on m.id = l.id_municipio left join estados e on e.id = m.id_estado where s.id = $id;";
+        $query = "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, c.id as id_colonia, l.localidad, l.id as id_localidad, m.municipio, m.id as id_municipio, e.estado, e.id as id_estado, s.creacion, s.actualizacion, s.status FROM sucursales s LEFT JOIN colonias c on s.id_colonia = c.id LEFT JOIN localidades l on l.id = s.id_localidad left join municipios m on m.id = l.id_municipio left join estados e on e.id = m.id_estado where s.id = $id;";
         if ($result = mysqli_query($conexion, $query))
             $sucursal = $result->fetch_assoc();
     }
@@ -80,7 +85,9 @@ function add_sucursal($data): bool
         $sucursal = $data["nombre"];
         $direccion = $data["direccion"];
         $id_colonia = $data["colonia"];
-        $query = "INSERT INTO `sucursales` (`sucursal`, `domicilio`, `id_colonia`) VALUES ('$sucursal','$direccion','$id_colonia')";
+        $id_localidad = $data["localidad"];
+
+        echo $query = "INSERT INTO `sucursales` (`sucursal`, `domicilio`, `id_colonia`, `id_localidad`) VALUES ('$sucursal','$direccion','$id_colonia','$id_localidad')";
 
         if( $insert = mysqli_query($conexion,$query) ){
             var_dump($insert);
@@ -138,13 +145,13 @@ function get_estados(): array
     return $estados;
 }
 
-function get_municipios():array
+function get_municipios($id_estado):array
 {
     $municipios = [];
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_estado,municipio from municipios where status = 'A'";
+        $query = "select id, id_estado,municipio from municipios where status = 'A' and id_estado = $id_estado";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($municipios, $row);
@@ -153,13 +160,13 @@ function get_municipios():array
     return $municipios;
 }
 
-function get_localidades():array
+function get_localidades($id_municipio):array
 {
     $localidades = [];
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_municipio,localidad from localidades where status = 'A'";
+        $query = "select id, id_municipio,localidad from localidades where status = 'A' and id_municipio = $id_municipio";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($localidades, $row);
@@ -168,13 +175,13 @@ function get_localidades():array
     return $localidades;
 }
 
-function get_colonias():array
+function get_colonias($id_municipio):array
 {
     $colonias = [];
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_localidad,colonia,cp from colonias where status = 'A'";
+        $query = "select id, id_municipio,colonia,cp from colonias where status = 'A' and id_municipio = $id_municipio";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($colonias, $row);
