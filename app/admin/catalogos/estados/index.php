@@ -59,6 +59,7 @@ define('RUTA_INCLUDE', '../../../../');
                          <th>Creación</th>
                          <th>Actualización</th>
                          <th>Estatus</th>
+                         <th>Acciones</th>
 
                      </tr>
                      </thead>
@@ -70,8 +71,6 @@ define('RUTA_INCLUDE', '../../../../');
                          <td></td>
                          <td></td>
                          <td>B</td>
-
-
                          <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>
 

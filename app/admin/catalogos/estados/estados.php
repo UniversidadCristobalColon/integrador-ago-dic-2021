@@ -32,8 +32,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Sección</li>
-                    <li class="breadcrumb-item active" aria-current="page">Guardar Estado</li>
+                    <li class="breadcrumb-item">Estados</li>
+                    <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
                 </ol>
             </nav>
 
@@ -78,14 +78,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                 <div class="form-group">
                     <label for="">Estatus</label>
                     <input type="text" class="form-control" id="" placeholder=" A , B ">
-                </div>
-
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck"> Aceptar Cambios
-                        </label>
-                    </div>
                 </div>
             </form>
         </div>
