@@ -1,7 +1,6 @@
 <?php
 
-function get_sucursales(): array
-{
+function get_sucursales(): array{
 
     $sucursales = [];
     include '../../../../config/db.php';
@@ -17,13 +16,10 @@ function get_sucursales(): array
             while ($row = $result->fetch_assoc())
                 array_push($sucursales, $row);
     }
-
     return $sucursales;
-
 }
 
-function get_sucursal($id): array
-{
+function get_sucursal($id): array{
 
     $sucursal = [];
     include '../../../../config/db.php';
@@ -38,11 +34,9 @@ function get_sucursal($id): array
         $sucursal = [];
 
     return $sucursal;
-
 }
 
-function delete_sucursal($id):bool
-{
+function delete_sucursal($id):bool{
     $exito = false;
     include '../../../../config/db.php';
 
@@ -54,34 +48,27 @@ function delete_sucursal($id):bool
             $exito = true;
 
     }
-
     return $exito;
 }
 
-function reactivar_sucursal($id):bool
-{
+function reactivar_sucursal($id):bool{
     $exito = false;
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-
         echo $query = "update sucursales set status = 'A' where id = $id";
 
         if( $insert = mysqli_query($conexion,$query) )
             $exito = true;
-
     }
-
     return $exito;
 }
 
-function add_sucursal($data): bool
-{
+function add_sucursal($data): bool{
     $exito = false;
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-
         $sucursal = $data["nombre"];
         $direccion = $data["direccion"];
         $id_colonia = $data["colonia"];
@@ -95,12 +82,10 @@ function add_sucursal($data): bool
         }
 
     }
-
     return $exito;
 }
 
-function update_sucursal($data): bool
-{
+function update_sucursal($data): bool{
     $exito = false;
     include '../../../../config/db.php';
 
@@ -116,22 +101,18 @@ function update_sucursal($data): bool
             var_dump($insert);
             $exito = true;
         }
-
     }
-
     return $exito;
 }
 
-function get_parse_fecha($fecha): string
-{
+function get_parse_fecha($fecha): string{
     if( $fecha == null )
         return "";
     $dateObject = new DateTime($fecha);
     return $dateObject->format('d-m-Y h:i A');
 }
 
-function get_estados(): array
-{
+function get_estados(): array{
     $estados = [];
     include '../../../../config/db.php';
 
@@ -145,8 +126,7 @@ function get_estados(): array
     return $estados;
 }
 
-function get_municipios($id_estado):array
-{
+function get_municipios($id_estado):array{
     $municipios = [];
     include '../../../../config/db.php';
 
@@ -156,12 +136,10 @@ function get_municipios($id_estado):array
             while ($row = $result->fetch_assoc())
                 array_push($municipios, $row);
     }
-
     return $municipios;
 }
 
-function get_localidades($id_municipio):array
-{
+function get_localidades($id_municipio):array{
     $localidades = [];
     include '../../../../config/db.php';
 
