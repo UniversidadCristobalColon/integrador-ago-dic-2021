@@ -23,8 +23,8 @@ $estado = '';
 $referencia = '';
 if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
-    $sql = "SELECT * FROM clientes WHERE id = 1";
-    $sql2 = "SELECT * FROM fiscales WHERE id = 2";
+    $sql = "SELECT * FROM clientes WHERE id = 23";
+    $sql2 = "SELECT * FROM fiscales WHERE id = 4";
 
     $resultado = mysqli_query($conexion, $sql);
     $resultado2 = mysqli_query($conexion, $sql2);

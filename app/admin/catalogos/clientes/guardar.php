@@ -1,7 +1,7 @@
 <?php
 require '../../../../config/db.php';
-$id_cliente = 1;
-$id_clientef = 2;
+$id_cliente = 23;
+$id_clientef = 4;
 $nombre = $_POST['nombre'];
 $apellidos = $_POST['apellidos'];
 $celular = $_POST['celular'];
@@ -29,14 +29,15 @@ if(empty($id_cliente)){
 VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())";
 
     $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior, 
-num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, status)
+num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, entrecalles, referencia,status)
 VALUES (null, 1, '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
-'$codigopostal', '$localidad', '$municipio', '1', '$email1', '$email2', NOW(), 'A')";
+'$codigopostal', '$localidad', '$municipio', '1', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
+
 }else{
     $query = "UPDATE clientes SET nombre = '$nombre', apellidos = '$apellidos', email =  '$email1', celular = '$celular', telefono = '$telefono'
  WHERE id = $id_cliente";
     $query2 = "UPDATE fiscales SET rfc = '$rfc', razon = '$razon', calle = '$calle', num_exterior = '$numexterior', num_interior = '$numinterior'
-               , cp = '$codigopostal', email1 = '$email1', email2 = '$email2' WHERE id = $id_clientef";
+               , cp = '$codigopostal', email1 = '$email1', email2 = '$email2', entrecalles = '$entrecalles', referencia = '$referencia' WHERE id = $id_clientef";
 
     $resultado = mysqli_query($conexion, $query);
     $resultado2 = mysqli_query($conexion, $query2);

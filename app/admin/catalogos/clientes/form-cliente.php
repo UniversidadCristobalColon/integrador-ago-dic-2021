@@ -2,6 +2,20 @@
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
+
+for($i = 1; $i<=32; $i++) {
+    $est = "SELECT * FROM estados WHERE id = $i";
+    $resultado = mysqli_query($conexion, $est);
+    $estados = array();
+}
+if($resultado){
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $estados[] = $fila;
+    }
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -135,10 +149,15 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
                         </div>
                         <div class="form-group col-md-6">
+
                             <label>Estado*</label>
                             <select name="estado" class="form-control" required>
                                 <option selected>Elegir...</option>
-                                <option>Veracruz</option>
+                                <?php foreach ($estados as $est) {   ?>
+                                <option><?php echo $est ?> </option>
+                                <?php
+                                }
+                                ?>
                             </select>
 
                         </div>
