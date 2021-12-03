@@ -326,8 +326,8 @@ if ($resultado) {
                                     <h1>Número de guía</h1>
 
                                     <label for="fact" class="form-label"><b>Factura (PDF o XML)</b></label>
-                                    <input type="file" class="form-control" name="fact" required>
-                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+                                    <input type="file" class="form-control" name="fact" accept="text/xml,application/pdf" required>
+                                    <input type="hidden" name="id" value="2">
 
                                     <div class="row my-3">
                                         <div class="col text-right">
@@ -363,8 +363,8 @@ if ($resultado) {
                                     <h1>Número de guía</h1>
 
                                     <label for="fact" class="form-label"><b>Factura (PDF o XML)</b></label>
-                                    <input type="file" class="form-control" name="fact" required>
-                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+                                    <input type="file" class="form-control" name="fact" accept="text/xml,application/pdf" required>
+                                    <input type="hidden" name="id" value="2">
 
                                     <div class="row my-3">
                                         <div class="col text-right">
