@@ -1,10 +1,10 @@
 <?php
 require_once '../../../../config/global.php';
+require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +59,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     </div>
                     <div class = "form-group col-md-6">
                         <label for = "inputapellido">Apellidos*</label>
-                        <input type = "text" class="form-control" name="apellidos" required >
+                        <input type = "text" class="form-control" name="apellidos" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for = "inputcel">Celular*</label>
@@ -67,7 +67,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     </div>
                     <div class = "form-group col-md-6">
                         <label for = "inputel">Teléfono*</label>
-                        <input type = "text" class="form-control" name="telefono" required>
+                        <input type = "text" class="form-control" name="telefono" required >
                     </div>
                 </div>
                 </fieldset>
