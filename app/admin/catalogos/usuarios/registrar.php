@@ -109,21 +109,16 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         <div class="invalid-feedback">Teléfono inválido (10 dígitos)</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="usuario">Usuario</label>
-                    <input name="usuario" type="text" class="form-control" id="usuario">
-                    <div class="invalid-feedback">Usuario obligatorio</div>
-                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="password">Contraseña</label>
                         <input name="password" type="password" class="form-control" id="password">
-                        <div class="invalid-feedback">Contraseña obligatoria</div>
+                        <div class="invalid-feedback">Mínimo 6 caracteres</div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="password">Repetir Contraseña</label>
                         <input name="password2" type="password" class="form-control" id="password2">
-                        <div class="invalid-feedback">Contraseña inválida</div>
+                        <div class="invalid-feedback">Mínimo 6 caracteres</div>
                     </div>
                 </div>
             </form>
