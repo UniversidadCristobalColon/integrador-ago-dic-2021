@@ -72,10 +72,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         <th>Domicilio</th>
                         <th>CP</th>
                         <th>Colonia</th>
-                        <th>Localidad</th>
                         <th>Municipio</th>
-                        <th>Alta</th>
-                        <th>Modificación</th>
+                        <th>Última modificación</th>
                         <th>Estatus</th>
                         <th>Acciones</th>
                     </tr>
@@ -86,10 +84,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         <th>Domicilio</th>
                         <th>CP</th>
                         <th>Colonia</th>
-                        <th>Localidad</th>
                         <th>Municipio</th>
-                        <th>Alta</th>
-                        <th>Modificación</th>
+                        <th>Última modificación</th>
                         <th>Estatus</th>
                         <th>Acciones</th>
                     </tr>
@@ -104,10 +100,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <td><?php echo $sucursal["domicilio"]; ?></td>
                             <td><?php echo $sucursal["cp"]; ?></td>
                             <td><?php echo $sucursal["colonia"]; ?></td>
-                            <td><?php echo $sucursal["localidad"]; ?></td>
                             <td><?php echo $sucursal["municipio"]; ?></td>
-                            <td><?php echo get_parse_fecha($sucursal["creacion"]); ?></td>
-                            <td><?php echo get_parse_fecha($sucursal["actualizacion"]); ?></td>
+                            <td><?php echo $sucursal["actualizacion"] ? get_parse_fecha($sucursal["actualizacion"]) : get_parse_fecha($sucursal["creacion"]); ?></td>
                             <td><?php echo $sucursal["status"] == "A" ? "Activa" : "Inactiva"; ?></td>
                             <td>
                                 <a href="./new.php?id=<?php echo $id; ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
