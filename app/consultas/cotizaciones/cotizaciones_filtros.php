@@ -4,7 +4,6 @@ define('DB_HOST', 'lizbethrojas.me');
 define('DB_USER', 'pakmail_user');
 define('DB_PASS', 'kp3C-sd6WVvRZeBV');
 define('DB_NAME', 'pakmail');
-
 $conexion = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if ($conexion === false) { //¿error?
