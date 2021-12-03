@@ -1,8 +1,18 @@
 <?php
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
+$sql = "SELECT * FROM clientes WHERE id = 1";
+$resultado = mysqli_query($conexion, $sql);
+$clientes = array();
+if($resultado){
+    while($fila = mysqli_fetch_assoc($resultado)){
+        $clientes[] = $fila;
+    }
+}
 //pon el id de usuario en código duro por mientras.
 //$sql = "SELECT * FROM "
+
+
 
 
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
@@ -44,41 +54,54 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             <div class="row my-3">
                 <div class="col text-right">
                     <a href="form-cliente.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                    <?php
+                    if(count($clientes) > 0){
+                    ?>
+                    <table class="table table-bordered dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <?php
+                        $contador = 0;
+                        foreach ($clientes as $c){
+                        ?>
+                        <tr>
+                            <td><?php echo ++$contador ?></td>
+                            <td><?php echo $c['nombre']?></td>
+                            <td><?php echo $c['email']?></td>
+                            <td><?php echo $c['celular']?></td>
+                            <!-- onclick="confirmar('<?php echo $c['id'] ?>')" -->
+                            <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
+                        </tr>
+                        <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    }else{
+                        echo "<h4 class ='text-center'>No hay propósitos </h4>";
+                    }
+                    ?>
                 </div>
             </div>
-
-            <div class="table-responsive mb-3">
-                <table class="table table-bordered dataTable">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>RFC</th>
-                        <th>Fecha de Registro</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>RFC</th>
-                        <th>Fecha de Registro</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>Tiger@gmail.com</td>
-                        <td>TGHEI29301013</td>
-                        <td>2011/04/25</td>
-                        <td><a href="#" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
+        </div>
         </div>
         <!-- /.container-fluid -->
 
