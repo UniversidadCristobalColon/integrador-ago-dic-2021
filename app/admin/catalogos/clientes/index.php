@@ -97,7 +97,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     </table>
                     <?php
                     }else{
-                        echo "<h4 class ='text-center'>No hay clientes registrados</h4>";
+                        echo "<h4 class ='text-center'>No hay clientes registrados aún</h4>";
                     }
                     ?>
                 </div>
