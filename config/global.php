@@ -1,5 +1,24 @@
 <?php
+//Comienza la sesión
+session_start();
+
+
+//Verifica si la sesión del usuario fue cerrada
+
+$id_usuario=$_SESSION['id_usuario'];
+$email_usuario=$_SESSION['email_usuario'];
+$perfil_usuario=$_SESSION['perfil_usuario'];
+$nombre_usuario=$_SESSION['nombre_usuario'];
+$apellidos_usuario=$_SESSION['apellidos_usuario'];
+function verificarSesion($ruta = ''){
+    if ((empty($_SESSION['id_usuario'])) || ((empty($_SESSION['email_usuario'])))) {
+        header("location: {$ruta}index.php");
+    }
+}
+
+//
 define('PAGE_TITLE', 'Packmail');
+
 
 function getSidebar($ruta = ''){
     $html = <<<EOD
@@ -133,10 +152,10 @@ function getModalLogout($ruta = ''){
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-body">Seleccione "Salir" a continuación si está listo para finalizar su sesión actual.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary" href="{$ruta}login.php">Salir</a>
+                <a class="btn btn-primary" href="{$ruta}logout.php">Salir</a><!--Manda al usuario a la pagina del login-->
             </div>
         </div>
     </div>
