@@ -30,7 +30,8 @@ window.onload = function(){
     });
 
     function validaPassword(){
-        if(inputPassword.val().trim() === ""){
+        console.log(inputPassword.val().trim().length);
+        if(inputPassword.val().trim().length < 7){
             inputPassword.addClass("is-invalid");
         }else{
             inputPassword.removeClass("is-invalid");
