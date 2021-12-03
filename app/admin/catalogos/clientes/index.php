@@ -60,7 +60,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
@@ -69,7 +68,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>#</th>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
@@ -78,11 +76,9 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         </tfoot>
                         <tbody>
                         <?php
-                        $contador = 0;
                         foreach ($clientes as $c){
                         ?>
                         <tr>
-                            <td><?php echo ++$contador ?></td>
                             <td><?php echo $c['nombre']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>

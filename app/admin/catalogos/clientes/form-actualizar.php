@@ -108,20 +108,24 @@ if(!empty($_GET['id'])){
                     <legend>Datos generales</legend>
                     <div class = "form-row">
                         <div class="form-group col-md-6">
-                            <label for = "inputnombre" >Nombre*</label>
+                            <label for = "inputnombre" >Nombre-*</label>
                             <input type = "text" class="form-control" name="nombre" required value="<?php echo $nombre ?>">
                         </div>
                         <div class = "form-group col-md-6">
-                            <label for = "inputapellido">Apellidos*</label>
+                            <label for = "inputapellido">Apellidos-*</label>
                             <input type = "text" class="form-control" name="apellidos" required value="<?php echo $apellidos?>" >
                         </div>
                         <div class="form-group col-md-6">
-                            <label for = "inputcel">Celular*</label>
+                            <label for = "inputcel">Celular-*</label>
                             <input type = "text" class="form-control" name="celular" required value="<?php echo $celular ?>">
                         </div>
                         <div class = "form-group col-md-6">
-                            <label for = "inputel">Teléfono*</label>
+                            <label for = "inputel">Teléfono-*</label>
                             <input type = "text" class="form-control" name="telefono" required value="<?php echo $telefono ?>">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Email-*</label>
+                            <input type = "email" class="form-control" name="email1" required value="<?php echo $email1 ?>" >
                         </div>
                     </div>
                 </fieldset>
@@ -129,72 +133,56 @@ if(!empty($_GET['id'])){
                     <legend>Facturación</legend>
                     <div class = "form-row">
                         <div class="form-group col-md-6">
-                            <label>Razón Social*</label>
-                            <input type = "text" class="form-control" name="razon" required value="<?php echo $razon ?>"  >
+                            <label>Razón Social</label>
+                            <input type = "text" class="form-control" name="razon" value="<?php echo $razon ?>"  >
                         </div>
                         <div class="form-group col-md-6">
-                            <label>RFC*</label>
-                            <input type = "text" class="form-control" name="rfc" required value="<?php echo $rfc ?>">
+                            <label>RFC</label>
+                            <input type = "text" class="form-control" name="rfc" value="<?php echo $rfc ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Email 1*</label>
-                            <input type = "email" class="form-control" name="email1" required value="<?php echo $email1 ?>" >
+                            <label>Email Secundario</label>
+                            <input type = "email" class="form-control" name="email2" value="<?php echo $email2 ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Email 2*</label>
-                            <input type = "email" class="form-control" name="email2" required value="<?php echo $email2 ?>">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Codigo Postal*</label>
-                            <input type = "text" class="form-control" name="cp" required value="<?php echo $codigopostal?>">
+                            <label>Codigo Postal</label>
+                            <input type = "text" class="form-control" name="cp" value="<?php echo $codigopostal?>">
                         </div>
                     </div>
                     <div class = "form-row">
                         <div class="form-group col-md-6">
-                            <label>Calle*</label>
-                            <input type = "text" class="form-control" name="calle"required value="<?php echo $calle ?>">
+                            <label>Calle</label>
+                            <input type = "text" class="form-control" name="calle" value="<?php echo $calle ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Entre calles*</label>
-                            <input type = "text" class="form-control" name="entrecalles" required value="<?php echo $entrecalles ?>" >
+                            <label>Entre calles</label>
+                            <input type = "text" class="form-control" name="entrecalles" value="<?php echo $entrecalles ?>" >
                         </div>
                     </div>
                     <div class = "form-row">
                         <div class="form-group col-md-2">
-                            <label>Número Exterior*</label>
-                            <input type = "text" class="form-control" name="numext" required value="<?php echo $numeroexterior ?>" >
+                            <label>Número Exterior</label>
+                            <input type = "text" class="form-control" name="numext" value="<?php echo $numeroexterior ?>" >
                         </div>
                         <div class="form-group col-md-2">
                             <label>Número Interior</label>
                             <input type = "text" class="form-control" name="numint"  value="<?php echo $numerointerior?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Colonia*</label>
-                            <input type = "text" class="form-control" name="colonia" required value="<?php echo $colonia?>" >
+                            <label>Colonia</label>
+                            <input type = "text" class="form-control" name="colonia" value="<?php echo $colonia?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Localidad*</label>
-                            <select name="localidad" class="form-control" required value="<?php echo $localidad?>">
-                                <option selected>Elegir...</option>
-                                <option>Veracruz</option>
-                            </select>
-
+                            <label>Localidad</label>
+                            <input type = "text" class="form-control" name="localidad" value="<?php echo $localidad?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Municipio*</label>
-                            <select name="municipio" class="form-control" required value="<?php echo $municipio?>">
-                                <option selected>Elegir...</option>
-                                <option>Veracruz</option>
-                            </select>
-
+                            <label>Municipio</label>
+                            <input type = "text" class="form-control" name="municipio" value="<?php echo $municipio?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Estado*</label>
-                            <select name="estado" class="form-control" required value="<?php echo $estado ?>" >
-                                <option selected>Elegir...</option>
-                                <option>Veracruz</option>
-                            </select>
-
+                            <label>Estado</label>
+                            <input type = "text" class="form-control" name="estado" value="<?php echo $estado ?>">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Referencia</label>
