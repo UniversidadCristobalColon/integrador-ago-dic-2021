@@ -33,7 +33,7 @@ define('RUTA_INCLUDE', '../../../../');
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Catálogos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Estados</li>
+                    <li class="breadcrumb-item active" aria-current="page">Países</li>
                 </ol>
             </nav>
 
@@ -47,7 +47,7 @@ define('RUTA_INCLUDE', '../../../../');
 
              <div class="row my-3">
                  <div class="col text-right">
-                     <a href="estados.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                     <a href="paises.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
                  </div>
              </div>
 
@@ -55,7 +55,7 @@ define('RUTA_INCLUDE', '../../../../');
                  <table class="table table-bordered dataTable">
                      <thead>
                      <tr>
-                         <th>Estados</th>
+                         <th>Países</th>
                          <th>Creación</th>
                          <th>Actualización</th>
                          <th>Estatus</th>
@@ -67,11 +67,11 @@ define('RUTA_INCLUDE', '../../../../');
                      </tfoot>
                      <tbody>
                      <tr>
-                         <td>Veracruz</td>
+                         <td>México</td>
                          <td></td>
                          <td></td>
                          <td>A</td>
-                         <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
+                         <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>
 
                      </tbody>

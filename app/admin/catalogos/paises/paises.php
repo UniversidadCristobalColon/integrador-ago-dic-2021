@@ -32,7 +32,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Estados</li>
+                    <li class="breadcrumb-item">Países</li>
                     <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
                 </ol>
             </nav>
@@ -63,8 +63,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEstado">Estado</label>
-                        <input type="text" class="form-control" id="inputEstado">
+                        <label for="inputEstado">País</label>
+                        <input type="text" class="form-control" id="inputPais">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Creación</label>
