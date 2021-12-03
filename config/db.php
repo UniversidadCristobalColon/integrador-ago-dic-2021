@@ -1,5 +1,5 @@
 <?php
-$conexion = mysqli_connect('35.202.106.35', 'icave_eval_360', 'pjQdOp2B3VPnQ3bU', 'icave_eval_360');
+$conexion = mysqli_connect('lizbethrojas.me', 'pakmail_user', 'kp3C-sd6WVvRZeBV', 'pakmail');
 
 if ($conexion === false) { //¿error?
     exit('Error en la conexión con la bd');

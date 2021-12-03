@@ -19,6 +19,7 @@ function verificarSesion($ruta = ''){
 //
 define('PAGE_TITLE', 'Packmail');
 
+
 function getSidebar($ruta = ''){
     $html = <<<EOD
 <!-- Sidebar -->
