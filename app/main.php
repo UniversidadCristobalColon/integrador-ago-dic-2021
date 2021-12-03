@@ -31,7 +31,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
         <!-- /.container-fluid -->
 
         <div class="container">
-            <h3>Bienvenido</h3>
+            <h3>Bienvenido <?php echo $nombre_usuario." ".$apellidos_usuario?></h3>
         </div>
         <!-- /.container -->
 
@@ -52,5 +52,6 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
 
 <?php getBottomIncudes( RUTA_INCLUDE ) ?>
 </body>
+
 
 </html>
