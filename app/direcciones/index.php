@@ -3,8 +3,9 @@
 require_once '../../config/global.php';
 require_once '../../config/db.php';
 
-//$cliente = $_SESSION['id_cliente'];
-$cliente = 1;
+@session_start();
+$cliente = $_SESSION['id_usuario'];
+//$cliente = 1;
 
 $sql = "SELECT direcciones.id, alias, calle, direcciones.cp, entre_calles, num_exterior, num_interior, referencia, direcciones.status, colonias.colonia, localidades.localidad, municipios.municipio, estados.estado
 from direcciones
@@ -77,6 +78,13 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                 <ul class="my-3 d-flex flex-wrap">
                     <?php
                     $contador = 0;
+                    if ( count($direcciones) == '0' ){
+                     ?>
+                        <div class="alert alert-warning mt-3 mr-4 w-100" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> No hay direcciones
+                        </div>
+                <?php
+                }
                     foreach ($direcciones as $p){
                     ?>
                     <li class="list-group-item d-flex align-items-center m-2" style = "width: 32%">
