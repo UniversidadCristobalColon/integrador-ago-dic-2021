@@ -249,16 +249,16 @@ if ($resultado) {
                                            data-target="#formPago">Agregar info. pago</a>
                                         <?php
                                     }
-                                    if (is_null($e['razon_cancela']) && $e['seguimiento'] == 'P') {
-                                        ?>
-                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
-                                           data-target="#formCancel">Cancelar</a>
-                                        <?php
-                                    }
                                     if ($tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
                                            data-target="#formStat">Actualizar estado</a>
+                                        <?php
+                                    }
+                                    if ($e['seguimiento'] == 'P') {
+                                        ?>
+                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                           data-target="#formCancel">Cancelar</a>
                                         <?php
                                     }
                                     ?>
@@ -277,11 +277,10 @@ if ($resultado) {
                                                 </div>
                                                 <form method="post" action="factura.php">
                                                     <div class="modal-body">
-                                                        <label for="fact" class="form-label"><b>Factura electrónica (PDF
+                                                        <label class="form-label"><b>Factura electrónica (PDF
                                                                 o
                                                                 XML)</b></label>
                                                         <input type="file" class="form-control-file" name="factura"
-                                                               id="fact"
                                                                accept="application/pdf,text/xml" required>
                                                         <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
                                                     </div>
