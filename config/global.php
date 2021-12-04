@@ -17,7 +17,7 @@ function verificarSesion($ruta = ''){
 }
 
 //
-define('PAGE_TITLE', 'Packmail');
+define('PAGE_TITLE', 'Pakmail');
 
 
 function getSidebar($ruta = ''){
