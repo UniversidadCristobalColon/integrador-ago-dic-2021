@@ -64,7 +64,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEstado">Estado</label>
-                        <input type="text" class="form-control" id="inputEstado">
+                        <input type="text" class="form-control" id="inputEstado" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Creación</label>
