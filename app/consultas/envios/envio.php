@@ -3,8 +3,22 @@ require_once '../../../config/global.php';
 require '../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
+session_start();
 
-$sql = "select * from envios";
+$tipo_usuario = $_SESSION['perfil_usuario'];
+$mail_user = $_SESSION['email_usuario'];
+$id_cliente = '';
+
+$sql = '';
+if ($tipo_usuario == 2) {
+    $sql = "select id from clientes where email = $mail_user";
+    $resultado = mysqli_query($conexion, $sql);
+    $id_cliente = mysqli_fetch_assoc($resultado);
+    $sql = "select * from envios where status = 'A' and cliente = '$id_cliente'";
+} else {
+    $sql = "select * from envios where status = 'A'";
+}
+
 $resultado = mysqli_query($conexion, $sql);
 
 $envios = array();
@@ -75,47 +89,62 @@ if ($resultado) {
             ?>
 
             <div class="table-responsive mb-3">
-                <table class="table table-bordered dataTable">
-                    <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Guia</th>
-                        <th>Estado</th>
-                        <th>Origen</th>
-                        <th>Destino</th>
-                        <th>Paquetería</th>
-                        <th>Tipo de servicio</th>
-                        <th>Asegurado</th>
-                        <th>Servicio de recolección</th>
-                        <th>Costo</th>
-                        <th>Tiempo estimado (días)</th>
-                        <th>Factura</th>
-                        <th>Fecha de envío</th>
-                        <th>Fecha de entrega</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Guia</th>
-                        <th>Estado</th>
-                        <th>Origen</th>
-                        <th>Destino</th>
-                        <th>Paquetería</th>
-                        <th>Tipo de servicio</th>
-                        <th>Asegurado</th>
-                        <th>Servicio de recolección</th>
-                        <th>Costo</th>
-                        <th>Tiempo estimado (días)</th>
-                        <th>Factura</th>
-                        <th>Fecha de envío</th>
-                        <th>Fecha de entrega</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr>
+                <?php
+                if (count($envios) > 0) {
+                    ?>
+                    <table class="table table-bordered dataTable">
+                        <thead>
+                        <tr>
+                            <?php
+                            if ($tipo_usuario == 1) {
+                                ?>
+                                <th>Cliente</th>
+                                <?php
+                            }
+                            ?>
+                            <th>Guia</th>
+                            <th>Estado</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Paquetería</th>
+                            <th>Tipo de servicio</th>
+                            <th>Asegurado</th>
+                            <th>Servicio de recolección</th>
+                            <th>Costo</th>
+                            <th>Tiempo estimado (días)</th>
+                            <th>Factura</th>
+                            <th>Fecha de envío</th>
+                            <th>Fecha de entrega</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <?php
+                            if ($tipo_usuario == 1) {
+                                ?>
+                                <th>Cliente</th>
+                                <?php
+                            }
+                            ?>
+                            <th>Guia</th>
+                            <th>Estado</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Paquetería</th>
+                            <th>Tipo de servicio</th>
+                            <th>Asegurado</th>
+                            <th>Servicio de recolección</th>
+                            <th>Costo</th>
+                            <th>Tiempo estimado (días)</th>
+                            <th>Factura</th>
+                            <th>Fecha de envío</th>
+                            <th>Fecha de entrega</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
                         <?php
                         foreach ($envios as $e) {
                             $cliente = $e['cliente'];
@@ -159,216 +188,247 @@ if ($resultado) {
                                     break;
                             }
 
+
                             ?>
-                            <td><?php echo $cliente['nombre'] . $cliente['apellidos']; ?></td>
-                            <td><?php
-                                if (strpos($paqueteria['website'], '{{guia}}')) {
-                                    str_replace('{{guia}}', $e['guia'], $paqueteria['website']);
-                                }
-                                $site = $paqueteria['website'];
-                                $guia = $e['guia'];
-                                echo "<a href=$site target='_blank'>$guia</a>";
-                                ?></td>
-                            <td style="background-color: <?php echo $bg; ?>"><?php echo $estado; ?></td>
-                            <td><?php echo $origen['cp'] . $origen['calle']; ?></td>
-                            <td><?php echo $destino['cp'] . $destino['calle']; ?></td>
-                            <td><?php echo $paqueteria['paqueteria']; ?></td>
-                            <td><?php echo $e['tipo_servicio']; ?></td>
-                            <td><?php if ($e['seguro'] == 'S') {
-                                    echo "Si";
-                                } else {
-                                    echo "No";
-                                } ?></td>
-                            <td><?php if ($e['recoleccion'] == 'S') {
-                                    echo "Si";
-                                } else {
-                                    echo "No";
-                                } ?></td>
-                            <td><?php echo $e['costo']; ?></td>
-                            <td><?php echo $e['tiempo_estimado']; ?></td>
-                            <td><?php echo $e['factura']; ?></td>
-                            <td><?php echo $e['fecha_envio']; ?></td>
-                            <td><?php echo $e['fecha_entrega']; ?></td>
-                            <td>
+                            <tr>
                                 <?php
-                                $idEnv=$e['id'];
-                                $file1 = "/factura/factura_{$idEnv}.pdf";
-                                $file2 = "/factura/factura_{$idEnv}.xml";
-                                if(!file_exists($file1) && !file_exists($file2)){
-                                ?>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#formFact">
-                                    Asignar factura
-                                </button>
-                                <?php
-                                }
-                                if(is_null($e['metodo_pago'])){
-                                ?>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#formPago">
-                                    Agregar info. pago
-                                </button>
-                                <?php
-                                }
-                                if(is_null($e['razon_cancela']) && $e['seguimiento']=='P'){
-                                ?>
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                        data-target="#formCancel">
-                                    Cancelar
-                                </button>
-                                <?php
-                                }if(true){
-                                ?>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#formStat">
-                                    Actualizar estado
-                                </button>
-                                <?php
+                                if ($tipo_usuario == 1) {
+                                    ?>
+                                    <td><?php echo $cliente['nombre'] . $cliente['apellidos']; ?></td>
+                                    <?php
                                 }
                                 ?>
+                                <td><?php
+                                    if (strpos($paqueteria['website'], '{{guia}}')) {
+                                        str_replace('{{guia}}', $e['guia'], $paqueteria['website']);
+                                    }
+                                    $site = $paqueteria['website'];
+                                    $guia = $e['guia'];
+                                    echo "<a href=$site target='_blank'>$guia</a>";
+                                    ?></td>
+                                <td style="background-color: <?php echo $bg; ?>"><?php echo $estado; ?></td>
+                                <td><?php echo $origen['cp'] . $origen['calle']; ?></td>
+                                <td><?php echo $destino['cp'] . $destino['calle']; ?></td>
+                                <td><?php echo $paqueteria['paqueteria']; ?></td>
+                                <td><?php echo $e['tipo_servicio']; ?></td>
+                                <td><?php if ($e['seguro'] == 'S') {
+                                        echo "Si";
+                                    } else {
+                                        echo "No";
+                                    } ?></td>
+                                <td><?php if ($e['recoleccion'] == 'S') {
+                                        echo "Si";
+                                    } else {
+                                        echo "No";
+                                    } ?></td>
+                                <td><?php echo $e['costo']; ?></td>
+                                <td><?php echo $e['tiempo_estimado']; ?></td>
+                                <td><?php echo $e['factura']; ?></td>
+                                <td><?php echo $e['fecha_envio']; ?></td>
+                                <td><?php echo $e['fecha_entrega']; ?></td>
+                                <td>
+                                    <?php
+                                    $idEnv = $e['id'];
+                                    $file1 = "/factura/factura_{$idEnv}.pdf";
+                                    $file2 = "/factura/factura_{$idEnv}.xml";
+                                    if (!file_exists($file1) && !file_exists($file2) && $tipo_usuario == 1) {
+                                        ?>
+                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                           data-target="#formFact">Asignar factura</a>
+                                        <?php
+                                    }
+                                    if (is_null($e['metodo_pago']) && $tipo_usuario == 1) {
+                                        ?>
+                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                           data-target="#formPago">Agregar info. pago</a>
+                                        <?php
+                                    }
+                                    if (is_null($e['razon_cancela']) && $e['seguimiento'] == 'P') {
+                                        ?>
+                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                           data-target="#formCancel">Cancelar</a>
+                                        <?php
+                                    }
+                                    if ($tipo_usuario == 1) {
+                                        ?>
+                                        <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                           data-target="#formStat">Actualizar estado</a>
+                                        <?php
+                                    }
+                                    ?>
 
-                                <div class="modal fade" id="formFact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                    <div class="modal fade" id="formFact" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="factura.php">
+                                                    <div class="modal-body">
+                                                        <label for="fact" class="form-label"><b>Factura electrónica (PDF
+                                                                o
+                                                                XML)</b></label>
+                                                        <input type="file" class="form-control" name="fact" id="fact"
+                                                               accept="application/pdf,text/xml" required>
+                                                        <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form method="post" action="factura.php">
-                                                <div class="modal-body">
-                                                    <label for="fact" class="form-label"><b>Factura electrónica (PDF o XML)</b></label>
-                                                    <input type="file" class="form-control" name="fact" id="fact"  accept="application/pdf,text/xml" required>
-                                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="modal fade" id="formPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                    <div class="modal fade" id="formPago" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="pago.php">
+                                                    <div class="modal-body">
+                                                        <label for="method" class="form-label"><b>Método de
+                                                                pago</b></label>
+                                                        <select name="method" id="method" class="form-select"
+                                                                aria-label="Default select example">
+                                                            <option selected>Método de pago</option>
+                                                            <option value="E">Efectivo</option>
+                                                            <option value="C">Tarjeta de crédito</option>
+                                                            <option value="D">Tarjeta de débito</option>
+                                                            <option value="P">Paypal</option>
+                                                            <option value="H">Cheque</option>
+                                                            <option value="D">Transferencia bancaria</option>
+                                                        </select>
+                                                        <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form method="post" action="pago.php">
-                                                <div class="modal-body">
-                                                    <label for="method" class="form-label"><b>Método de pago</b></label>
-                                                    <select name="method" id="method" class="form-select"
-                                                            aria-label="Default select example">
-                                                        <option selected>Método de pago</option>
-                                                        <option value="E">Efectivo</option>
-                                                        <option value="C">Tarjeta de crédito</option>
-                                                        <option value="D">Tarjeta de débito</option>
-                                                        <option value="P">Paypal</option>
-                                                        <option value="H">Cheque</option>
-                                                        <option value="D">Transferencia bancaria</option>
-                                                    </select>
-                                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="modal fade" id="formCancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form method="post" action="cancel.php">
-                                                <div class="modal-body">
-                                                    <label for="razon" class="form-label"><b>¿Por qué razón cancela?</b></label>
-                                                    <select name="razon" id="razon" class="form-select"
-                                                            aria-label="Default select example">
-                                                        <option selected>Razón</option>
-                                                        <?php
-                                                        $sql = "select * from razonCancela";
-                                                        $resultado = mysqli_query($conexion, $sql);
-
-                                                        $razones = array();
-                                                        if ($resultado) {
-                                                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                                                                $razones[] = $fila;
-                                                            }
-                                                        }
-                                                        foreach ($razones as $r) {
-                                                            ?>
-                                                            <option value="<?php echo $r['id']; ?>"><?php echo $r['razon']; ?></option>
+                                    <div class="modal fade" id="formCancel" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="cancel.php">
+                                                    <div class="modal-body">
+                                                        <label for="razon" class="form-label"><b>¿Por qué razón
+                                                                cancela?</b></label>
+                                                        <select name="razon" id="razon" class="form-select"
+                                                                aria-label="Default select example">
+                                                            <option selected>Razón</option>
                                                             <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    <textarea class="form-control" placeholder="Escriba su comentario" name="comment"
-                                                              id="comment" maxlength="150"></textarea>
-                                                    <label for="comment"><b>¿Algún comentario?</b></label>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                                                            $sql = "select * from razonCancela";
+                                                            $resultado = mysqli_query($conexion, $sql);
 
-                                <div class="modal fade" id="formStat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                            $razones = array();
+                                                            if ($resultado) {
+                                                                while ($fila = mysqli_fetch_assoc($resultado)) {
+                                                                    $razones[] = $fila;
+                                                                }
+                                                            }
+                                                            foreach ($razones as $r) {
+                                                                ?>
+                                                                <option value="<?php echo $r['id']; ?>"><?php echo $r['razon']; ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        <textarea class="form-control"
+                                                                  placeholder="Escriba su comentario"
+                                                                  name="comment"
+                                                                  id="comment" maxlength="150"></textarea>
+                                                        <label for="comment"><b>¿Algún comentario?</b></label>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form method="post" action="actualiza.php">
-                                                <div class="modal-body">
-                                                    <label for="stat" class="form-label"><b>Estatus del envío</b></label>
-                                                    <select name="stat" id="stat" class="form-select"
-                                                            aria-label="Default select example">
-                                                        <option value="P" selected>Pendiente</option>
-                                                        <option value="C">En camino</option>
-                                                        <option value="E">Entregado</option>
-                                                    </select>
-                                                    <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
 
-                            </td>
+                                    <div class="modal fade" id="formStat" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="actualiza.php">
+                                                    <div class="modal-body">
+                                                        <label for="stat" class="form-label"><b>Estatus del
+                                                                envío</b></label>
+                                                        <select name="stat" id="stat" class="form-select"
+                                                                aria-label="Default select example">
+                                                            <option value="P" selected>Pendiente</option>
+                                                            <option value="C">En camino</option>
+                                                            <option value="E">Entregado</option>
+                                                        </select>
+                                                        <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                            </tr>
                             <?php
                         }
                         ?>
-                    </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    <?php
+                }else{
+                    echo "<div class='alert alert-warning' role='alert'> Aún no hay envíos. </div>";
+                }
+                ?>
             </div>
 
         </div>
