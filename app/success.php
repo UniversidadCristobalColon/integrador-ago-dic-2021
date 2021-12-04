@@ -24,29 +24,33 @@
 
 <div class="container">
     <div class="card card-login mx-auto mt-5">
-        <div class="card-header">¡Bienvenido!</div>
+        <div class="card-header">Pakmail</div>
         <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico"
-                               required="required" autofocus="autofocus">
-                        <label for="inputEmail">Correo electrónico</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
-                               required="required">
-                        <label for="inputPassword">Contraseña</label>
-                    </div>
+            <?php
+
+            if(isset($_REQUEST["v"]) && $_REQUEST["v"]=="1"){
+                ?>
+                <div class="text-center mb-4">
+                    <h4>Registro</h4>
+                    <p>Su registró ha sido exitoso, debe confirmar su correo electrónico para poder usar la cuenta.</p>
                 </div>
 
-                <a class="btn btn-primary btn-block" href="index.php">Ingresar</a>
-                <a class="btn btn-secondary btn-block" href="registrar.php">¿No tiene una cuenta? Regístrese aquí</a>
-            </form>
+
+                <?php
+            }else{
+                ?>
+                <div class="text-center mb-4">
+                    <h4>Registro</h4>
+                    <p>Hubo un error en el registro, intentelo nuevamente.</p>
+                </div>
+
+
+                <?php
+            }
+
+            ?>
             <div class="text-center">
-                <a class="d-block small mt-3" href="recuperar.php">¿Olvidó su contraseña?</a>
+                <a class="d-block small mt-3" href="index.php">Página de inicio</a>
             </div>
         </div>
     </div>
