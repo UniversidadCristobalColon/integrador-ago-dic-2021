@@ -7,7 +7,7 @@ define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 //$tipo_usuario = $_SESSION['perfil_usuario'];
 //$mail_user = $_SESSION['email_usuario'];
 $mail_user = "prueba@prueba.com";
-$tipo_usuario = 2;
+$tipo_usuario = 1;
 $id_cliente = 0;
 
 $sql = '';
