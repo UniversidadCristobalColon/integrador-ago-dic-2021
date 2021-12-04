@@ -14,7 +14,7 @@ switch($stat){
 }
 $resultado = mysqli_query($conexion, $sql);
 if($resultado){
-    header('location: envio.php');
+    header('location: index.php');
 } else {
     echo mysqli_error($conexion);
 }
