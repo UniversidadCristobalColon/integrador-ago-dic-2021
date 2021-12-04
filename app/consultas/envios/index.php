@@ -426,7 +426,7 @@ if ($resultado) {
                     </table>
                     <?php
                 }else{
-                    echo "<div class='alert alert-warning' role='alert'> Aún no hay envíos. </div>";
+                    echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i>Aún no hay envíos. </div>";
                 }
                 ?>
             </div>
