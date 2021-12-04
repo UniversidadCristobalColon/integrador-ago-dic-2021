@@ -196,7 +196,7 @@ if(!empty($_GET['id'])){
         <?php getFooter() ?>
 
     </div>
-    <!-- /.content-wrappe -->
+    <!-- /.content-wrapp -->
 
 </div>
 <!-- /#wrapper -->

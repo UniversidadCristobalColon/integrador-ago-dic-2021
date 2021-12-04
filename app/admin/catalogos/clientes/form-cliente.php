@@ -142,7 +142,7 @@ define('RUTA_INCLUDE', '../../../../');
         <?php getFooter() ?>
 
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.content-wrappe -->
 
 </div>
 <!-- /#wrapper -->
