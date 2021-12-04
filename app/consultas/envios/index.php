@@ -3,17 +3,19 @@ require_once '../../../config/global.php';
 require '../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
-session_start();
 
-$tipo_usuario = $_SESSION['perfil_usuario'];
-$mail_user = $_SESSION['email_usuario'];
-$id_cliente = '';
+//$tipo_usuario = $_SESSION['perfil_usuario'];
+//$mail_user = $_SESSION['email_usuario'];
+$mail_user = "prueba@prueba.com";
+$tipo_usuario = 2;
+$id_cliente = 0;
 
 $sql = '';
 if ($tipo_usuario == 2) {
-    $sql = "select id from clientes where email = $mail_user";
+    $sql = "select id from clientes where email = '$mail_user'";
     $resultado = mysqli_query($conexion, $sql);
-    $id_cliente = mysqli_fetch_assoc($resultado);
+    $fila = mysqli_fetch_assoc($resultado);
+    $id_cliente = $fila['id'];
     $sql = "select * from envios where status = 'A' and cliente = '$id_cliente'";
 } else {
     $sql = "select * from envios where status = 'A'";
@@ -57,8 +59,8 @@ if ($resultado) {
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Catálogos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Nombre del catálogo</li>
+                    <li class="breadcrumb-item">Consultas</li>
+                    <li class="breadcrumb-item active" aria-current="page">Envíos</li>
                 </ol>
             </nav>
 
@@ -194,7 +196,7 @@ if ($resultado) {
                                 <?php
                                 if ($tipo_usuario == 1) {
                                     ?>
-                                    <td><?php echo $cliente['nombre'] . $cliente['apellidos']; ?></td>
+                                    <td><?php echo $cliente['nombre'] . " " . $cliente['apellidos']; ?></td>
                                     <?php
                                 }
                                 ?>
@@ -207,8 +209,8 @@ if ($resultado) {
                                     echo "<a href=$site target='_blank'>$guia</a>";
                                     ?></td>
                                 <td style="background-color: <?php echo $bg; ?>"><?php echo $estado; ?></td>
-                                <td><?php echo $origen['cp'] . $origen['calle']; ?></td>
-                                <td><?php echo $destino['cp'] . $destino['calle']; ?></td>
+                                <td><?php echo $origen['cp'] . " " . $origen['calle']; ?></td>
+                                <td><?php echo $destino['cp'] . " " . $destino['calle']; ?></td>
                                 <td><?php echo $paqueteria['paqueteria']; ?></td>
                                 <td><?php echo $e['tipo_servicio']; ?></td>
                                 <td><?php if ($e['seguro'] == 'S') {
@@ -223,7 +225,11 @@ if ($resultado) {
                                     } ?></td>
                                 <td><?php echo $e['costo']; ?></td>
                                 <td><?php echo $e['tiempo_estimado']; ?></td>
-                                <td><?php echo $e['factura']; ?></td>
+                                <td><?php if ($e['factura'] == 'S') {
+                                        echo "Si";
+                                    } else {
+                                        echo "No";
+                                    } ?></td>
                                 <td><?php echo $e['fecha_envio']; ?></td>
                                 <td><?php echo $e['fecha_entrega']; ?></td>
                                 <td>
@@ -274,7 +280,8 @@ if ($resultado) {
                                                         <label for="fact" class="form-label"><b>Factura electrónica (PDF
                                                                 o
                                                                 XML)</b></label>
-                                                        <input type="file" class="form-control" name="fact" id="fact"
+                                                        <input type="file" class="form-control-file" name="factura"
+                                                               id="fact"
                                                                accept="application/pdf,text/xml" required>
                                                         <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
                                                     </div>
@@ -348,7 +355,7 @@ if ($resultado) {
                                                                 aria-label="Default select example">
                                                             <option selected>Razón</option>
                                                             <?php
-                                                            $sql = "select * from razonCancela";
+                                                            $sql = "select * from razon_cancela";
                                                             $resultado = mysqli_query($conexion, $sql);
 
                                                             $razones = array();
@@ -364,11 +371,12 @@ if ($resultado) {
                                                             }
                                                             ?>
                                                         </select>
+                                                        <label for="comment"><b>¿Algún comentario?</b></label>
                                                         <textarea class="form-control"
                                                                   placeholder="Escriba su comentario"
                                                                   name="comment"
                                                                   id="comment" maxlength="150"></textarea>
-                                                        <label for="comment"><b>¿Algún comentario?</b></label>
+                                                        <input type="hidden" name="id" value="<?php echo $e['id'] ?>">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -425,8 +433,8 @@ if ($resultado) {
                         </tbody>
                     </table>
                     <?php
-                }else{
-                    echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i>Aún no hay envíos. </div>";
+                } else {
+                    echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i> Aún no hay envíos. </div>";
                 }
                 ?>
             </div>
