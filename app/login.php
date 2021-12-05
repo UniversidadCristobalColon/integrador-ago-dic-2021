@@ -23,14 +23,17 @@ if($resultado!=false){
         $fila=mysqli_fetch_assoc($resultado);
 
         $pass_en_bd=$fila['password'];
-        //Checks if passwords match
-        if(password_verify($pass,$pass_en_bd)){
+        //Verifica las contraseñas
+        //if(password_verify($pass,$pass_en_bd)){//
+        if ($pass==$pass_en_bd){
 
             $id_usuario=$fila['id'];
+            $id_cliente=$fila['id_cliente'];
             $email_en_bd=$fila['user'];
             $perfil_usuario=$fila['id_perfil'];
 
             $_SESSION['id_usuario']=$id_usuario;
+            $_SESSION['id_cliente']=$id_cliente;
             $_SESSION['email_usuario']=$email_en_bd;
             $_SESSION['perfil_usuario']=$perfil_usuario;
 
