@@ -41,7 +41,7 @@ define('RUTA_INCLUDE', '../../../../');
         <!-- /.container-fluid -->
 
         <div class="container">
-            <form action="guardar.php" method="post" enctype="multipart/form-data">
+            <form id="guardarcliente" action="guardar.php" method="post" enctype="multipart/form-data" action="rfccount.php">
             <div class="row mb-5">
                 <div class="col">
                     <button type="submit" class="btn btn-success">Guardar</button>
@@ -84,7 +84,8 @@ define('RUTA_INCLUDE', '../../../../');
                         </div>
                         <div class="form-group col-md-6">
                             <label>RFC</label>
-                            <input type = "text" class="form-control" name="rfc" >
+                            <input type = "text" class="form-control" name="rfc">
+                            <div class="invalid-feedback">Mínimo 13 caracteres</div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Email Secundario</label>
