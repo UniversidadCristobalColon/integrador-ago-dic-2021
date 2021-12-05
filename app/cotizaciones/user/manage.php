@@ -88,8 +88,8 @@ if ($result) {
                 <!-- Page Content -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Cotizaciones</li>
-                        <li class="breadcrumb-item" aria-current="page">Admin</li>
+                        <li class="breadcrumb-item">Cliente</li>
+                        <li class="breadcrumb-item" aria-current="page">Mis cotizaciones</li>
                         <li class="breadcrumb-item active" aria-current="page">Cotización <?php echo $id_cotizacion ?></li>
                     </ol>
                 </nav>
@@ -242,22 +242,30 @@ if ($result) {
                         </div>
                     </div>
 
-                    <!-- Sección añadir servicios/servicios propuestos -->
+                    <!-- Sección servicios disponibles -->
                     <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-                        <?php if ($status == 0) { ?>
-                            <h2>Añadir servicios</h2>
-                        <?php } else if ($status == 1) { ?>
-                            <h2>Servicios propuestos</h2>
+                        <?php if ($status == 0 || $status == 1) { ?>
+                            <h2>Servicios disponibles</h2>
                         <?php } else if ($status == 2) { ?>
                             <h2>Servicio seleccionado</h2>
                         <?php } else if ($status == 3) { ?>
-                            <h2>Envío realizado con</h2>
+                            <h2>Envío hecho con</h2>
                         <?php } ?>
                         <hr>
                         <!-- field_wrapper -->
                         <?php if ($status == 0) { ?>
 
                             <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5 class="mt-3">Esperando respuesta de pakmail.</h5>
+                                    <h6>Porfavor regrese más tarde.</h6>
+                                </div>
+                            </div>
+
+                        <?php } else if ($status == 1) { ?>
+
+                            <div class="row">
+                                <div class="col-1 w-100"></div>
                                 <div class="col-3">
                                     <h5>Paqueteria</h5>
                                 </div>
@@ -267,45 +275,9 @@ if ($result) {
                                 <div class="col-4">
                                     <h5>Precio</h5>
                                 </div>
-                                <div class="col-1"></div>
                             </div>
-                            <form action="config/submitServices.php" method="post">
-                                <div class="field_wrapper">
-                                    <div class="row">
-                                        <div class="col-3 w-100">
-                                            <select name="paqueteria_id[]" class="w-100 myOwnSelect" required>
-                                                <?php
-                                                foreach ($paqueterias as $one) {
-                                                ?>
-                                                    <option value="<?php echo $one['id'] ?>"><?php echo $one['paqueteria'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-4 w-100">
-                                            <input type="text" class="w-100" name="tiempo_name[]" required>
-                                        </div>
-                                        <div class="col-4 w-100">
-                                            <input type="text" class="w-100" name="precio_name[]" required>
-                                        </div>
-                                        <div class="col-1 w-100">
-                                            <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
-                                            <a href="javascript:void(0)" class="add_button"><i class="fas fa-plus text-body"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-center row mt-3">
-                                    <div class="col-2">
-                                        <input type="submit" name="submit" value="Enviar" class="btn btn-danger">
-                                    </div>
-                                </div>
-                            </form>
-
-                        <?php } else if ($status == 1) { ?>
-
                             <?php
-                            $sqlServiciosDisponibles = "SELECT paqueteria, tiempo_estimado, precio FROM servicios_disponibles sd INNER JOIN paqueterias pa ON pa.id = sd.id_paqueteria WHERE id_cotizacion = $id_cotizacion;";
+                            $sqlServiciosDisponibles = "SELECT id_servicio_disponible, paqueteria, tiempo_estimado, precio FROM servicios_disponibles sd INNER JOIN paqueterias pa ON pa.id = sd.id_paqueteria WHERE id_cotizacion = $id_cotizacion;";
                             $result = mysqli_query($conexion, $sqlServiciosDisponibles);
                             $serviciosDisponibles = array();
                             if ($result) {
@@ -316,6 +288,34 @@ if ($result) {
                                 echo mysqli_error($conexion);
                             }
                             ?>
+
+                            <form action="config/submitChoise.php" method="post">
+                                <?php foreach ($serviciosDisponibles as $one) { ?>
+                                    <div class="row">
+                                        <div class="col-1 w-100">
+                                            <input type="radio" id="<?php echo $one['id_servicio_disponible'] ?>" name="idServicioElegido" value="<?php echo $one['id_servicio_disponible'] ?>">
+                                            <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
+                                        </div>
+                                        <div class="col-3 w-100">
+                                            <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['paqueteria'] ?></label>
+                                        </div>
+                                        <div class="col-4 w-100">
+                                            <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['tiempo_estimado'] ?></label>
+                                        </div>
+                                        <div class="col-4 w-100">
+                                            <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['precio'] ?></label>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <div class="d-flex justify-content-center row mt-3">
+                                    <div class="col-2">
+                                        <input type="submit" name="submit" value="Solicitar guía" class="btn btn-danger">
+                                    </div>
+                                </div>
+                            </form>
+
+                        <?php } else if ($status == 2) { ?>
+                            
                             <div class="row">
                                 <div class="col-4">
                                     <h5>Paqueteria</h5>
@@ -327,29 +327,6 @@ if ($result) {
                                     <h5>Precio</h5>
                                 </div>
                             </div>
-                            <?php foreach ($serviciosDisponibles as $one) { ?>
-                                <div>
-                                    <div class="row">
-                                        <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['paqueteria'] ?>" disabled>
-                                        </div>
-                                        <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['tiempo_estimado'] ?>" disabled>
-                                        </div>
-                                        <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['precio'] ?>" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="d-flex justify-content-center row mt-4">
-                                <div class="col-12 text-center">
-                                    <h6>Propuestas enviadas, esperando respuesta del cliente.</h6>
-                                </div>
-                            </div>
-
-                        <?php } else if ($status == 2) { ?>
-
                             <?php
                             $sqlServicioElegido = "SELECT id_servicio_disponible, paqueteria, tiempo_estimado, precio FROM servicios_disponibles sd INNER JOIN paqueterias pa ON pa.id = sd.id_paqueteria WHERE id_cotizacion = $id_cotizacion AND sd.status='S';";
                             $result = mysqli_query($conexion, $sqlServicioElegido);
@@ -362,17 +339,7 @@ if ($result) {
                                 echo mysqli_error($conexion);
                             }
                             ?>
-                            <div class="row">
-                                <div class="col-4">
-                                    <h5>Paqueteria</h5>
-                                </div>
-                                <div class="col-4">
-                                    <h5>Tiempo estimado</h5>
-                                </div>
-                                <div class="col-4">
-                                    <h5>Precio</h5>
-                                </div>
-                            </div>
+
                             <?php foreach ($servicioElegido as $one) { ?>
                                 <div class="row">
                                     <div class="col-4 w-100">
@@ -386,18 +353,12 @@ if ($result) {
                                     </div>
                                 </div>
                             <?php } ?>
-                            <div class="row mt-4">
-                                <div class="col-12 text-center">
-                                    <h5 class="mt-3">Escriba la guía correspondiente a este envío:</h5>
+                                <div class="row mt-4">
+                                    <div class="col-12 text-center">
+                                        <h5 class="mt-3">Esperando guía.</h5>
+                                        <h6>Porfavor regrese más tarde.</h6>
+                                    </div>
                                 </div>
-                                <div class="col-12 text-center">
-                                    <form action="config/submitGuia.php" method="post">
-                                        <input type="text" class="text-center w-50" name="guia" required>
-                                        <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
-                                        <input type="submit" name="submit" value="Enviar" class="btn btn-danger">
-                                    </form>
-                                </div>
-                            </div>
 
                         <?php } else if ($status == 3) { ?>
 
@@ -459,6 +420,7 @@ if ($result) {
                             <?php } ?>
 
                         <?php } ?>
+
                     </div>
                 </div>
 

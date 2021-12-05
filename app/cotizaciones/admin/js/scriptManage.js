@@ -5,7 +5,7 @@ $( document ).ready(function () {
   var addButton = $(".add_button");
   var wrapper = $(".field_wrapper");
   var fieldHTML =
-      '<div class="row"><div class="col-3 w-100"><select name="paqueteria_name[]" class="w-100 myOwnSelect" required></select></div><div class="col-4 w-100"><input type="text" class="w-100" name="tiempo_name[]" required></div><div class="col-4 w-100"><input type="text" class="w-100" name="precio_name[]" required></div><div class="col-1 w-100"><a href="javascript:void(0);" class="remove_button"><i class="fas fa-minus text-body"></i></a></div></div>';
+      '<div class="row"><div class="col-3 w-100"><select name="paqueteria_id[]" class="w-100 myOwnSelect" required></select></div><div class="col-4 w-100"><input type="text" class="w-100" name="tiempo_name[]" required></div><div class="col-4 w-100"><input type="text" class="w-100" name="precio_name[]" required></div><div class="col-1 w-100"><a href="javascript:void(0);" class="remove_button"><i class="fas fa-minus text-body"></i></a></div></div>';
   $(addButton).click(function () {
     console.log(paqueterias);
     if (x < maxField) {
@@ -30,3 +30,4 @@ $( document ).ready(function () {
     x--;
   });
 });
+
