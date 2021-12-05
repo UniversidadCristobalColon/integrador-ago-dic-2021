@@ -531,14 +531,14 @@ if ($resultado) {
     });
 
     $('#inicio').on('change',function(evento){
-        var start = $('#inicio').val();
+        var start = "Envío: " + $('#inicio').val();
         $("td").filter(function() {
             return $(this).text().indexOf(start) !== -1;
         }).parent().hide();
     });
 
     $('#fin').on('change',function(evento){
-        var endgame = $('#fin').val();
+        var endgame = "Envío: " + $('#fin').val();
         $("td").filter(function() {
             return $(this).text().indexOf(endgame) !== -1;
         }).parent().hide();
