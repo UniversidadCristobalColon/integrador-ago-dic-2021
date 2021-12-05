@@ -1,23 +1,26 @@
 <?php
 //Comienza la sesión
 session_start();
-$id_usuario=$_SESSION['id_usuario'];
-$id_cliente=$_SESSION['id_cliente'];
-$email_usuario=$_SESSION['email_usuario'];
-$perfil_usuario=$_SESSION['perfil_usuario'];
-$nombre_usuario=$_SESSION['nombre_usuario'];
-$apellidos_usuario=$_SESSION['apellidos_usuario'];
-
 //Verifica si la sesión del usuario fue cerrada
+if(isset($_SESSION['id_usuario'])){
+    $id_usuario=$_SESSION['id_usuario'];
+    $id_cliente=$_SESSION['id_cliente'];
+    $email_usuario=$_SESSION['email_usuario'];
+    $perfil_usuario=$_SESSION['perfil_usuario'];
+    $nombre_usuario=$_SESSION['nombre_usuario'];
+    $apellidos_usuario=$_SESSION['apellidos_usuario'];
+}else{
+    header('location: ../app/index.php');
+}
 
-
+/*
 function verificarSesion($ruta = ''){
     if ((empty($_SESSION['id_usuario']))) {
         header("location: {$ruta}index.php");
     }
 
 }
-
+*/
 //
 define('PAGE_TITLE', 'Packmail');
 
