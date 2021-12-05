@@ -1,7 +1,8 @@
 <?php
+//session_start();
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
-$sql = "SELECT * FROM clientes WHERE id = 23";
+$sql = "SELECT * FROM clientes";
 $resultado = mysqli_query($conexion, $sql);
 $clientes = array();
 if($resultado){
@@ -82,7 +83,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <td><?php echo $c['nombre']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
-                            <!-- onclick="confirmar('<?php echo $c['id'] ?>')" -->
                             <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
                                 <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a></td>
                         </tr>

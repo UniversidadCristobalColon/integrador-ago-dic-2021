@@ -2,7 +2,6 @@
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
-$id_cliente = '';
 $nombre = '';
 $apellidos = '';
 $celular = '';
@@ -23,8 +22,9 @@ $estado = '';
 $referencia = '';
 if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
-    $sql = "SELECT * FROM clientes WHERE id = 23";
-    $sql2 = "SELECT * FROM fiscales WHERE id = 4";
+    //$id_fiscal = $_GET['id_cliente'];
+    $sql = "SELECT * FROM clientes WHERE id = $id_cliente";
+    $sql2 = "SELECT * FROM fiscales WHERE id_cliente = $id_cliente";
 
     $resultado = mysqli_query($conexion, $sql);
     $resultado2 = mysqli_query($conexion, $sql2);
@@ -99,6 +99,7 @@ if(!empty($_GET['id'])){
                 <div class="row mb-5">
                     <div class="col">
                         <button type="submit" class="btn btn-success">Guardar</button>
+                        <input type="hidden" name="id_cliente" value="<?php echo $id_cliente?>"/>
                     </div>
                     <div class="col text-right">
                         <a href="index.php" class="btn btn-link">Cancelar</a>
