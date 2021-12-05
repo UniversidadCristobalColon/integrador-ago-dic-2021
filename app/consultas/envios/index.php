@@ -9,9 +9,11 @@ define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 $mail_user = "prueba@prueba.com";
 $tipo_usuario = 1;
 $date = date("Y-m-d");
+echo "<input id='hoy' type='hidden' value='$date'>";
 $date = date_create($date);
 $date = date_sub($date, date_interval_create_from_date_string('6 month'));
 $date = date_format($date, 'Y-m-d');
+echo "<input id='antes' type='hidden' value='$date'>";
 
 $sql = '';
 if ($tipo_usuario == 2) {
@@ -19,9 +21,9 @@ if ($tipo_usuario == 2) {
     $resultado = mysqli_query($conexion, $sql);
     $fila = mysqli_fetch_assoc($resultado);
     $id_cliente = $fila['id'];
-    $sql = "select * from envios where status = 'A' AND cliente = '$id_cliente' AND fecha_envio >= '$date'";
+    $sql = "select * from envios where status = 'A' AND cliente = '$id_cliente'";
 } else {
-    $sql = "select * from envios where status = 'A' AND fecha_envio >= '$date'";
+    $sql = "select * from envios where status = 'A'";
 }
 
 $resultado = mysqli_query($conexion, $sql);
@@ -44,20 +46,7 @@ if ($resultado) {
     <meta name="author" content="">
 
     <title><?php echo PAGE_TITLE ?></title>
-
     <?php getTopIncludes(RUTA_INCLUDE) ?>
-
-
-    <!-- MDB -->
-    <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.1/mdb.min.js"
-    >
-        $('.datepicker').datepicker({
-            inline: true,
-            formatSubmit: 'yyyy-mm-dd'
-        });
-    </script>
 
 </head>
 
@@ -80,41 +69,52 @@ if ($resultado) {
                 </ol>
             </nav>
 
-            <?php
-            if (false) {
-                ?>
-                <div class="alert alert-success" role="alert">
-                    <i class="fas fa-check"></i> Mensaje de éxito
-                </div>
-                <?php
-            }
-            if (false) {
-                ?>
-                <div class="alert alert-danger" role="alert">
-                    <i class="fas fa-exclamation-triangle"></i> Mensaje de error
-                </div>
-                <?php
-            }
-            if (false) {
-                ?>
-                <div class="row my-3">
-                    <div class="col text-right">
-                        <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
-
             <div class="table-responsive mb-3">
-                <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-                    <input placeholder="Select date" type="text" id="example" class="form-control">
-                    <label for="example">Try me...</label>
-                    <i class="fas fa-calendar input-prefix"></i>
-                </div>
+
                 <?php
                 if (count($envios) > 0) {
                     ?>
+
+                    <div class="container-fluid col-md-6 offset-md-6">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inicio">Desde</label>
+                                <input type="date" class="form-control" id="inicio">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="fin">Hasta</label>
+                                <input type="date" class="form-control" id="fin">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="pak">Paquetería</label>
+                                <select name="pak" id="pak" class="form-control">
+                                    <option selected disabled value> -- Paquetería -- </option>
+                                    <?php
+                                    $sql = "select * from paqueterias where status='A'";
+                                    $resultado = mysqli_query($conexion, $sql);
+
+                                    $paqueterias = array();
+                                    if ($resultado) {
+                                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                                            $paqueterias[] = $fila;
+                                        }
+                                    }
+                                    foreach ($paqueterias as $p) {
+                                        ?>
+                                        <option value="<?php echo $p['id']; ?>"><?php echo $p['paqueteria']; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group text-md-right col-md-2 offset-10">
+                                <input type="reset" id="back" class="btn btn-primary" value="Reestablecer">
+                            </div>
+                        </div>
+                    </div>
+
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
@@ -372,9 +372,9 @@ if ($resultado) {
                                                     <div class="modal-body">
                                                         <label for="method" class="form-label"><b>Método de
                                                                 pago</b></label>
-                                                        <select name="method" id="method" class="form-select"
+                                                        <select name="method" id="method" class="form-control"
                                                                 aria-label="Default select example">
-                                                            <option selected>Método de pago</option>
+                                                            <option selected disabled value> -- Método de pago -- </option>
                                                             <option value="E">Efectivo</option>
                                                             <option value="C">Tarjeta de crédito</option>
                                                             <option value="D">Tarjeta de débito</option>
@@ -411,9 +411,9 @@ if ($resultado) {
                                                     <div class="modal-body">
                                                         <label for="razon" class="form-label"><b>¿Por qué razón
                                                                 cancela?</b></label>
-                                                        <select name="razon" id="razon" class="form-select"
+                                                        <select name="razon" id="razon" class="form-control"
                                                                 aria-label="Default select example">
-                                                            <option selected>Razón</option>
+                                                            <option selected disabled value> -- Razón -- </option>
                                                             <?php
                                                             $sql = "select * from razon_cancela";
                                                             $resultado = mysqli_query($conexion, $sql);
@@ -467,7 +467,8 @@ if ($resultado) {
                                                                 envío</b></label>
                                                         <select name="stat" id="stat" class="form-select"
                                                                 aria-label="Default select example">
-                                                            <option value="P" selected>Pendiente</option>
+                                                            <option selected disabled value> -- Estatus -- </option>
+                                                            <option value="P">Pendiente</option>
                                                             <option value="C">En camino</option>
                                                             <option value="E">Entregado</option>
                                                         </select>
@@ -518,6 +519,39 @@ if ($resultado) {
 <?php getModalLogout() ?>
 
 <?php getBottomIncudes(RUTA_INCLUDE) ?>
+
+<script>
+    $("#back").click(function(){
+        $("tr").show();
+        var hoy = $('hoy').val();
+        var antes = $('antes').val();
+        $('#inicio').val(antes);
+        $('#fin').val(hoy);
+        $('#pak').prop('selectedIndex',0);
+    });
+
+    $('#inicio').on('change',function(evento){
+        var start = $('#inicio').val();
+        $("td").filter(function() {
+            return $(this).text().indexOf(start) !== -1;
+        }).parent().hide();
+    });
+
+    $('#fin').on('change',function(evento){
+        var endgame = $('#fin').val();
+        $("td").filter(function() {
+            return $(this).text().indexOf(endgame) !== -1;
+        }).parent().hide();
+    });
+
+    $('#pak').on('change',function(evento){
+        var paq = $('#pak').text();
+        $("td").filter(function() {
+            return $(this).text().indexOf(paq) !== -1;
+        }).parent().hide();
+    });
+</script>
+
 </body>
 
 </html>
