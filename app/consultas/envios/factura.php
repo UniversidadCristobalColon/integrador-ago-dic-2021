@@ -2,6 +2,7 @@
 require '../../../config/db.php';
 
 $idEnv = $_POST['id'];
+var_dump($_FILES);
 $temp = $_FILES['factura']['tmp_name'];
 $type = $_FILES['factura']['type'];
 
@@ -13,7 +14,7 @@ if ($type == 'application/pdf' || $type == 'text/xml') {
     if ($type == 'text/xml') {
         $nomFile = "factura_{$idEnv}.xml";
     }
-    $moveIt = move_uploaded_file($temp, '/factura/' . $nomFile);
+    $moveIt = move_uploaded_file($temp, 'factura/' . $nomFile);
     if ($moveIt) {
         header('location: index.php');
     } else {

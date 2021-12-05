@@ -8,7 +8,10 @@ define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 //$mail_user = $_SESSION['email_usuario'];
 $mail_user = "prueba@prueba.com";
 $tipo_usuario = 1;
-$id_cliente = 0;
+$date = date("Y-m-d");
+$date = date_create($date);
+$date = date_sub($date, date_interval_create_from_date_string('6 month'));
+$date = date_format($date, 'Y-m-d');
 
 $sql = '';
 if ($tipo_usuario == 2) {
@@ -16,9 +19,9 @@ if ($tipo_usuario == 2) {
     $resultado = mysqli_query($conexion, $sql);
     $fila = mysqli_fetch_assoc($resultado);
     $id_cliente = $fila['id'];
-    $sql = "select * from envios where status = 'A' and cliente = '$id_cliente'";
+    $sql = "select * from envios where status = 'A' AND cliente = '$id_cliente' AND fecha_envio >= '$date'";
 } else {
-    $sql = "select * from envios where status = 'A'";
+    $sql = "select * from envios where status = 'A' AND fecha_envio >= '$date'";
 }
 
 $resultado = mysqli_query($conexion, $sql);
@@ -43,6 +46,19 @@ if ($resultado) {
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE) ?>
+
+
+    <!-- MDB -->
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.1/mdb.min.js"
+    >
+        $('.datepicker').datepicker({
+            inline: true,
+            formatSubmit: 'yyyy-mm-dd'
+        });
+    </script>
+
 </head>
 
 <body id="page-top">
@@ -91,6 +107,11 @@ if ($resultado) {
             ?>
 
             <div class="table-responsive mb-3">
+                <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                    <input placeholder="Select date" type="text" id="example" class="form-control">
+                    <label for="example">Try me...</label>
+                    <i class="fas fa-calendar input-prefix"></i>
+                </div>
                 <?php
                 if (count($envios) > 0) {
                     ?>
@@ -104,19 +125,12 @@ if ($resultado) {
                                 <?php
                             }
                             ?>
-                            <th>Guia</th>
+                            <th>Enviado por</th> <!-- guia, paqueteria -->
                             <th>Estado</th>
-                            <th>Origen</th>
-                            <th>Destino</th>
-                            <th>Paquetería</th>
-                            <th>Tipo de servicio</th>
-                            <th>Asegurado</th>
-                            <th>Servicio de recolección</th>
-                            <th>Costo</th>
-                            <th>Tiempo estimado (días)</th>
-                            <th>Factura</th>
-                            <th>Fecha de envío</th>
-                            <th>Fecha de entrega</th>
+                            <th>Servicios</th> <!-- tipo servicio, seguro, recoleccion, factura -->
+                            <th>Origen - Destino</th> <!-- desde - hacia -->
+                            <th>Detalles</th> <!-- costo, entrega en # dias -->
+                            <th>Envío y entrega</th> <!-- envio, entrega -->
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -129,19 +143,12 @@ if ($resultado) {
                                 <?php
                             }
                             ?>
-                            <th>Guia</th>
+                            <th>Enviado por</th> <!-- guia, paqueteria -->
                             <th>Estado</th>
-                            <th>Origen</th>
-                            <th>Destino</th>
-                            <th>Paquetería</th>
-                            <th>Tipo de servicio</th>
-                            <th>Asegurado</th>
-                            <th>Servicio de recolección</th>
-                            <th>Costo</th>
-                            <th>Tiempo estimado (días)</th>
-                            <th>Factura</th>
-                            <th>Fecha de envío</th>
-                            <th>Fecha de entrega</th>
+                            <th>Servicios</th> <!-- tipo servicio, seguro, recoleccion, factura -->
+                            <th>Origen - Destino</th> <!-- desde - hacia -->
+                            <th>Detalles</th> <!-- costo, entrega en # dias -->
+                            <th>Envío y entrega</th> <!-- envio, entrega -->
                             <th>Acciones</th>
                         </tr>
                         </tfoot>
@@ -159,10 +166,15 @@ if ($resultado) {
                             $resultado = mysqli_query($conexion, $sql);
                             $paqueteria = mysqli_fetch_assoc($resultado);
 
-                            $origen = $e['dir_origen'];
-                            $sql = "select cp,calle from direcciones where id = '$origen'";
-                            $resultado = mysqli_query($conexion, $sql);
-                            $origen = mysqli_fetch_assoc($resultado);
+                            $suc = '';
+                            if (!$e['dir_origen'] == null) {
+                                $origen = $e['dir_origen'];
+                                $sql = "select cp,calle from direcciones where id = '$origen'";
+                                $resultado = mysqli_query($conexion, $sql);
+                                $origen = mysqli_fetch_assoc($resultado);
+                            } else {
+                                $suc = 'Sucursal';
+                            }
 
                             $destino = $e['dir_destino'];
                             $sql = "select cp,calle from direcciones where id = '$destino'";
@@ -200,48 +212,69 @@ if ($resultado) {
                                     <?php
                                 }
                                 ?>
-                                <td><?php
+                                <td>
+                                    <?php echo $paqueteria['paqueteria']; ?><br>
+                                    <?php
                                     if (strpos($paqueteria['website'], '{{guia}}')) {
                                         str_replace('{{guia}}', $e['guia'], $paqueteria['website']);
                                     }
                                     $site = $paqueteria['website'];
                                     $guia = $e['guia'];
                                     echo "<a href=$site target='_blank'>$guia</a>";
-                                    ?></td>
+                                    ?>
+                                </td>
                                 <td style="background-color: <?php echo $bg; ?>"><?php echo $estado; ?></td>
-                                <td><?php echo $origen['cp'] . " " . $origen['calle']; ?></td>
-                                <td><?php echo $destino['cp'] . " " . $destino['calle']; ?></td>
-                                <td><?php echo $paqueteria['paqueteria']; ?></td>
-                                <td><?php echo $e['tipo_servicio']; ?></td>
-                                <td><?php if ($e['seguro'] == 'S') {
+                                <td>
+                                    Servicio: <?php echo $e['tipo_servicio']; ?><br>
+                                    Asegurado: <?php if ($e['seguro'] == 'S') {
                                         echo "Si";
                                     } else {
                                         echo "No";
-                                    } ?></td>
-                                <td><?php if ($e['recoleccion'] == 'S') {
+                                    } ?><br>
+                                    Recolección: <?php if ($e['recoleccion'] == 'S') {
                                         echo "Si";
                                     } else {
                                         echo "No";
-                                    } ?></td>
-                                <td><?php echo $e['costo']; ?></td>
-                                <td><?php echo $e['tiempo_estimado']; ?></td>
-                                <td><?php if ($e['factura'] == 'S') {
+                                    } ?><br>
+                                    Factura: <?php if ($e['factura'] == 'S') {
                                         echo "Si";
                                     } else {
                                         echo "No";
-                                    } ?></td>
-                                <td><?php echo $e['fecha_envio']; ?></td>
-                                <td><?php echo $e['fecha_entrega']; ?></td>
+                                    } ?>
+                                </td>
+                                <td>
+                                    Desde: <?php
+                                    if ($suc == '') {
+                                        echo $origen['cp'] . " " . $origen['calle'];
+                                    } else {
+                                        echo $suc;
+                                    } ?><br>
+                                    Hacia: <?php echo $destino['cp'] . " " . $destino['calle']; ?>
+                                </td>
+                                <td>
+                                    Costo: $<?php echo $e['costo']; ?><br>
+                                    Entrega en <?php echo $e['tiempo_estimado']; ?> días<br>
+                                    <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                       data-target="#paquetes">Info. de paquetes</a>
+                                </td>
+                                <td>
+                                    Envío: <?php echo $e['fecha_envio']; ?><br>
+                                    Entrega: <?php echo $e['fecha_entrega']; ?>
+                                </td>
                                 <td>
                                     <?php
                                     $idEnv = $e['id'];
-                                    $file1 = "/factura/factura_{$idEnv}.pdf";
-                                    $file2 = "/factura/factura_{$idEnv}.xml";
+                                    $file1 = "factura/factura_{$idEnv}.pdf";
+                                    $file2 = "factura/factura_{$idEnv}.xml";
                                     if (!file_exists($file1) && !file_exists($file2) && $tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
                                            data-target="#formFact">Asignar factura</a>
                                         <?php
+                                    } else if (file_exists($file1)) {
+                                        echo "<a href='$file1' target='_blank' class='btn btn-link btn-sm btn-sm'>Descargar factura</a>";
+                                    } else {
+                                        echo "<a href='$file2' target='_blank' class='btn btn-link btn-sm btn-sm'>Descargar factura</a>";
                                     }
                                     if (is_null($e['metodo_pago']) && $tipo_usuario == 1) {
                                         ?>
@@ -262,6 +295,34 @@ if ($resultado) {
                                         <?php
                                     }
                                     ?>
+                                    <form action="Ticket.php" method="post">
+                                        <input type="hidden" name="id_envio" value="<?php echo $e['id'] ?>">
+                                        <button class="btn btn-link btn-sm btn-sm">Descargar ticket</button>
+                                    </form>
+
+                                    <div class="modal fade" id="paquetes" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cerrar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class="modal fade" id="formFact" tabindex="-1" role="dialog"
                                          aria-labelledby="exampleModalLabel"
@@ -275,7 +336,7 @@ if ($resultado) {
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form method="post" action="factura.php">
+                                                <form method="post" action="factura.php" enctype="multipart/form-data">
                                                     <div class="modal-body">
                                                         <label class="form-label"><b>Factura electrónica (PDF
                                                                 o
