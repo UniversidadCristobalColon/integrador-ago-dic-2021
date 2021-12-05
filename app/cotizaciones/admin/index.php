@@ -66,7 +66,7 @@
 
             <div class="row my-3">
                 <div class="col text-right">
-                    <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevosssss</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
                 </div>
             </div>
 

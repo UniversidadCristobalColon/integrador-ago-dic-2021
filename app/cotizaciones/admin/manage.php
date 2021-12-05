@@ -240,7 +240,7 @@ if ($result) {
 
                     <!-- Sección añadir servicios -->
                     <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-                        <h2>Añadir serviciosssssss</h2>
+                        <h2>Añadir servicios</h2>
                         <hr>
                         <div class="row">
                             <div class="col-3">
