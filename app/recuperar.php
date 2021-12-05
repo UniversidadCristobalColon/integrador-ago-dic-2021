@@ -1,3 +1,9 @@
+<?php
+require '../config/db.php';
+$subject='Recuperación de contraseña';
+$message='http://localhost/integrador-ago-dic-2021/app/cambiar_password.php'//link temporal prueba
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -30,14 +36,15 @@
                 <h4>¿Olvidó su contraseña?</h4>
                 <p>Se enviará un correo electrónico con instrucciones para recuperar el acceso a su cuenta.</p>
             </div>
-            <form>
+            <form action="..\config/correo.php">
                 <div class="form-group">
                     <div class="form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" required="required" autofocus="autofocus">
+                        <input type="email" name="email_destino" id="inputEmail" class="form-control" placeholder="Correo electrónico"
+                               required="required" autofocus="autofocus">
                         <label for="inputEmail">Correo electrónico</label>
                     </div>
                 </div>
-                <a class="btn btn-primary btn-block" href="login.php">Recuperar</a>
+                <button class="btn btn-primary btn-block" type="submit" name="sendmail">Recuperar</button>
             </form>
             <div class="text-center">
                 <a class="d-block small mt-3" href="index.php">Página de inicio</a>
