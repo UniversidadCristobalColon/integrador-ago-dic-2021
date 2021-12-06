@@ -24,16 +24,10 @@ switch($metodo){
 
 function getCP($num_cp, $connection)
 {
-    $sql = "SELECT colonias.id, colonia, cp, id_localidad, localidad, id_municipio, municipio, id_estado, estado
-FROM `colonias`
-left join localidades 
-on localidades.id = colonias.id_localidad
-left join municipios
-on localidades.id_municipio = municipios.id
-left join estados 
-on municipios.id_estado = estados.id
-where cp = '$num_cp'
-group by colonias.id;";
+    $sql = "SELECT c.id as id, c.colonia, l.id id_localidad, l.localidad, m.id id_municipio, m.municipio, e.id id_estado, e.estado FROM `colonias` c 
+    left join localidades l on c.id_localidad = l.id 
+    left join municipios m on c.id_municipio = m.id 
+    left join estados e on m.id_estado = e.id where cp = $num_cp;";
 
     $response = array();
 
@@ -45,15 +39,17 @@ group by colonias.id;";
         }
     }
 
-    $sqlcolonias = "SELECT* FROM colonias where cp = $num_cp";
+//    echo $sql;
 
-    $resultado = mysqli_query($connection, $sqlcolonias);
-
-    if ($resultado) {
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            $colonias[] = $fila;
-        }
-    }
+//    $sqlcolonias = "SELECT* FROM colonias where cp = $num_cp";
+//
+//    $resultado = mysqli_query($connection, $sqlcolonias);
+//
+//    if ($resultado) {
+//        while ($fila = mysqli_fetch_assoc($resultado)) {
+//            $colonias[] = $fila;
+//        }
+//    }
 
     echo json_encode($response);
 
@@ -66,7 +62,8 @@ function saveEditDirection($direction, $connection){
 
     $sql = "INSERT INTO `direcciones` (`id`, `id_cliente`, `alias`, `calle`, `num_exterior`, `num_interior`, `entre_calles`, `referencia`, `cp`, `id_colonia`, `creacion`, `actualizacion`, `status`) 
     VALUES
-    (null, '1', '".$direction['alias']."', '".$direction['calle']."', '".$direction['numext']."', '".$direction['numint']."', '".$direction['entrecalles']."', '".$direction['referencia']."', '".$direction['cp']."', '".$direction['colonia']."', 'NOW()', 'NOW()', 'A');";
+    (null, '".$direction['cliente']."', '".$direction['alias']."', '".$direction['calle']."', '".$direction['numext']."', '".$direction['numint']."', '".$direction['entrecalles']."', '".$direction['referencia']."', '".$direction['cp']."', '".$direction['colonia']."', 'NOW()', 'NOW()', 'A');";
+
 
     $resultado = mysqli_query($connection, $sql);
 
@@ -100,6 +97,7 @@ function saveEditDirection($direction, $connection){
         else echo json_encode('Ha ocurrido un error');
 
     }
+//    echo ($sql);
 }
 
 function showDirection($id, $connection){
