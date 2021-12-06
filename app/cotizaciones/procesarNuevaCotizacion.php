@@ -8,35 +8,116 @@ $factura = $_POST['factura'];
 $origen = $_POST['origen'];
 $direcOrigen = $_POST['direcOrigen'];
 $direcDestino = $_POST['direcDestino'];
-$paquete = $_POST['datosPaquetes'];
+//$paquete = $_POST['datosPaquetes'];
+$paquetes = $_POST['paquete'];
+$pesoRealTotal = $_POST['pesoRealTotal'];
+$pesoTotalVol = $_POST['pesoTotalVol'];
+$pesoAFacturar = $_POST['pesoAFacturar'];
+/*echo "hola" . "<br>";
+echo $pesoRealTotal . "<br>";
+echo $pesoTotalVol . "<br>";
+echo $pesoAFacturar . "<br>";*/
 
-$paqueteDatos = explode(",", $paquete);
 
-echo var_dump($tipoServicio);
+//$datosPaquete = explode(",", $paquete);
+
+
+/*echo var_dump($tipoServicio);
 echo "<br>";
+echo "asegurado" . "<br>";
 echo var_dump($asegurado);
 echo "<br>";
+echo "factura" . "<br>";
 echo var_dump($factura);
-echo "<br>";
+echo "<br>";*/
+
+if(is_null($asegurado)) {
+    //echo "asegurado es nulo<br>";
+    $asegurado = 'N';
+}
+
+if(is_null($factura)) {
+    //echo "factura es nulo<br>";
+    $factura = 'N';
+}
+
+echo "origen<br>";
 echo var_dump($origen);
 echo "<br>";
-echo var_dump($direcOrigen);
+
+$recoleccion = 'N';
+
+if($origen == 'S') {
+    //echo "Origen sucursal<br>";
+    //$obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = AND alias = 'sucursal'";
+    $resultado = mysqli_query($conexion, $insert);
+
+    if($resultado) {
+
+        $direcOrigen = mysqli_insert_id($conexion);
+
+        echo "<br>";
+        echo "id dir origen: " . $direcOrigen;
+        echo "<br>";
+        echo "<br>";
+    } else {
+        echo mysqli_erro($conexion);
+    }
+
+} else if($origen == 'R') {
+    //echo "Origen recolección<br>";
+    $recoleccion = 'S';
+}
+
+/*echo "recoleccion<br>";
+var_dump($recoleccion);*/
+
+/*echo var_dump($direcOrigen);
 echo "<br>";
 echo var_dump($direcDestino);
 echo "<br>";
-echo var_dump($paquete);
+echo var_dump($paquetes);
 echo "<br>";
-echo print_r($paqueteDatos);
+//echo print_r($paqueteDatos);
+echo "paquetes inicio";
 echo "<br>";
+echo $paquetes[0];
+echo "<br>";
+echo "<br>";
+echo $paquetes[1];
+echo "<br>";
+echo "<br>";*/
 
-$tipo = $paqueteDatos[0];
-$embalaje = $paqueteDatos[1];
-$peso = $paqueteDatos[2];
-$largo = $paqueteDatos[3];
-$ancho = $paqueteDatos[4];
-$alto = $paqueteDatos[5];
-$cantidad = $paqueteDatos[6];
+/*foreach($paquetes as $paqueteIndice) {
+    $paquete = explode(",", $paqueteIndice);
 
+    foreach($paquete as $paqueteDatos) {
+        /*
+        0 = Tipo de producto
+        1 = Embalaje
+        2 = Peso
+        3 = Largo
+        4 = Ancho
+        5 = Alto
+        6 = Cantidad
+        7 = descripción
+
+
+        //echo "<br>" . $paqueteDatos . "<br><br>";
+
+        $tipo = $paqueteDatos[0];
+        $embalaje = $paqueteDatos[1];
+        $peso = $paqueteDatos[2];
+        $largo = $paqueteDatos[3];
+        $ancho = $paqueteDatos[4];
+        $alto = $paqueteDatos[5];
+        $cantidad = $paqueteDatos[6];
+        $descripcion = $paqueteDatos[7];
+        $pesoVolumetrico = ($largo * $ancho * $alto)/5000;
+    }
+}*/
+
+/*INSERTAR FILAS EN TABLA DE DIRECCIONES*/
 
 //$insert = "INSERT INTO direcciones(id, id_cliente, calle, num_exterior, num_interior, entre_calles, referencia, cp, id_colonia, creacion, actualizacion, status) VALUES(null, 23, 'La laguna Avenida Palmas', '40', '', 'Juan Pablo y Robles', 'Empresa', '12489', 15, NOW(), null, 'A')";
 //$resultado = mysqli_query($conexion, $insert);
@@ -49,65 +130,84 @@ $cantidad = $paqueteDatos[6];
 }*/
 
 //$select = "SELECT cp, calle, num_exterior, num_interior, entre_calles, referencia FROM `direcciones` WHERE id_cliente = 23; ";
-$insertCotizacion = "INSERT INTO cotizaciones (id_cotizacion, id_cliente, id_dir_rem, id_dir_dest, tipo_servicio, asegurado, factura, recoleccion, fecha_creacion) VALUES (null, 23, $direcOrigen, $direcDestino, '$tipoServicio', '$asegurado', '$factura', 'N', NOW())";
+
+
+/*EMPIEZA AQUI
+$insertCotizacion = "INSERT INTO cotizaciones (id_cotizacion, id_cliente, id_dir_rem, id_dir_dest, tipo_servicio, asegurado, factura, recoleccion, peso_total_real, peso_total_vol, peso_a_facturar, fecha_creacion) VALUES (null, 113, $direcOrigen, $direcDestino, '$tipoServicio', '$asegurado', '$factura', '$recoleccion', $pesoRealTotal, $pesoTotalVol, $pesoAFacturar, NOW())";
 $resultado = mysqli_query($conexion, $insertCotizacion);
+
+
 
 if($resultado) {
 
     $idCotizacion = mysqli_insert_id($conexion);
 
     echo "<br>";
-    echo $idCotizacion;
+    echo "id cotizacion: " . $idCotizacion;
     echo "<br>";
     echo "<br>";
 
-    $insertPaquete = "INSERT INTO paquetecotizado (id_paquete, id_cotizacion, tipo, peso, largo, ancho, alto, embalaje, descripcion ,peso_volum, cantidad, creacion) VALUES (null, $idCotizacion, '$tipo', $peso, $largo, $ancho, $alto, '$embalaje', 'zapatos' , 36, $cantidad ,NOW())";
-    $resultado = mysqli_query($conexion, $insertPaquete);
+    foreach($paquetes as $paqueteIndice) {
+        /*echo "paqueteIndice<br>";
+        echo $paqueteIndice;
+        echo "<br>";
+        echo "<br>";*\/
 
-    if($resultado) {
-        $idPaqueteCot = mysqli_insert_id($conexion);
+        $paquete = explode(",", $paqueteIndice);
 
+        /*echo "paquete<br>";
+        echo var_dump($paquete);
         echo "<br>";
-        echo $idPaqueteCot;
+        echo "<br>";*\/
+
+        $tipo = $paquete[0];
+        $embalaje = $paquete[1];
+        $peso = $paquete[2];
+        $largo = $paquete[3];
+        $ancho = $paquete[4];
+        $alto = $paquete[5];
+        $cantidad = $paquete[6];
+        $descripcion = $paquete[7];
+        $pesoVolumetrico = ($largo * $ancho * $alto) / 5000;
+        //echo $pesoVolumetrico;
+
+        /*echo "tipo:" . $tipo;
         echo "<br>";
+        echo "embalaje:" . $embalaje;
         echo "<br>";
-    } else {
-        echo mysqli_error($conexion);
+        echo "peso:" . $peso;
+        echo "<br>";
+        echo "largo:" . $largo;
+        echo "<br>";
+        echo "ancho:" . $ancho;
+        echo "<br>";
+        echo "alto:" . $alto;
+        echo "<br>";
+        echo "cantidad:" . $cantidad;
+        echo "<br>";
+        echo "descripcion:" . $descripcion;
+        echo "<br>";*\/
+
+
+        //$insertPaquete = "INSERT INTO paquetecotizado (id_paquete, id_cotizacion, tipo, peso, largo, ancho, alto, embalaje, descripcion ,peso_volum, cantidad, creacion) VALUES (null, $idCotizacion, '$tipo', $peso, $largo, $ancho, $alto, '$embalaje', 'zapatos' , 36, $cantidad ,NOW())";
+        $insertarPaquete = "INSERT INTO paquetecotizado (id_paquete, id_cotizacion, tipo, peso, largo, ancho, alto, embalaje, descripcion ,peso_volum, cantidad, creacion) VALUES (null, $idCotizacion, '$tipo', $peso, $largo, $ancho, $alto, '$embalaje', '$descripcion' , $pesoVolumetrico, $cantidad ,NOW())";
+        $resultado = mysqli_query($conexion, $insertarPaquete);
+
+        if($resultado) {
+            $idPaqueteCot = mysqli_insert_id($conexion);
+
+            echo "<br>";
+            echo "id paquete cotizado" . $idPaqueteCot;
+            echo "<br>";
+            echo "<br>";
+        } else {
+            echo mysqli_error($conexion);
+        }
+
     }
-
-    /*while( $fila = mysqli_fetch_assoc($resultado)) {
-        $direcciones[] = $fila;
-    }
-
-    $contador = 0;
-
-    echo "<br>";
-
-    foreach($direcciones as $d) {
-
-        echo "Direccion: {$contador}<br>";
-
-        $cp = $d['cp'];
-        $calle = $d['calle'];
-        $numExt = $d['num_exterior'];
-        //$numInt = $d['num_int'];
-        $entreCalles = $d['entre_calles'];
-        $referencia = $d['referencia'];
-        echo "{$d['cp']}<br>";
-        echo "CP: {$cp}<br>";
-        echo "Calle: {$calle}<br>";
-        echo "Num ext: {$numExt}<br>";
-        echo "Entre calles: {$entreCalles}<br>";
-        echo "Referencia: {$referencia}<br>";
-        echo "<br>";
-
-        $direccion = $calle . " numero " . $numExt . " entre las calles " . $entreCalles . ", referencia: " . $referencia; //agregar colonia al principio
-        echo "<br>{$direccion}<br><br>";
-        $contador++;
-    }*/
 
 } else {
     echo mysqli_error($conexion);
-}
+}*/
 
 ?>
