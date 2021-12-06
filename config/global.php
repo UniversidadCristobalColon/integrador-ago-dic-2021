@@ -12,8 +12,7 @@ if(isset($_SESSION['id_usuario'])){
 }else{
     header('location: ../app/index.php');
 }
-echo $_SERVER['DOCUMENT_ROOT'];
-$path=$_SERVER['DOCUMENT_ROOT'];
+
 /*
 function verificarSesion($ruta = ''){
     if ((empty($_SESSION['id_usuario']))) {
