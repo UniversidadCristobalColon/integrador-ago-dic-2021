@@ -1,3 +1,9 @@
+<?php
+require '../config/db.php';
+$subject='Recuperación de contraseña';
+$message='http://localhost/integrador-ago-dic-2021/app/cambiar_password.php'//link temporal prueba
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,14 +15,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Packmail</title>
+    <title>Pakmail</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../../Users/alex2/Desktop/proyectoaxel/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="../css/sb-admin.css" rel="stylesheet">
-    <link href="../img/favicon.jpg" rel="shortcut icon" type="image/png"/>
+    <link href="../../../../Users/alex2/Desktop/proyectoaxel/css/sb-admin.css" rel="stylesheet">
+    <link href="../../../../Users/alex2/Desktop/proyectoaxel/img/favicon.jpg" rel="shortcut icon" type="image/png"/>
 
 </head>
 
@@ -30,14 +36,15 @@
                 <h4>¿Olvidó su contraseña?</h4>
                 <p>Se enviará un correo electrónico con instrucciones para recuperar el acceso a su cuenta.</p>
             </div>
-            <form>
+            <form action="..\config/correo.php">
                 <div class="form-group">
                     <div class="form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" required="required" autofocus="autofocus">
+                        <input type="email" name="email_destino" id="inputEmail" class="form-control" placeholder="Correo electrónico"
+                               required="required" autofocus="autofocus">
                         <label for="inputEmail">Correo electrónico</label>
                     </div>
                 </div>
-                <a class="btn btn-primary btn-block" href="login.php">Recuperar</a>
+                <button class="btn btn-primary btn-block" type="submit" name="sendmail">Recuperar</button>
             </form>
             <div class="text-center">
                 <a class="d-block small mt-3" href="index.php">Página de inicio</a>
@@ -47,11 +54,11 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/jquery/jquery.min.js"></script>
+<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 </body>
 

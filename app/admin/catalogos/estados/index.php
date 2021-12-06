@@ -68,7 +68,7 @@ define('RUTA_INCLUDE', '../../../../');
                      <tbody>
                      <tr>
                          <td>Veracruz</td>
-                         <td></td>
+                         <td>2021-11-28 11:45:16</td>
                          <td></td>
                          <td>A</td>
                          <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>

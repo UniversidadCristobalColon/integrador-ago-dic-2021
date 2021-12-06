@@ -1,7 +1,7 @@
 <?php
+//session_start();
 require '../../../../config/db.php';
-$id_cliente = 1;
-$id_clientef = 2;
+$id_cliente = $_POST['id_cliente'];
 $nombre = $_POST['nombre'];
 $apellidos = $_POST['apellidos'];
 $celular = $_POST['celular'];
@@ -23,37 +23,60 @@ $municipio = $_POST['municipio'];
 $estado = $_POST['estado'];
 $referencia = $_POST['referencia'];
 
+echo ($id_cliente);
+
 
 if(empty($id_cliente)){
     $query = "INSERT INTO clientes (id, nombre, apellidos, email, celular, telefono, creacion)
-VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())";
-
-    $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior, 
-num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, status)
-VALUES (null, 1, '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
-'$codigopostal', '$localidad', '$municipio', '1', '$email1', '$email2', NOW(), 'A')";
-}else{
-    $query = "UPDATE clientes SET nombre = '$nombre', apellidos = '$apellidos', email =  '$email1', celular = '$celular', telefono = '$telefono'
- WHERE id = $id_cliente";
-    $query2 = "UPDATE fiscales SET rfc = '$rfc', razon = '$razon', calle = '$calle', num_exterior = '$numexterior', num_interior = '$numinterior'
-               , cp = '$codigopostal', email1 = '$email1', email2 = '$email2' WHERE id = $id_clientef";
-
+VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //ejecutar primero este
     $resultado = mysqli_query($conexion, $query);
-    $resultado2 = mysqli_query($conexion, $query2);
+//$resultado2 = mysqli_query($conexion, $query2);
 
-    if($resultado == true && $resultado2 == true){
+    if($resultado == true){
         header('location: index.php');
+        $sql = "SELECT id FROM clientes ORDER BY id DESC LIMIT 1";
+        $datos = mysqli_query($conexion, $sql);
+
+        while($row = mysqli_fetch_assoc($datos)){
+            $idf = $row['id'];
+        }
+        $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior,
+num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, entrecalles, referencia,status)
+VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
+'$codigopostal', '$localidad', '$municipio', '1', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
+        $resultado = mysqli_query($conexion, $query2);
+
+        if($resultado == true){
+            $sql = "SELECT id FROM clientes ORDER BY id DESC LIMIT 1";
+            $datos = mysqli_query($conexion, $sql);
+
+            while($row = mysqli_fetch_assoc($datos)){
+                $iduser = $row['id'];
+            }
+            $query3 = "INSERT INTO usuarios (id, id_cliente ,password, user, id_perfil) VALUES (null, $iduser, '', '$email1', 2)";
+            $resultado = mysqli_query($conexion, $query3);
+        }
+
     }else{
         echo mysqli_errno($conexion);
     }
 
-}
-
-$resultado = mysqli_query($conexion, $query);
-$resultado2 = mysqli_query($conexion, $query2);
-
-if($resultado == true && $resultado2 == true){
-    header('location: index.php');
 }else{
-    echo mysqli_errno($conexion);
+    $query = "UPDATE clientes SET nombre = '$nombre', apellidos = '$apellidos', email =  '$email1', celular = '$celular', telefono = '$telefono'
+ WHERE id = $id_cliente";//update del cliente elegido del catalogo
+    $query2 = "UPDATE fiscales SET rfc = '$rfc', razon = '$razon', calle = '$calle', num_exterior = '$numexterior', num_interior = '$numinterior'
+              ,colonia = '$colonia' , cp = '$codigopostal', localidad = '$localidad', municipio = '$municipio', email1 = '$email1', email2 = '$email2', entrecalles = '$entrecalles', referencia = '$referencia' WHERE id_cliente = $id_cliente";
+//lo mismo para fiscales que el anterior de elegir el id segun el catalogo
+    $query3 = "UPDATE usuarios SET user = '$email1' WHERE id_cliente = $id_cliente";
+    $resultado = mysqli_query($conexion, $query);
+    $resultado2 = mysqli_query($conexion, $query2);
+    $resultado3 = mysqli_query($conexion, $query3);
+
+    if($resultado == true){
+        header('location: index.php');
+
+    }else{
+        echo mysqli_errno($conexion);
+    }
+
 }

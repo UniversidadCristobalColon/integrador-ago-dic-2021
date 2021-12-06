@@ -1,7 +1,8 @@
 <?php
+//session_start();
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
-$sql = "SELECT * FROM clientes WHERE id = 1";
+$sql = "SELECT * FROM clientes";
 $resultado = mysqli_query($conexion, $sql);
 $clientes = array();
 if($resultado){
@@ -9,12 +10,6 @@ if($resultado){
         $clientes[] = $fila;
     }
 }
-//pon el id de usuario en código duro por mientras.
-//$sql = "SELECT * FROM "
-
-
-
-
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 ?>
 <!DOCTYPE html>
@@ -26,7 +21,13 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <script>
+        function confirmar(id){
+            if(confirm('¿Estás seguro?')){
+                window.location = 'borrarcliente.php?id=' + id;
+            }
+        }
+    </script>
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE ) ?>
@@ -60,7 +61,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
@@ -69,7 +69,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>#</th>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
@@ -78,16 +77,14 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         </tfoot>
                         <tbody>
                         <?php
-                        $contador = 0;
                         foreach ($clientes as $c){
                         ?>
                         <tr>
-                            <td><?php echo ++$contador ?></td>
                             <td><?php echo $c['nombre']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
-                            <!-- onclick="confirmar('<?php echo $c['id'] ?>')" -->
-                            <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
+                            <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a></td>
                         </tr>
                         <?php
                         }
@@ -96,7 +93,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     </table>
                     <?php
                     }else{
-                        echo "<h4 class ='text-center'>No hay propósitos </h4>";
+                        echo "<h4 class ='text-center'>No hay clientes registrados aún</h4>";
                     }
                     ?>
                 </div>

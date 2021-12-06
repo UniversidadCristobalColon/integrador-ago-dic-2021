@@ -2,6 +2,8 @@
 require_once '../../../../config/global.php';
 
 define('RUTA_INCLUDE', '../../../../');
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -66,10 +68,11 @@ define('RUTA_INCLUDE', '../../../../');
                      <tfoot>
                      </tfoot>
                      <tbody>
+
                      <tr>
-                         <td>México</td>
-                         <td></td>
-                         <td></td>
+                         <td>México (MEX)</td>
+                         <td>2021-12-01 00:50:43</td>
+                         <td>2021-12-02 00:50:43</td>
                          <td>A</td>
                          <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>

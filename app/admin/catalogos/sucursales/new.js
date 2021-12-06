@@ -3,17 +3,17 @@ window.onload = async function() {
     let colonias = [];
 
     const get_municipios_estado = async id_estado => {
-        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getMunicipios.php?id_estado=' + id_estado)
+        return fetch('getMunicipios.php?id_estado=' + id_estado)
             .then(response => response.json());
     };
 
     const get_localidades_municipio = id_municipio => {
-        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getLocalidades.php?id_municipio=' + id_municipio)
+        return fetch('getLocalidades.php?id_municipio=' + id_municipio)
             .then(response => response.json());
     };
 
     const get_colonias_municipio = id_municipio => {
-        return fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/sucursales/getColonias.php?id_municipio=' + id_municipio)
+        return fetch('getColonias.php?id_municipio=' + id_municipio)
             .then(response => response.json());
     }
 
