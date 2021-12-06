@@ -174,7 +174,11 @@ if ($result) {
                                                                 <div class="ml-2">
                                                                     <div>Embalaje</div>
                                                                     <div class="fs-6 font-weight-light">
-                                                                        <?php echo $one['embalaje'] ?>
+                                                                        <?php if ($one['embalaje'] == "S"){ ?>
+                                                                            Sí
+                                                                        <?php }else if ($one['embalaje'] == "N"){ ?>
+                                                                            No
+                                                                        <?php } ?>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -614,7 +618,11 @@ if ($result) {
                                                                         <div class="ml-2">
                                                                             <div>Embalaje</div>
                                                                             <div class="fs-6 font-weight-light">
-                                                                                <?php echo $one['embalaje'] ?>
+                                                                                <?php if ($one['embalaje'] == "S"){ ?>
+                                                                                    Sí
+                                                                                <?php }else if ($one['embalaje'] == "N"){ ?>
+                                                                                    No
+                                                                                <?php } ?>
                                                                             </div>
                                                                         </div>
                                                                     </div>

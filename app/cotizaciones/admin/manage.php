@@ -588,13 +588,13 @@ if ($result) {
                                         <?php if (count($paquetesCotizados) > 1) { ?>
                                             <div class="mb-2">En cotización (<?php echo count($paquetesCotizados) ?>)</div>
                                             <div class="accordion accordion-flush" id="accordionFlushExample2">
-                                                <?php $contador2 = 10; ?>
+                                                <?php $contador2 = 100; ?>
                                                 <?php foreach ($paquetesCotizados as $one) { ?>
 
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="flush-heading<?php echo $contador2 ?>">
                                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo $contador2 ?>" aria-expanded="false" aria-controls="flush-collapse<?php echo $contador2 ?>">
-                                                                Paquete <?php echo $contador2 - 9 ?>
+                                                                Paquete <?php echo $contador2 - 99 ?>
                                                             </button>
                                                         </h2>
                                                         <div id="flush-collapse<?php echo $contador2 ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?php echo $contador2 ?>" data-bs-parent="#accordionFlushExample2">
@@ -652,7 +652,11 @@ if ($result) {
                                                                         <div class="ml-2">
                                                                             <div>Embalaje</div>
                                                                             <div class="fs-6 font-weight-light">
-                                                                                <?php echo $one['embalaje'] ?>
+                                                                                <?php if ($one['embalaje'] == "S") { ?>
+                                                                                    Sí
+                                                                                <?php } else if ($one['embalaje'] == "N") { ?>
+                                                                                    No
+                                                                                <?php } ?>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -722,7 +726,13 @@ if ($result) {
                                                         <div class="col-6">
                                                             <div class="ml-2">
                                                                 <div>Embalaje</div>
-                                                                <div class="fs-6 font-weight-light"><?php echo $one['embalaje'] ?></div>
+                                                                <div class="fs-6 font-weight-light">
+                                                                    <?php if ($one['embalaje'] == "S") { ?>
+                                                                        Sí
+                                                                    <?php } else if ($one['embalaje'] == "N") { ?>
+                                                                        No
+                                                                    <?php } ?>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
