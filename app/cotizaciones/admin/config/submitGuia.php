@@ -36,11 +36,14 @@ function nuevoEnvio($id_cotizacion)
     $precio = $servicio['precio'];
     $tiempo_estimado = $servicio['tiempo_estimado'];
     $factura = $c['factura'];
+    $peso_real = $c['peso_total_real'];
+    $peso_vol = $c['peso_total_vol'];
+    $peso_fact = $c['peso_a_facturar'];
 
     $sql = "INSERT INTO envios
-        (cotizacion,cliente,guia,dir_origen,dir_destino,paqueteria,tipo_servicio,seguro,recoleccion,costo,tiempo_estimado,factura,creacion)
+        (cotizacion,cliente,guia,dir_origen,dir_destino,paqueteria,tipo_servicio,seguro,recoleccion,costo,tiempo_estimado,factura,creacion,peso_vol,peso_real,peso_fact)
         VALUES
-        ($id_cotizacion,$id_cliente,'$guia',$id_dir_rem,$id_dir_dest,$id_paqueteria,'$tipo_servicio','$asegurado','$recoleccion',$precio,'$tiempo_estimado','$factura',NOW())";
+        ($id_cotizacion,$id_cliente,'$guia',$id_dir_rem,$id_dir_dest,$id_paqueteria,'$tipo_servicio','$asegurado','$recoleccion',$precio,'$tiempo_estimado','$factura',NOW(),$peso_vol,$peso_real,$peso_fact)";
     $resultado = mysqli_query($conexion, $sql);
     $id_envio = mysqli_insert_id($conexion);
 
