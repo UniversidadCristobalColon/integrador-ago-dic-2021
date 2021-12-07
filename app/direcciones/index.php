@@ -5,15 +5,15 @@ require_once '../../config/db.php';
 
 @session_start();
 $cliente = $_SESSION['id_usuario'];
-//$cliente = 1;
+//$cliente = 23;
 
-$sql = "SELECT direcciones.id, alias, calle, direcciones.cp, entre_calles, num_exterior, num_interior, referencia, direcciones.status, colonias.colonia, localidades.localidad, municipios.municipio, estados.estado
-from direcciones
-inner join colonias ON colonias.id = id_colonia
-inner join localidades ON colonias.id_localidad = localidades.id
-inner join municipios ON localidades.id_municipio = municipios.id
-inner join estados ON municipios.id_estado = estados.id 
-where id_cliente = $cliente and direcciones.status = 'A' ";
+$sql = "SELECT d.id, alias, calle, d.cp, entre_calles, num_exterior, num_interior, referencia, d.status, c.colonia, l.localidad, m.municipio, e.estado
+from direcciones d
+left join `colonias` c on d.id_colonia = c.id
+left join localidades l on c.id_localidad = l.id 
+left join municipios m on c.id_municipio = m.id 
+left join estados e on m.id_estado = e.id
+where id_cliente = $cliente and d.status = 'A' ";
 
 $resultado = mysqli_query($conexion, $sql);
 
@@ -75,7 +75,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
 
                 </div>
 
-                <ul class="my-3 d-flex flex-wrap">
+                <ul class="my-3 d-flex flex-wrap" style="padding-left: 0 !important;">
                     <?php
                     $contador = 0;
                     if ( count($direcciones) == '0' ){
@@ -87,13 +87,13 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                 }
                     foreach ($direcciones as $p){
                     ?>
-                    <li class="list-group-item d-flex align-items-center m-2" style = "width: 32%">
+                    <li class="list-group-item d-flex align-items-center m-2" style = "width: 31.8%">
                         <div class = "d-flex flex-column">
                             <div><b><?php echo $p['alias'] ?></b></div>
                             <div><?php echo $p['calle'] ?></div>
                             <div><?php echo $p['colonia'] ?></div>
                             <div><?php echo $p['cp'] ?></div>
-                            <div><?php echo $p['municipio'] ?>, <?php $p['estado'] ?></div>
+                            <div><?php echo $p['municipio'] ?>, <?php echo $p['estado'] ?></div>
                         </div>
                         <div class="ml-auto btn-group">
                             <button type="button" class="dropdown-toggle btn btn-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -272,8 +272,11 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                     $('#codigovalido').show();
                     $('#municipio').val(response[0].municipio);
                     $('#estado').val(response[0].estado);
+                    if (response[0].localidad)
                     $('#localidad').val(response[0].localidad);
+                    else $('#localidad').val('Sin localidad');
                     $('#colonia').empty();
+                    $('#colonia').append('<option value = "">Seleccione una colonia</option>')
                     for(var i = 0 ; i < response.length ; i++){
                         $('#colonia').append(`
                             <option ${ colonia && colonia == response[i].id? 'selected': '' } value="${response[i].id}">${response[i].colonia}</option>
@@ -302,7 +305,6 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
             var formData = new FormData();
 
             formData.append('alias', $('#alias').val());
-            formData.append('direccion', $('#direccion').val());
             formData.append('calle', $('#calle').val());
             formData.append('numext', $('#numext').val())
             if($('#numint').val())
@@ -318,6 +320,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
             formData.append('colonia', $('#colonia').val());
             // formData.append('localidad', $('#localidad').val());
             formData.append('metodo', 'saveedit');
+            formData.append('cliente', '<?php echo $cliente ?>');
 
             id = $('#id_direccion').val();
 
