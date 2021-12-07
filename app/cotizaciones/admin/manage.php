@@ -14,19 +14,24 @@ $sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
 $result = mysqli_query($conexion, $sqlCotizacion);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $cliente = $row['cliente'];
-    $dir_rem = $row['dir_rem'];
-    $dir_dest = $row['dir_dest'];
-    $tipo_servicio = $row['tipo_servicio'];
-    $asegurado = $row['asegurado'];
-    $factura = $row['factura'];
-    $recoleccion = $row['recoleccion'];
-    $fecha_creacion = $row['fecha_creacion'];
-    $fecha_respuesta = $row['fecha_respuesta'];
-    $fecha_resolucion = $row['fecha_resolucion'];
-    $actualizacion = $row['actualizacion'];
-    $guia = $row['guia'];
-    $status = $row['status'];
+    if (!is_null($row)) {
+        $cliente = $row['cliente'];
+        $dir_rem = $row['dir_rem'];
+        $dir_dest = $row['dir_dest'];
+        $tipo_servicio = $row['tipo_servicio'];
+        $asegurado = $row['asegurado'];
+        $factura = $row['factura'];
+        $recoleccion = $row['recoleccion'];
+        $fecha_creacion = $row['fecha_creacion'];
+        $fecha_respuesta = $row['fecha_respuesta'];
+        $fecha_resolucion = $row['fecha_resolucion'];
+        $actualizacion = $row['actualizacion'];
+        $guia = $row['guia'];
+        $status = $row['status'];
+    }else{
+        header('location: index.php?state=notFound');
+    }
+
 } else {
     mysqli_error($conexion);
 }
