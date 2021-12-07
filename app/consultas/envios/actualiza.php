@@ -2,7 +2,7 @@
 require '../../../config/db.php';
 
 $stat = $_POST['stat'];
-$idEnv = $_POST['id'];
+$idEnv = $_POST['id_form_stat'];
 
 switch ($stat) {
     case 'P':

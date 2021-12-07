@@ -25,8 +25,8 @@ if($resultado!=false){
         $pass_en_bd=$fila['password'];
         //Verifica las contraseñas
         if(password_verify($pass,$pass_en_bd)){//
-        //if ($pass==$pass_en_bd){
 
+        //if ($pass==$pass_en_bd){
             $id_usuario=$fila['id'];
             $id_cliente=$fila['id_cliente'];
             $email_en_bd=$fila['user'];

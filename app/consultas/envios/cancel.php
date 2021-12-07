@@ -3,7 +3,7 @@ require '../../../config/db.php';
 
 $razon = $_POST['razon'];
 $comment = $_POST['comment'];
-$idEnv = $_POST['id'];
+$idEnv = $_POST['id_form_cancel'];
 
 $sql = "update envios set razon_cancela='$razon',comment_cancela='$comment',seguimiento='X',fecha_cancela=NOW(),actualizacion=NOW() where id=$idEnv";
 $resultado = mysqli_query($conexion, $sql);

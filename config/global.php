@@ -60,7 +60,8 @@ function getSidebar($ruta = ''){
 EOD;
 
         }
-    } 
+    }
+    
 
     $html = <<<EOD
 <!-- Sidebar -->
