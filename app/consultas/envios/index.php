@@ -32,16 +32,16 @@ if(isset($_GET['pak'])){
 
 if(isset($_GET['inicio'])){
     if(isset($_GET['fin'])){
-        $fecha_inicio = $_GET['inicio'];
-        $fecha_fin = $_GET['fin'];
-        $sql .= " AND creacion BETWEEN $fecha_inicio AND $fecha_fin";
+        $fecha_inicio = $_GET['inicio'] . " 00:00:00";
+        $fecha_fin = $_GET['fin'] . " 23:59:59";
+        $sql .= " AND creacion BETWEEN '$fecha_inicio' AND '$fecha_fin'";
     }else{
-        $fecha_inicio = $_GET['inicio'];
-        $sql .= " AND creacion >= $fecha_inicio";
+        $fecha_inicio = $_GET['inicio'] . " 00:00:00";
+        $sql .= " AND creacion >= '$fecha_inicio'";
     }
 }elseif(isset($_GET['fin'])){
-    $fecha_fin = $_GET['fin'];
-    $sql .= " AND creacion <= $fecha_fin";
+    $fecha_fin = $_GET['fin'] . " 23:59:59";
+    $sql .= " AND creacion <= '$fecha_fin'";
 }else{
     $datetime = $date . " 23:59:59";
     $datetime2 = $date2 . " 00:00:00";
@@ -81,7 +81,6 @@ if ($resultado) {
     <?php getSidebar() ?>
 
     <div id="content-wrapper">
-        <input type="hidden" name="idk" value="<?php echo $sql ?>">
         <div class="container-fluid">
 
             <nav aria-label="breadcrumb">
@@ -91,52 +90,51 @@ if ($resultado) {
                 </ol>
             </nav>
 
+            <form method="get" action="index.php">
+                <div class="form-group row col-sm-8">
+                    <label for="staticEmail" class="col-sm-1 col-form-label">Desde:</label>
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control" name="inicio" id="inicio" value="<?php echo $date2; ?>">
+                    </div>
+                    <label for="staticEmail" class="col-sm-1 col-form-label">Hasta:</label>
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control" name="fin" id="fin" value="<?php echo $date; ?>">
+                    </div>
+                    <label for="staticEmail" class="col-sm-1 col-form-label">Paquetería:</label>
+                    <div class="col-sm-2">
+                        <select name="pak" id="pak" class="form-control">
+                            <option selected value="all"> -- Paquetería --</option>
+                            <?php
+                            $sql = "select * from paqueterias where status='A'";
+                            $resultado = mysqli_query($conexion, $sql);
 
+                            $paqueterias = array();
+                            if ($resultado) {
+                                while ($fila = mysqli_fetch_assoc($resultado)) {
+                                    $paqueterias[] = $fila;
+                                }
+                            }
+                            foreach ($paqueterias as $p) {
+                                ?>
+                                <option value="<?php echo $p['id']; ?>"><?php echo $p['paqueteria']; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="submit" id="go" class="btn btn-primary" value="Buscar">
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="reset" id="back" class="btn btn-primary" value="Reestablecer">
+                    </div>
+                </div>
+            </form>
 
             <div class="table-responsive mb-3">
                 <?php
                 if (count($envios) > 0) {
                     ?>
-                    <form method="get" action="index.php">
-                        <div class="form-group row col-sm-8">
-                            <label for="staticEmail" class="col-sm-1 col-form-label">Desde:</label>
-                            <div class="col-sm-2">
-                                <input type="date" class="form-control" id="inicio" value="<?php echo $date2; ?>">
-                            </div>
-                            <label for="staticEmail" class="col-sm-1 col-form-label">Hasta:</label>
-                            <div class="col-sm-2">
-                                <input type="date" class="form-control" id="fin" value="<?php echo $date; ?>">
-                            </div>
-                            <label for="staticEmail" class="col-sm-1 col-form-label">Paquetería:</label>
-                            <div class="col-sm-2">
-                                <select name="pak" id="pak" class="form-control">
-                                    <option selected value="all"> -- Paquetería --</option>
-                                    <?php
-                                    $sql = "select * from paqueterias where status='A'";
-                                    $resultado = mysqli_query($conexion, $sql);
-
-                                    $paqueterias = array();
-                                    if ($resultado) {
-                                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                                            $paqueterias[] = $fila;
-                                        }
-                                    }
-                                    foreach ($paqueterias as $p) {
-                                        ?>
-                                        <option value="<?php echo $p['id']; ?>"><?php echo $p['paqueteria']; ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-sm-1">
-                                <input type="submit" id="go" class="btn btn-primary" value="Buscar">
-                            </div>
-                            <div class="col-sm-1">
-                                <input type="reset" id="back" class="btn btn-primary" value="Reestablecer">
-                            </div>
-                        </div>
-                    </form>
 
                     <table id="env" class="table table-bordered dataTable">
                         <thead>
