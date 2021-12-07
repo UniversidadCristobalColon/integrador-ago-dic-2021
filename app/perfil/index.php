@@ -1,10 +1,9 @@
 <?php
 require_once '../../config/global.php';
 require '../../config/db.php';
-//session_start();
-$id_cliente = 4;//$_SESSION['id_usuario'];
 
-$sql = "select * from clientes where id = $id_cliente";
+$id_cliente = $_SESSION['id_cliente'];
+$sql = "select * from clientes where id = '$id_cliente'";
 $resultado = mysqli_query($conexion, $sql);
 
 
