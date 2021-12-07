@@ -72,38 +72,19 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
         <div class="container">
 
             <form id="form" method="post" autocomplete="off" action="editarProceso.php">
+                <div class="row mb-5">
+                    <div class="col">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                    <div class="col text-right">
+                        <a href="index.php" type="button" class="btn btn-link">Cancelar</a>
+                    </div>
+                </div>
                 <div class="form-row">
                     <input type="hidden" name="id" id="id" value="<?php echo $ent["id"]; ?>">
                     <div class="form-group col-md-4 col-sm-12">
                         <label for="nombre">Municipio</label>
                         <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $ent["municipio"] ?>" required>
-                    </div>
-                    <div class="form-group col-md-4 col-sm-12">
-                        <label for="estado">Estado</label>
-                        <select class="custom-select" name="estado" id="estado">
-                            <?php
-                            $query = "SELECT * FROM `pakmail`.estados";
-
-                            if ($result = mysqli_query($conexion, $query)) {
-                                while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                    <option value="<?php echo $row["id"]; ?>" <?php echo $row["id"] == $ent["id_estado"] ? "selected" : "" ?>><?php echo $row["estado"]; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                        <div class="invalid-feedback">Selecciona un estado</div>
-                    </div>
-                    <div class="form-group col-md-4 col-sm-12">
-                        <label for="status">Estado</label>
-                        <select class="form-control" name="status" id="status">
-                            <option value="A" <?php echo $ent["status"] == "A" ? "selected" : ""?>>A</option>
-                            <option value="B" <?php echo $ent["status"] == "B" ? "selected" : ""?>>B</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <input type="submit" class="form-control btn-success" value="Editar">
                     </div>
                 </div>
             </form>

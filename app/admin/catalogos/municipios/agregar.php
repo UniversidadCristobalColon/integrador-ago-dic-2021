@@ -54,6 +54,14 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             <div class="container">
 
                 <form id="form" method="post" autocomplete="off" action="agregarProceso.php">
+                    <div class="row mb-5">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                        <div class="col text-right">
+                            <a href="index.php" type="button" class="btn btn-link">Cancelar</a>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="nombre">Municipio</label>
@@ -79,9 +87,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
                                 ?>
                             </select>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input type="submit" class="form-control btn-success" value="Agregar">
                         </div>
                     </div>
                 </form>
