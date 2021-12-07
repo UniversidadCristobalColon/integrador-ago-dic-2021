@@ -6,14 +6,15 @@ define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
 //$tipo_usuario = $_SESSION['perfil_usuario'];
 //$mail_user = $_SESSION['email_usuario'];
-$mail_user = "prueba@prueba.com";
+$mail_user = "Paula@gmail.com";
 $tipo_usuario = 1;
+
 $date = date("Y-m-d");
-echo "<input id='hoy' type='hidden' value='$date'>";
-$date = date_create($date);
-$date = date_sub($date, date_interval_create_from_date_string('6 month'));
-$date = date_format($date, 'Y-m-d');
-echo "<input id='antes' type='hidden' value='$date'>";
+echo $date;
+$date2 = date_create($date);
+$date2 = date_sub($date2, date_interval_create_from_date_string('6 month'));
+$date2 = date_format($date2, 'Y-m-d');
+echo $date2;
 
 $sql = '';
 if ($tipo_usuario == 2) {
@@ -79,16 +80,16 @@ if ($resultado) {
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inicio">Desde</label>
-                                <input type="date" class="form-control" id="inicio">
+                                <input type="date" class="form-control" id="inicio" value="<?php echo $date2; ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="fin">Hasta</label>
-                                <input type="date" class="form-control" id="fin">
+                                <input type="date" class="form-control" id="fin" value="<?php echo $date; ?>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="pak">Paquetería</label>
                                 <select name="pak" id="pak" class="form-control">
-                                    <option selected disabled value> -- Paquetería -- </option>
+                                    <option selected disabled value="all"> -- Paquetería --</option>
                                     <?php
                                     $sql = "select * from paqueterias where status='A'";
                                     $resultado = mysqli_query($conexion, $sql);
@@ -101,7 +102,7 @@ if ($resultado) {
                                     }
                                     foreach ($paqueterias as $p) {
                                         ?>
-                                        <option value="<?php echo $p['id']; ?>"><?php echo $p['paqueteria']; ?></option>
+                                        <option value="<?php echo $p['paqueteria']; ?>"><?php echo $p['paqueteria']; ?></option>
                                         <?php
                                     }
                                     ?>
@@ -115,7 +116,7 @@ if ($resultado) {
                         </div>
                     </div>
 
-                    <table class="table table-bordered dataTable">
+                    <table id="env" class="table table-bordered dataTable">
                         <thead>
                         <tr>
                             <?php
@@ -261,6 +262,9 @@ if ($resultado) {
                                     Envío: <?php echo $e['fecha_envio']; ?><br>
                                     Entrega: <?php echo $e['fecha_entrega']; ?>
                                 </td>
+                                <td id="creacion" style="display:none;">
+                                    <?php echo $e['creacion']; ?>
+                                </td>
                                 <td>
                                     <?php
                                     $idEnv = $e['id'];
@@ -297,7 +301,8 @@ if ($resultado) {
                                     ?>
                                     <form action="Ticket.php" method="post">
                                         <input type="hidden" name="id_envio" value="<?php echo $e['id'] ?>">
-                                        <button class="btn btn-link btn-sm btn-sm">Descargar ticket</button>
+                                        <button type="submit" class="btn btn-link btn-sm btn-sm">Descargar ticket
+                                        </button>
                                     </form>
 
                                     <div class="modal fade" id="paquetes" tabindex="-1" role="dialog"
@@ -313,7 +318,66 @@ if ($resultado) {
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-
+                                                    <?php
+                                                    $envio = $e['id'];
+                                                    $sql = "select * from paquetes_enviados where id = '$envio' AND status='A'";
+                                                    $resultado = mysqli_query($conexion, $sql);
+                                                    $pak = array();
+                                                    if ($resultado) {
+                                                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                                                            $pak[] = $fila;
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <table id="env" class="table table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <th>Dimensiones</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Detalles</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <th>Dimensiones</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Detalles</th>
+                                                        </tr>
+                                                        </tfoot>
+                                                        <tbody>
+                                                        <?php
+                                                        foreach ($pak as $pk) {
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $pk['descripcion'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    Largo: <?php echo $pk['largo'] ?> cm.<br>
+                                                                    Ancho: <?php echo $pk['ancho'] ?> cm.<br>
+                                                                    Alto: <?php echo $pk['alto'] ?> cm.<br>
+                                                                    Peso: <?php echo $pk['peso'] ?> kg.<br>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $pk['cantidad'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    Tipo: <?php echo $pk['tipo'] ?><br>
+                                                                    Embalaje: <?php if ($pk['embalaje'] == 'S') {
+                                                                        echo "Si";
+                                                                    } else {
+                                                                        echo "No";
+                                                                    } ?><br>
+                                                                    Peso vol.: <?php echo $pk['peso_volum'] ?>
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -374,7 +438,8 @@ if ($resultado) {
                                                                 pago</b></label>
                                                         <select name="method" id="method" class="form-control"
                                                                 aria-label="Default select example">
-                                                            <option selected disabled value> -- Método de pago -- </option>
+                                                            <option selected disabled value> -- Método de pago --
+                                                            </option>
                                                             <option value="E">Efectivo</option>
                                                             <option value="C">Tarjeta de crédito</option>
                                                             <option value="D">Tarjeta de débito</option>
@@ -413,7 +478,7 @@ if ($resultado) {
                                                                 cancela?</b></label>
                                                         <select name="razon" id="razon" class="form-control"
                                                                 aria-label="Default select example">
-                                                            <option selected disabled value> -- Razón -- </option>
+                                                            <option selected disabled value> -- Razón --</option>
                                                             <?php
                                                             $sql = "select * from razon_cancela";
                                                             $resultado = mysqli_query($conexion, $sql);
@@ -467,7 +532,7 @@ if ($resultado) {
                                                                 envío</b></label>
                                                         <select name="stat" id="stat" class="form-select"
                                                                 aria-label="Default select example">
-                                                            <option selected disabled value> -- Estatus -- </option>
+                                                            <option selected disabled value> -- Estatus --</option>
                                                             <option value="P">Pendiente</option>
                                                             <option value="C">En camino</option>
                                                             <option value="E">Entregado</option>
@@ -520,36 +585,91 @@ if ($resultado) {
 
 <?php getBottomIncudes(RUTA_INCLUDE) ?>
 
-<script>
-    $("#back").click(function(){
-        $("tr").show();
-        var hoy = $('hoy').val();
-        var antes = $('antes').val();
-        $('#inicio').val(antes);
-        $('#fin').val(hoy);
-        $('#pak').prop('selectedIndex',0);
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#inicio,#fin,#pak").on("change", function () {
+            var fin = $('#fin').val();
+            var inicio = $('#inicio').val();
+            var paqueteria = $('#pak').find("option:selected").val();
+            SearchPak(paqueteria);
+            SearchDesde(inicio);
+            SearchHasta(fin);
+        });
+
+        $("#back").click(function () {
+            $("tr").show();
+            var hoy = "<?php echo $date; ?>";
+            var antes = "<?php echo $date2; ?>";
+            $('#inicio').val(antes);
+            $('#fin').val(hoy);
+            $('#pak').prop('selectedIndex', 0);
+        });
     });
 
-    $('#inicio').on('change',function(evento){
-        var start = "Envío: " + $('#inicio').val();
-        $("td").filter(function() {
-            return $(this).text().indexOf(start) !== -1;
-        }).parent().hide();
-    });
+    function SearchDesde(inicio) {
+        $('#env tbody tr:has(td)').each(function () {
+            var rowCreacion = $.trim($(this).find('td:eq(7)').text());
+            var init = inicio.split('-');
+            var d1 = new Date(init[0], init[1], init[2]);
+            d1.setHours(0, 0, 0, 0);
+            var crea = rowCreacion.split('-');
+            var creaDay = crea[2].split(" ");
+            var d2 = new Date(parseInt(crea[0]), parseInt(crea[1]), parseInt(creaDay[0]));
+            d2.setHours(0, 0, 0, 0);
+            if (d1 <= d2) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
 
-    $('#fin').on('change',function(evento){
-        var endgame = "Envío: " + $('#fin').val();
-        $("td").filter(function() {
-            return $(this).text().indexOf(endgame) !== -1;
-        }).parent().hide();
-    });
+    function SearchHasta(fin) {
+        $('#env tbody tr:has(td)').each(function () {
+            var rowCreacion = $.trim($(this).find('td:eq(7)').text());
+            var init = fin.split('-');
+            var d1 = new Date(init[0], init[1], init[2]);
+            d1.setHours(0, 0, 0, 0);
+            var crea = rowCreacion.split('-');
+            var creaDay = crea[2].split(" ");
+            var d2 = new Date(parseInt(crea[0]), parseInt(crea[1]), parseInt(creaDay[0]));
+            d2.setHours(0, 0, 0, 0);
+            if (d1 >= d2) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
 
-    $('#pak').on('change',function(evento){
-        var paq = $('#pak').text();
-        $("td").filter(function() {
-            return $(this).text().indexOf(paq) !== -1;
-        }).parent().hide();
-    });
+    function SearchPak(paqueteria) {
+        if (paqueteria.toUpperCase() == 'ALL') {
+            $('#env tbody tr').show();
+        } else {
+            $('#env tbody tr:has(td)').each(function () {
+                var rowPaqueteria = $.trim($(this).find('td:eq(1)').text());
+                if (paqueteria.toUpperCase() != 'ALL') {
+                    if (rowPaqueteria.toUpperCase().includes(paqueteria.toUpperCase())) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                } else if ($(this).find('td:eq(1)').text() != '') {
+                    if (paqueteria != 'all') {
+                        if (rowPaqueteria.toUpperCase().includes(paqueteria.toUpperCase())) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
 </script>
 
 </body>
