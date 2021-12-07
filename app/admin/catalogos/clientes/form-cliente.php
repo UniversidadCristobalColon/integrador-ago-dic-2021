@@ -2,6 +2,14 @@
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../');
+
+function filtrado($datos){
+    $datos = trim($datos);
+    $datos = stripslashes($datos);
+    $datos = htmlspecialchars($datos);
+    return $datos;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,7 +49,18 @@ define('RUTA_INCLUDE', '../../../../');
         <!-- /.container-fluid -->
 
         <div class="container">
-            <form action="guardar.php" method="post" enctype="multipart/form-data">
+            <?php
+            if(isset($_POST["submit"]) && $_SERVER["REQUEST_METHOD"] == "POST"){
+                if(empty($_POST['rfc']) || strlen($_POST['rfc']) < 13){
+                    $error[] = "Minimo 13 caracteres en el RFC";
+                    echo $error;
+                }
+                if(empty($error)){
+                    $rfc = filtrado($_POST['rfc']);
+                }
+            }
+            ?>
+            <form id="guardarcliente" action="guardar.php" method="post" enctype="multipart/form-data">
             <div class="row mb-5">
                 <div class="col">
                     <button type="submit" class="btn btn-success">Guardar</button>
@@ -84,12 +103,20 @@ define('RUTA_INCLUDE', '../../../../');
                         </div>
                         <div class="form-group col-md-6">
                             <label>RFC</label>
-                            <input type = "text" class="form-control" name="rfc" >
+                            <input type = "text" class="form-control" name="rfc">
+                        <?php
+                        if(isset($error)){
+                            foreach ($error as $r){
+                                echo "<li> $r </li>";
+                            }
+                        }
+                        ?>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Email Secundario</label>
                             <input type = "email" class="form-control" name="email2">
                         </div>
+
                         <div class="form-group col-md-6">
                             <label>Codigo Postal</label>
                             <input type = "text" class="form-control" name="cp">
@@ -128,7 +155,18 @@ define('RUTA_INCLUDE', '../../../../');
                         </div>
                         <div class="form-group col-md-6">
                             <label>Estado</label>
-                            <input type = "text" class="form-control" name="estado">
+                             <select name ='estado'>
+                             <option>Seleccione una opción</option>
+                                 <?php
+                                 $query = "SELECT * FROM estados";
+                                 $ejecutar = mysqli_query($conexion,$query);
+                                 ?>
+                                 <?php
+                                 foreach ($ejecutar as $opciones):
+                                 ?>
+                                  <option value="<?php echo $opciones['id']?>"><?php echo $opciones['estado']?></option>
+                                 <?php endforeach ?>
+                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Referencia</label>

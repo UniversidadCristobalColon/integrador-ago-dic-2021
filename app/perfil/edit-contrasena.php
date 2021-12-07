@@ -1,9 +1,6 @@
 <?php
 require_once '../../config/global.php';
 require '../../config/db.php';
-//$id_cliente = 35;//$_SESSION['id_usuario'];
-
-
 
 define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
 ?>
@@ -52,7 +49,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                             <button type="submit" class="btn btn-success">Actualizar</button>
                         </div>
                             <div class="col text-right">
-                                <a href="mi-perfil.php" class="btn btn-link">Cancelar</a>
+                                <a href="index.php" class="btn btn-link">Cancelar</a>
                             </div>
                     </div>
 

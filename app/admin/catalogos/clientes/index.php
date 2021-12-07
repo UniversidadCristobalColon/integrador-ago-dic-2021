@@ -1,7 +1,8 @@
 <?php
+//session_start();
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
-$sql = "SELECT * FROM clientes WHERE id = 23";
+$sql = "SELECT * FROM clientes";
 $resultado = mysqli_query($conexion, $sql);
 $clientes = array();
 if($resultado){
@@ -54,15 +55,20 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             <div class="row my-3">
                 <div class="col text-right">
                     <a href="form-cliente.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                </div>
+            </div>
+
                     <?php
                     if(count($clientes) > 0){
                     ?>
+            <div class="table-responsive mb-3">
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
+                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -71,6 +77,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
+                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                         </tfoot>
@@ -79,12 +86,13 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         foreach ($clientes as $c){
                         ?>
                         <tr>
-                            <td><?php echo $c['nombre']?></td>
+                            <td><?php echo $c['nombre']?> <?php echo $c['apellidos']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
-                            <!-- onclick="confirmar('<?php echo $c['id'] ?>')" -->
+                            <td><?php echo $c['status'] ?></td>
                             <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
-                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a></td>
+                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a>
+                            </td>
                         </tr>
                         <?php
                         }
@@ -98,8 +106,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     ?>
                 </div>
             </div>
-        </div>
-        </div>
         <!-- /.container-fluid -->
 
         <?php getFooter() ?>

@@ -2,6 +2,18 @@
 require_once '../../../../config/global.php';
 
 define('RUTA_INCLUDE', '../../../../');
+
+$sql = "SELECT * FROM estados";
+$resultado = mysqli_query($conexion,$sql);
+
+$estados = array();
+if($resultado) {
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $estados[] = $fila;
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -37,11 +49,11 @@ define('RUTA_INCLUDE', '../../../../');
                 </ol>
             </nav>
 
-            <div class="alert alert-success" role="alert">
+            <!--<div class="alert alert-success" role="alert">
                  <i class="fas fa-check"></i> Guardado Exitosamente
              </div>
 
-            <!-- <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert">
                   <i class="fas fa-exclamation-triangle"></i> Mensaje de error
               </div>-->
 
@@ -66,14 +78,19 @@ define('RUTA_INCLUDE', '../../../../');
                      <tfoot>
                      </tfoot>
                      <tbody>
+                     <?php
+                     foreach ($estados as $e){
+                     ?>
                      <tr>
-                         <td>Veracruz</td>
-                         <td></td>
-                         <td></td>
-                         <td>A</td>
+                         <td><?php echo $e['estado']?></td>
+                         <td><?php echo $e['creacion']?></td>
+                         <td><?php echo $e['actualizacion']?></td>
+                         <td><?php echo $e['status']?></td>
                          <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>
-
+                     <?php
+                     }
+                     ?>
                      </tbody>
                  </table>
              </div>

@@ -2,6 +2,8 @@
 require_once '../../../../config/global.php';
 
 define('RUTA_INCLUDE', '../../../../');
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -37,11 +39,11 @@ define('RUTA_INCLUDE', '../../../../');
                 </ol>
             </nav>
 
-            <div class="alert alert-success" role="alert">
+            <!--<div class="alert alert-success" role="alert">
                  <i class="fas fa-check"></i> Guardado Exitosamente
              </div>
 
-            <!-- <div class="alert alert-danger" role="alert">
+             <div class="alert alert-danger" role="alert">
                   <i class="fas fa-exclamation-triangle"></i> Mensaje de error
               </div>-->
 
@@ -66,10 +68,11 @@ define('RUTA_INCLUDE', '../../../../');
                      <tfoot>
                      </tfoot>
                      <tbody>
+
                      <tr>
-                         <td>México</td>
-                         <td></td>
-                         <td></td>
+                         <td>México (MEX)</td>
+                         <td>2021-12-01 00:50:43</td>
+                         <td>2021-12-02 00:50:43</td>
                          <td>A</td>
                          <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>

@@ -61,6 +61,7 @@ EOD;
 
         }
     }
+    
 
     $html = <<<EOD
 <!-- Sidebar -->

@@ -1,10 +1,11 @@
 <?php
 require '../../../../config/db.php';
-$id_proposito = 22;
-$id_propositof = 3;
-$delete = "DELETE FROM clientes WHERE id = $id_proposito";
-$resultado = mysqli_query($conexion, $delete);
-if($resultado){
+$id_cliente = $_GET['id'];
+$update = "UPDATE clientes SET status = 'B' WHERE id = $id_cliente";
+$update = mysqli_query($conexion, $update);
+if($update == true){
     header('location: index.php');
+}else{
+    echo mysqli_error($conexion);
 }
 ?>

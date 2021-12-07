@@ -2,7 +2,6 @@
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
-$id_cliente = '';
 $nombre = '';
 $apellidos = '';
 $celular = '';
@@ -23,11 +22,11 @@ $estado = '';
 $referencia = '';
 if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
-    $sql = "SELECT * FROM clientes WHERE id = 23";
-    $sql2 = "SELECT * FROM fiscales WHERE id = 4";
 
-    $resultado = mysqli_query($conexion, $sql);
-    $resultado2 = mysqli_query($conexion, $sql2);
+    $query = "SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = $id_cliente";
+//select * from clientes a, fiscales b where a.id = b.id_cliente and a.id = $id_cliente
+//SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = 126;
+    $resultado = mysqli_query($conexion, $query);
 
     if($resultado){
         $fila = mysqli_fetch_assoc($resultado);
@@ -35,9 +34,6 @@ if(!empty($_GET['id'])){
         $apellidos = $fila['apellidos'];
         $celular = $fila['celular'];
         $telefono = $fila['telefono'];
-    }
-    if($resultado2){
-        $fila = mysqli_fetch_assoc($resultado2);
         $razon = $fila['razon'];
         $rfc = $fila['rfc'];
         $email1 = $fila['email1'];
@@ -53,8 +49,11 @@ if(!empty($_GET['id'])){
         $estado = $fila['estado'];
         $referencia = $fila['referencia'];
     }
-}
 
+
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -99,6 +98,7 @@ if(!empty($_GET['id'])){
                 <div class="row mb-5">
                     <div class="col">
                         <button type="submit" class="btn btn-success">Guardar</button>
+                        <input type="hidden" name="id_cliente" value="<?php echo $id_cliente?>"/>
                     </div>
                     <div class="col text-right">
                         <a href="index.php" class="btn btn-link">Cancelar</a>
@@ -182,7 +182,18 @@ if(!empty($_GET['id'])){
                         </div>
                         <div class="form-group col-md-6">
                             <label>Estado</label>
-                            <input type = "text" class="form-control" name="estado" value="<?php echo $estado ?>">
+                            <select name="estado">
+                                <option>Seleccione una opción:</option>
+                                <?php
+                                $query = "SELECT * FROM estados";
+                                $ejecutar = mysqli_query($conexion,$query);
+                                ?>
+                                <?php
+                                foreach ($ejecutar as $opciones):
+                                    ?>
+                                    <option value="<?php echo $opciones['id']?>"><?php echo $opciones['estado']?></option>
+                                <?php endforeach ?>
+                            </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Referencia</label>
