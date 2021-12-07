@@ -2,7 +2,7 @@
     require_once '../../../config/global.php';
     require '../../../config/db.php';
     define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
-    $id_cliente = 23;
+    $id_cliente = 113;
 ?>
 <?php
     $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
@@ -117,7 +117,7 @@
                                     Esperando GUÍA...
                                 <?php } ?>
                                 <?php if ($one['status'] == 3){ ?>
-                                    Cotización resuelta.
+                                    Cotización resuelta.<br>Ya puede ver su guía.
                                 <?php } ?>
                                 <?php if ($one['status'] == 4){ ?>
                                     Borrado/Cancelado
