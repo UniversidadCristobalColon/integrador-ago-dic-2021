@@ -4,17 +4,13 @@ require '../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
-//$tipo_usuario = $_SESSION['perfil_usuario'];
-//$mail_user = $_SESSION['email_usuario'];
-$mail_user = "Paula@gmail.com";
-$tipo_usuario = 1;
+$tipo_usuario = $_SESSION['perfil_usuario'];
+$mail_user = $_SESSION['email_usuario'];
 
 $date = date("Y-m-d");
-echo $date;
 $date2 = date_create($date);
 $date2 = date_sub($date2, date_interval_create_from_date_string('6 month'));
 $date2 = date_format($date2, 'Y-m-d');
-echo $date2;
 
 $sql = '';
 if ($tipo_usuario == 2) {
@@ -311,16 +307,17 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Paquetes</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div class="modal-body table-responsive">
                                                     <?php
                                                     $envio = $e['id'];
-                                                    $sql = "select * from paquetes_enviados where id = '$envio' AND status='A'";
+                                                    print_r($envio);
+                                                    $sql = "select * from paquetes_enviados where envio = '$envio' AND status='A'";
                                                     $resultado = mysqli_query($conexion, $sql);
                                                     $pak = array();
                                                     if ($resultado) {
@@ -394,7 +391,7 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Factura</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -426,7 +423,7 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Información de pago</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -466,7 +463,7 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Cancelación de envío</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -520,7 +517,7 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Estatus de envío</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
