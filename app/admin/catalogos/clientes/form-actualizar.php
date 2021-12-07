@@ -53,8 +53,13 @@ if(!empty($_GET['id'])){
         $estado = $fila['estado'];
         $referencia = $fila['referencia'];
     }
-}
 
+}
+/*
+$usuario = 'pakmail_user';
+$password = 'kp3C-sd6WVvRZeBV';
+$db = new PDO('mysql:host=lizbethrojas.me;dbname=pakmail', $usuario, $password);
+*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -183,7 +188,21 @@ if(!empty($_GET['id'])){
                         </div>
                         <div class="form-group col-md-6">
                             <label>Estado</label>
-                            <input type = "text" class="form-control" name="estado" value="<?php echo $estado ?>">
+                            <select name="estado">
+                                <option>Seleccione una opción</option>
+
+                                <?php
+                                /*
+                                 $query = $db->prepare("SELECT * FROM estados");
+                                 $query->execute();
+                                 $data = $query->fetchAll();
+                                 foreach ($data as $value):
+                                     echo '<option value="'.$value['id'].'">'.$value['estado'].'</option>';
+                                 endforeach
+                                */
+                                 ?>
+
+                            </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Referencia</label>
