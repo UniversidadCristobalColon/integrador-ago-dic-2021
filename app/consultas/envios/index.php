@@ -23,26 +23,26 @@ if ($tipo_usuario == 2) {
     $sql = "select * from envios where status = 'A'";
 }
 
-if(isset($_GET['pak'])){
-    if($_GET['pak']!='all'){
+if (isset($_GET['pak'])) {
+    if ($_GET['pak'] != 'all') {
         $id_pak = $_GET['pak'];
         $sql .= " AND paqueteria = $id_pak";
     }
 }
 
-if(isset($_GET['inicio'])){
-    if(isset($_GET['fin'])){
+if (isset($_GET['inicio'])) {
+    if (isset($_GET['fin'])) {
         $fecha_inicio = $_GET['inicio'] . " 00:00:00";
         $fecha_fin = $_GET['fin'] . " 23:59:59";
         $sql .= " AND creacion BETWEEN '$fecha_inicio' AND '$fecha_fin'";
-    }else{
+    } else {
         $fecha_inicio = $_GET['inicio'] . " 00:00:00";
         $sql .= " AND creacion >= '$fecha_inicio'";
     }
-}elseif(isset($_GET['fin'])){
+} elseif (isset($_GET['fin'])) {
     $fecha_fin = $_GET['fin'] . " 23:59:59";
     $sql .= " AND creacion <= '$fecha_fin'";
-}else{
+} else {
     $datetime = $date . " 23:59:59";
     $datetime2 = $date2 . " 00:00:00";
     $sql .= " AND creacion BETWEEN '$datetime2' AND '$datetime'";
@@ -56,6 +56,8 @@ if ($resultado) {
         $envios[] = $fila;
     }
 }
+
+$id_tabla_paquetes = '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -276,8 +278,92 @@ if ($resultado) {
                                 <td>
                                     Costo: $<?php echo $e['costo']; ?><br>
                                     Entrega en <?php echo $e['tiempo_estimado']; ?> días<br>
-                                    <a href="#" class="btn btn-link btn-sm btn-sm"
-                                       onclick="muestraPak(<?php echo $idEnv; ?>)">Ver paquetes</a>
+                                    <button type="button" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
+                                            data-target="#paquetes<?php echo $idEnv; ?>">Ver paquetes
+                                    </button>
+
+                                    <div class="modal fade" id="paquetes<?php echo $idEnv;?>" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Paquetes</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body table-responsive table-sm">
+                                                    <input type="hidden" id="id_muestra_pak">
+                                                    <?php
+                                                    $envio = $idEnv;
+                                                    $sql = "select * from paquetes_enviados where envio = '$envio' AND status='A'";
+                                                    $resultado = mysqli_query($conexion, $sql);
+                                                    $pak = array();
+                                                    if ($resultado) {
+                                                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                                                            $pak[] = $fila;
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <table id="packages" class="table table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <th>Dimensiones</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Detalles</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <th>Dimensiones</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Detalles</th>
+                                                        </tr>
+                                                        </tfoot>
+                                                        <tbody>
+                                                        <?php
+                                                        foreach ($pak as $pk) {
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $pk['descripcion'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    Largo: <?php echo $pk['largo'] ?> cm.<br>
+                                                                    Ancho: <?php echo $pk['ancho'] ?> cm.<br>
+                                                                    Alto: <?php echo $pk['alto'] ?> cm.<br>
+                                                                    Peso: <?php echo $pk['peso'] ?> kg.<br>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $pk['cantidad'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    Tipo: <?php echo $pk['tipo'] ?><br>
+                                                                    Embalaje: <?php if ($pk['embalaje'] == 'S') {
+                                                                        echo "Si";
+                                                                    } else {
+                                                                        echo "No";
+                                                                    } ?><br>
+                                                                    Peso vol.: <?php echo $pk['peso_volum'] ?>
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </td>
                                 <td>
                                     Envío: <?php echo $e['fecha_envio']; ?><br>
@@ -338,90 +424,6 @@ if ($resultado) {
                     echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i> Aún no hay envíos. </div>";
                 }
                 ?>
-            </div>
-
-            <div class="modal fade" id="paquetes" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Paquetes</h5>
-                            <button type="button" class="close" data-dismiss="modal"
-                                    aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body table-responsive table-sm">
-                            <input type="hidden" id="id_muestra_pak">
-                            <?php
-                            $envio = "<script>document.write($('#id_muestra_pak').val());</script>";
-                            $sql = "select * from paquetes_enviados where envio = '$envio' AND status='A'";
-                            $resultado = mysqli_query($conexion, $sql);
-                            $pak = array();
-                            if ($resultado) {
-                                while ($fila = mysqli_fetch_assoc($resultado)) {
-                                    $pak[] = $fila;
-                                }
-                            }
-                            ?>
-                            <table id="packages" class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Dimensiones</th>
-                                    <th>Cantidad</th>
-                                    <th>Detalles</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Dimensiones</th>
-                                    <th>Cantidad</th>
-                                    <th>Detalles</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                <?php
-                                foreach ($pak as $pk) {
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo $pk['descripcion'] ?>
-                                        </td>
-                                        <td>
-                                            Largo: <?php echo $pk['largo'] ?> cm.<br>
-                                            Ancho: <?php echo $pk['ancho'] ?> cm.<br>
-                                            Alto: <?php echo $pk['alto'] ?> cm.<br>
-                                            Peso: <?php echo $pk['peso'] ?> kg.<br>
-                                        </td>
-                                        <td>
-                                            <?php echo $pk['cantidad'] ?>
-                                        </td>
-                                        <td>
-                                            Tipo: <?php echo $pk['tipo'] ?><br>
-                                            Embalaje: <?php if ($pk['embalaje'] == 'S') {
-                                                echo "Si";
-                                            } else {
-                                                echo "No";
-                                            } ?><br>
-                                            Peso vol.: <?php echo $pk['peso_volum'] ?>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                    onclick="resetPak()">Cerrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="modal fade" id="formFact" tabindex="-1" role="dialog"
@@ -631,11 +633,6 @@ if ($resultado) {
         $('#formStat').modal('show');
     }
 
-    function muestraPak(idEnv) {
-        $('#id_muestra_pak').val(idEnv);
-        $('#paquetes').modal('show');
-    }
-
     function resetStat() {
         $('#formStat').modal('hide');
     }
@@ -650,10 +647,6 @@ if ($resultado) {
 
     function resetPago() {
         $('#formPago').modal('hide');
-    }
-
-    function resetPak() {
-        $('#paquetes').modal('hide');
     }
 
 </script>
