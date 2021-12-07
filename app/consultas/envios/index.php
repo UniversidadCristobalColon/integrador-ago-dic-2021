@@ -316,6 +316,7 @@ if ($resultado) {
                                                 <div class="modal-body table-responsive">
                                                     <?php
                                                     $envio = $e['id'];
+                                                    print_r($envio);
                                                     $sql = "select * from paquetes_enviados where envio = '$envio' AND status='A'";
                                                     $resultado = mysqli_query($conexion, $sql);
                                                     $pak = array();
