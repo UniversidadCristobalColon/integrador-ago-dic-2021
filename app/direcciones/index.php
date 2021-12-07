@@ -3,8 +3,15 @@
 require_once '../../config/global.php';
 require_once '../../config/db.php';
 
-@session_start();
-$cliente = $_SESSION['id_usuario'];
+//@session_start();
+
+if (array_key_exists('idCliente', $_GET)) {
+    $cliente = $_GET['idCliente'];
+    $admin = true;
+}
+else {
+    $cliente = $_SESSION['id_usuario'];
+
 //$cliente = 23;
 
 $sql = "SELECT d.id, alias, calle, d.cp, entre_calles, num_exterior, num_interior, referencia, d.status, c.colonia, l.localidad, m.municipio, e.estado
@@ -23,6 +30,8 @@ if( $resultado ){
     while($fila = mysqli_fetch_assoc($resultado)){
         $direcciones[] = $fila;
     }
+}
+
 }
 
 define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
@@ -78,13 +87,14 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                 <ul class="my-3 d-flex flex-wrap" style="padding-left: 0 !important;">
                     <?php
                     $contador = 0;
-                    if ( count($direcciones) == '0' ){
+                    if ( !isset($admin) && count($direcciones) == '0' ){
                      ?>
                         <div class="alert alert-warning mt-3 mr-4 w-100" role="alert">
                             <i class="fas fa-exclamation-triangle"></i> No hay direcciones
                         </div>
                 <?php
                 }
+                    if (!isset($admin))
                     foreach ($direcciones as $p){
                     ?>
                     <li class="list-group-item d-flex align-items-center m-2" style = "width: 31.8%">
@@ -231,6 +241,16 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
 
 <script>
     $(document).ready(function(){
+
+        <?php
+            if(isset($admin)){
+        ?>
+        $('#modal_nueva_direccion').modal('show');
+        $('#id')
+        <?php
+        }
+        ?>
+
         $('#nueva_direccion').on('click', function(){
             $('#modal_nueva_direccion').modal('show');
         })
@@ -335,7 +355,16 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                     if(response == 'Direccion creada con exito' || response == 'Direccion actualizada con exito'){
                         $('#modal_nueva_direccion').modal('hide');
                         alert('Dirección guardada correctamente.');
+                        <?php if(isset($admin)) { ?>
+                        header('Location: ' . $_SERVER['HTTP_REFERER']);
+                        <?php
+                        } else {
+                        ?>
                         window.location.href = 'index.php';
+                        <?php
+                        }
+                        ?>
+
                     }
                 },
                 data: formData,
