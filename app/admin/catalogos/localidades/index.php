@@ -96,27 +96,37 @@ define('RUTA_INCLUDE', '../../../../');
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-4 form-group">
-                    <label for="municipio">Municipio</label>
-                    <select class="custom-select" name="municipio" id="municipio">
-                        <option value="" selected></option>
-                        <?php
+                <div class="row my-3">
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for="estado">Estado</label>
+                        <select class="custom-select" name="estado" id="estado">
+                            <option value="" selected></option>
+                            <?php
 
-                        $estados = [];
+                            $estados = [];
 
-                        $query =    "SELECT * FROM `pakmail`.municipios";
+                            $query =    "SELECT * FROM `pakmail`.estados";
 
-                        if ($result = mysqli_query($conexion, $query)) {
-                            while ($row = $result->fetch_assoc()) {
-                        ?>
-                                <option <?php if (isset($_GET["municipio"]) && $_GET["municipio"] == $row["id"]) echo "selected"; ?> value="<?php echo $row["id"]; ?>"><?php echo $row["municipio"]; ?></option>
-                        <?php
+                            if ($result = mysqli_query($conexion, $query)) {
+                                while ($row = $result->fetch_assoc()) {
+                            ?>
+                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["estado"]; ?></option>
+                            <?php
+                                }
                             }
-                        }
 
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for="municipio">Municipio</label>
+                        <select class="custom-select" name="municipio" id="municipio">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
                 </div>
+
 
                 <div class="table-responsive mb-3">
                     <table class="table table-bordered" id="table">
@@ -130,7 +140,7 @@ define('RUTA_INCLUDE', '../../../../');
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyLocalidades" class="d-none">
                             <?php
 
                             $estados = [];
@@ -185,6 +195,8 @@ define('RUTA_INCLUDE', '../../../../');
     <?php getModalLogout() ?>
 
     <?php getBottomIncudes(RUTA_INCLUDE) ?>
+
+    <script src="functions.js"></script>
 </body>
 
 </html>
@@ -192,15 +204,42 @@ define('RUTA_INCLUDE', '../../../../');
 <script>
     var table;
     $(document).ready(function() {
-        
-        table = $('#table').DataTable({"language": {
+
+        table = $('#table').DataTable({
+            "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-            }});
+            }
+        });
+
+        $("#bodyLocalidades").removeClass("d-none");
+
+        $("#estado").change(() => {
+            let data = new FormData();
+            data.append("idEstado", $("#estado").val());
+
+            RequestPOST("getMunicipios.php", data).then((municipios) => {
+                $("#municipio").empty();
+                $("#municipio").append("<option value='' selected></option>");
+
+                $.each(municipios, (index, municipio) => {
+                    $("#municipio").append(`<option>${municipio}</option>`);
+                })
+            });
+        });
 
         $("#municipio").change(() => {
-            let thisvalue = $("select#municipio option:selected").text();
-            table.columns(1).search(thisvalue).draw();
+            let thisvalue = $("#municipio option:selected").text();
+            if (thisvalue != "") {
+                $("#bodyLocalidades").removeClass("d-none")
+                $("#table_info").removeClass("d-none")
+                $("#table_paginate").removeClass("d-none")
+                table.columns(1).search(thisvalue).draw();
+            } else {
+                table.columns(1).search("o9i8uyaeyf890wy89fy8ry").draw();
+            }
         });
+
+        $("#municipio").trigger('change');
 
     });
 </script>

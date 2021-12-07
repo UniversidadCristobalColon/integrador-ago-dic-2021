@@ -96,7 +96,7 @@ define('RUTA_INCLUDE', '../../../../');
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-4 form-group">
+                <div class="col-sm-12 col-md-4 form-group pl-0">
                     <label for="estado">Estado</label>
                     <select class="custom-select" name="estado" id="estado">
                         <option value="" selected></option>
@@ -130,7 +130,7 @@ define('RUTA_INCLUDE', '../../../../');
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyEstados" class="d-none">
                             <?php
 
                             $estados = [];
@@ -190,17 +190,31 @@ define('RUTA_INCLUDE', '../../../../');
 </html>
 
 <script>
+
     var table;
+
     $(document).ready(function() {
         
         table = $('#table').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-            }});
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        }});
 
+        $("#bodyEstados").removeClass("d-none");
+        
         $("#estado").change(() => {
-            let thisvalue = $("select#estado option:selected").text();
-            table.columns(1).search(thisvalue).draw();
+            let thisvalue = $("#estado option:selected").text();
+            if (thisvalue != "") {
+                $("#bodyEstados").removeClass("d-none")
+                $("#table_info").removeClass("d-none")
+                $("#table_paginate").removeClass("d-none")
+                table.columns(1).search(thisvalue).draw();
+            } else {
+                table.columns(1).search("o9i8uyaeyf890wy89fy8ry").draw();
+            }
         });
 
+        $("#estado").trigger('change');
+
     });
+
 </script>
