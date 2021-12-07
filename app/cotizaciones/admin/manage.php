@@ -339,15 +339,15 @@ if ($result) {
                             </div>
                             <?php foreach ($serviciosDisponibles as $one) { ?>
                                 <div>
-                                    <div class="row">
+                                    <div class="row mb-1">
                                         <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['paqueteria'] ?>" disabled>
+                                            <input type="text" class="w-100 form-control" value="<?php echo $one['paqueteria'] ?>" readonly="readonly">
                                         </div>
                                         <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['tiempo_estimado'] ?>" disabled>
+                                            <input type="text" class="w-100 form-control" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                         </div>
                                         <div class="col-4 w-100">
-                                            <input type="text" class="w-100" value="<?php echo $one['precio'] ?>" disabled>
+                                            <input type="text" class="w-100 form-control" value="<?php echo $one['precio'] ?>" readonly="readonly">
                                         </div>
                                     </div>
                                 </div>

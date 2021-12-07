@@ -72,7 +72,7 @@ if ($result) {
 
                 <div class="row my-3">
                     <div class="col text-right">
-                        <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
+                        <button type="button" class="btn btn-primary"><a href="new.php" class="text-white"><i class="fas fa-plus"></i> Nuevo</a></button>
                     </div>
                 </div>
 
