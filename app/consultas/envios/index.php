@@ -133,10 +133,12 @@ $id_tabla_paquetes = '';
                 </div>
             </form>
 
-            <div class="table-responsive mb-3">
-                <?php
-                if (count($envios) > 0) {
-                    ?>
+
+            <?php
+            if (count($envios) > 0) {
+                ?>
+
+                <div class="table-responsive mb-3">
 
                     <table id="env" class="table table-bordered dataTable">
                         <thead>
@@ -232,22 +234,22 @@ $id_tabla_paquetes = '';
                                 switch ($e['seguimiento']) {
                                     case 'P':
                                         $estado = 'Pendiente';
-                                        echo "<td><span class='badge badge-pill badge-warning'>$estado</span></td>";
+                                        echo "<td><p class='badge badge-pill badge-warning'>$estado</p></td>";
                                         break;
                                     case 'C':
                                         $estado = 'En camino';
-                                        echo "<td><span class='badge badge-pill badge-info'>$estado</span></td>";
+                                        echo "<td><p class='badge badge-pill badge-info'>$estado</p></td>";
                                         break;
                                     case 'E':
                                         $estado = 'Entregado';
-                                        echo "<td><span class='badge badge-pill badge-success'>$estado</span></td>";
+                                        echo "<td><p class='badge badge-pill badge-success'>$estado</p></td>";
                                         break;
                                     case 'X':
                                         $estado = 'Cancelado';
-                                        echo "<td><span class='badge badge-pill badge-danger'>$estado</span></td>";
+                                        echo "<td><p class='badge badge-pill badge-danger'>$estado</p></td>";
                                         break;
                                 }
-                                echo $estado; ?>
+                                ?>
                                 <td>
                                     Servicio: <?php echo $e['tipo_servicio']; ?><br>
                                     Asegurado: <?php if ($e['seguro'] == 'S') {
@@ -282,7 +284,8 @@ $id_tabla_paquetes = '';
                                             data-target="#paquetes<?php echo $idEnv; ?>">Ver paquetes
                                     </button>
 
-                                    <div class="modal fade" id="paquetes<?php echo $idEnv;?>" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="paquetes<?php echo $idEnv; ?>" tabindex="-1"
+                                         role="dialog"
                                          aria-labelledby="exampleModalLabel"
                                          aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -358,7 +361,9 @@ $id_tabla_paquetes = '';
                                                     </table>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cerrar
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -419,12 +424,13 @@ $id_tabla_paquetes = '';
                         ?>
                         </tbody>
                     </table>
-                    <?php
-                } else {
-                    echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i> Aún no hay envíos. </div>";
-                }
-                ?>
-            </div>
+                </div>
+                <?php
+            } else {
+                echo "<div class='alert alert-warning' role='alert'> <i class='fas fa-exclamation-triangle'></i> Aún no hay envíos. </div>";
+            }
+            ?>
+
 
             <div class="modal fade" id="formFact" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel"
