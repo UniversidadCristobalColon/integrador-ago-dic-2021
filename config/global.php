@@ -10,15 +10,14 @@ if(isset($_SESSION['id_usuario'])){
     $nombre_usuario=$_SESSION['nombre_usuario'];
     $apellidos_usuario=$_SESSION['apellidos_usuario'];
 }else{
-    header('location: ../app/index.php');
-}
+    $ruta='/integrador-ago-dic-2021/app/';
+    header("location:{$ruta}index.php");}
 
 /*
 function verificarSesion($ruta = ''){
     if ((empty($_SESSION['id_usuario']))) {
         header("location: {$ruta}index.php");
     }
-
 }
 */
 //
@@ -61,7 +60,7 @@ function getSidebar($ruta = ''){
 EOD;
 
         }
-    }
+    } 
 
     $html = <<<EOD
 <!-- Sidebar -->
@@ -88,13 +87,10 @@ EOD;
 function getNavbar($ruta = ''){
     $html = <<<EOD
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
     <a class="navbar-brand mr-1" href="{$ruta}index.php">Pakmail</a>
-
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
     </button>
-
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <!--<div class="input-group">
@@ -107,7 +103,6 @@ function getNavbar($ruta = ''){
             </div>
         </div>-->
     </form>
-
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0 mr-md-3 my-2 my-md-0">
         <li class="nav-item mx-1">
@@ -151,7 +146,7 @@ EOD;
     echo $html;
 }
 
-function getModalLogout($ruta = ''){
+function getModalLogout($ruta = '/integrador-ago-dic-2021/app/'){
     $html = <<<EOD
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -167,7 +162,7 @@ function getModalLogout($ruta = ''){
             <div class="modal-body">Seleccione "Salir" a continuación si está listo para finalizar su sesión actual.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary" href="../app/logout.php">Salir</a><!--Cierra sesión y manda al usuario a la pagina del login-->
+                <a class="btn btn-primary" href="{$ruta}logout.php">Salir</a><!--Cierra sesión y manda al usuario a la pagina del login-->
             </div>
         </div>
     </div>
@@ -184,13 +179,10 @@ function getTopIncludes($ruta = ''){
     
     <!-- Custom fonts for this template-->
     <link href="{$ruta}vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
     <!-- Page level plugin CSS-->
     <link href="{$ruta}vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-
     <!-- Custom styles for this template-->
     <link href="{$ruta}css/sb-admin.css" rel="stylesheet" type="text/css">
-
     <link href="{$ruta}css/estilos.css" rel="stylesheet" type="text/css">
 EOD;
     echo $html;
@@ -213,12 +205,9 @@ function getBottomIncudes($ruta = ''){
     <!-- Custom scripts for all pages-->
     <script src="{$ruta}js/dataTables.spanish.js"></script>
     <script src="{$ruta}js/sb-admin.js"></script>
-
     <script src="{$ruta}js/demo/chart-area-demo.js"></script>
     <script src="{$ruta}js/demo/chart-bar-demo.js"></script>
     <script src="{$ruta}js/demo/chart-pie-demo.js"></script>
-
-
     
 EOD;
 
