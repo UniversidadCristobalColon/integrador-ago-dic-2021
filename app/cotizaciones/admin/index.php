@@ -10,7 +10,7 @@ $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli
     cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura,
     cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia,
     cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest;";
+    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest ORDER BY cotiz.actualizacion DESC";
 $result = mysqli_query($conexion, $sql);
 $cotizaciones = array();
 if ($result) {
@@ -52,7 +52,7 @@ if ($result) {
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Cotizaciones</li>
-                        <li class="breadcrumb-item active" aria-current="page">Admin</li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">Admin</li> -->
                     </ol>
                 </nav>
 
@@ -110,16 +110,16 @@ if ($result) {
                                     </td>
                                     <td>
                                         <?php if ($one['status'] == 0) { ?>
-                                            Responda la cotización...
+                                            <span class="badge badge-success">Pendiente</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 1) { ?>
-                                            Esperando respuesta del cliente...
+                                            <span class="badge badge-secondary">En espera</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 2) { ?>
-                                            Cliente seleccionó.<br>Envíe la guía...
+                                            <span class="badge badge-success">Solicitada</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 3) { ?>
-                                            Cotización finalizada.
+                                            <span class="badge badge-dark">Cerrada</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 4) { ?>
                                             Borrado/Cancelado

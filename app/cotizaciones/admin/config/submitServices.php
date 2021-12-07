@@ -25,7 +25,7 @@ require '../../../../config/db.php';
         $sqlInsert = "INSERT INTO servicios_disponibles (id_cotizacion, id_paqueteria, tiempo_estimado, precio, creacion, actualizacion, status) VALUES ($id_cotizacion, $one[0], '$one[1]', $one[2], NOW(), NOW(), 'N')";
         $resultadoInsert = mysqli_query($conexion, $sqlInsert);
         if ($resultadoInsert == true) {
-            $sqlUpdate = "UPDATE cotizaciones SET status = '1' WHERE id_cotizacion = $id_cotizacion";
+            $sqlUpdate = "UPDATE cotizaciones SET status = '1', fecha_respuesta = NOW(), actualizacion = NOW() WHERE id_cotizacion = $id_cotizacion";
             $resultadoUpdate = mysqli_query($conexion, $sqlUpdate);
         } else {
             echo mysqli_error($conexion);
