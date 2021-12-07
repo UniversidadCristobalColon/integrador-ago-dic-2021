@@ -43,7 +43,7 @@ VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //
         $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior,
 num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, entrecalles, referencia,status)
 VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
-'$codigopostal', '$localidad', '$municipio', '1', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
+'$codigopostal', '$localidad', '$municipio', '$estado', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
         $resultado = mysqli_query($conexion, $query2);
 
         if($resultado == true){
@@ -65,7 +65,7 @@ VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior'
     $query = "UPDATE clientes SET nombre = '$nombre', apellidos = '$apellidos', email =  '$email1', celular = '$celular', telefono = '$telefono'
  WHERE id = $id_cliente";//update del cliente elegido del catalogo
     $query2 = "UPDATE fiscales SET rfc = '$rfc', razon = '$razon', calle = '$calle', num_exterior = '$numexterior', num_interior = '$numinterior'
-              ,colonia = '$colonia' , cp = '$codigopostal', localidad = '$localidad', municipio = '$municipio', email1 = '$email1', email2 = '$email2', entrecalles = '$entrecalles', referencia = '$referencia' WHERE id_cliente = $id_cliente";
+              ,colonia = '$colonia' , cp = '$codigopostal', localidad = '$localidad', municipio = '$municipio',id_estado = '$estado', email1 = '$email1', email2 = '$email2', entrecalles = '$entrecalles', referencia = '$referencia' WHERE id_cliente = $id_cliente";
 //lo mismo para fiscales que el anterior de elegir el id segun el catalogo
     $query3 = "UPDATE usuarios SET user = '$email1' WHERE id_cliente = $id_cliente";
     $resultado = mysqli_query($conexion, $query);

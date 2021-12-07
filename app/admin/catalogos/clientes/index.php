@@ -55,9 +55,13 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
             <div class="row my-3">
                 <div class="col text-right">
                     <a href="form-cliente.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                </div>
+            </div>
+
                     <?php
                     if(count($clientes) > 0){
                     ?>
+            <div class="table-responsive mb-3">
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
@@ -84,7 +88,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
                             <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
-                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a></td>
+                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a>
+                            </td>
                         </tr>
                         <?php
                         }
@@ -98,8 +103,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     ?>
                 </div>
             </div>
-        </div>
-        </div>
         <!-- /.container-fluid -->
 
         <?php getFooter() ?>
