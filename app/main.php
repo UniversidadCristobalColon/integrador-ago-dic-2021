@@ -33,10 +33,6 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
 
         <div class="container">
             <h3>Bienvenido <?php echo  $nombre_usuario." ".$apellidos_usuario?></h3>
-            <p>Correo de usuario: <?php echo $email_usuario?></p>
-            <p>Perfil de usuario: <?php echo $perfil_usuario?></p>
-            <p>ID usuario: <?php echo $id_usuario?></p>
-            <p>ID cliente: <?php echo $id_cliente?></p>
 
 
         </div>
