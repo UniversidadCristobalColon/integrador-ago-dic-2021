@@ -20,7 +20,6 @@ function get_sucursales(): array{
 }
 
 function get_sucursal($id): array{
-
     $sucursal = [];
     include '../../../../config/db.php';
 
