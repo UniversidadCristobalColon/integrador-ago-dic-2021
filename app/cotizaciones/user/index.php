@@ -2,14 +2,26 @@
 require_once '../../../config/global.php';
 require '../../../config/db.php';
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
+
 $id_cliente = 23;
+// $id_usuario = $_SESSION['id_usuario'];
+// $id_cliente = $_SESSION['id_cliente'];
+// $tipo_perfil = $_SESSION['perfil_usuario'];
+// $email_usuario = $_SESSION['email_usuario'];
+
+
+// var_dump($id_usuario);
+// var_dump($id_cliente);
+// var_dump($tipo_perfil);
+// var_dump($email_usuario);
+
 ?>
 <?php
 $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
     CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem,
     CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest,
     cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cliente = $id_cliente;";
+    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cliente = $id_cliente ORDER BY cotiz.actualizacion DESC";
 $result = mysqli_query($conexion, $sql);
 $cotizaciones = array();
 if ($result) {
@@ -52,8 +64,8 @@ if ($result) {
 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Cliente</li>
-                        <li class="breadcrumb-item active" aria-current="page">Mis cotizaciones</li>
+                        <li class="breadcrumb-item">Mis cotizaciones</li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">Mis cotizaciones</li> -->
                     </ol>
                 </nav>
 
@@ -111,16 +123,16 @@ if ($result) {
                                     <td><?php echo $one['tipo_servicio'] ?></td>
                                     <td>
                                         <?php if ($one['status'] == 0) { ?>
-                                            Esperando respuesta...
+                                            <span class="badge badge-pill badge-secondary">Esperando respuesta...</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 1) { ?>
-                                            Seleccione una opción...
+                                            <span class="badge badge-pill badge-success">Seleccione una opción</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 2) { ?>
-                                            Esperando GUÍA...
+                                            <span class="badge badge-pill badge-secondary">Esperando guía</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 3) { ?>
-                                            Cotización resuelta.<br>Ya puede ver su guía.
+                                            <span class="badge badge-pill badge-dark">Ya puedes ver tu guía</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 4) { ?>
                                             Borrado/Cancelado

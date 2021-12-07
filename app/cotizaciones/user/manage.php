@@ -5,7 +5,7 @@ define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 ?>
 <?php
 // $id_cliente = $_SESSION['id_cliente'];
-$id_cliente = 23;
+$id_cliente = 137;
 $id_cotizacion = $_GET['id'];
 // CONSULTA INFORMACIÓN DE LA COTIZACIÓN SELECCIONADA
 $sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
@@ -83,9 +83,9 @@ if ($result) {
                 <!-- Page Content -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Cliente</li>
-                        <li class="breadcrumb-item" aria-current="page">Mis cotizaciones</li>
-                        <li class="breadcrumb-item active" aria-current="page">Cotización <?php echo $id_cotizacion ?></li>
+                        <li class="breadcrumb-item"><a href="index.php">Mis cotizaciones</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Cotización <?php echo $id_cotizacion ?></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page"></li> -->
                     </ol>
                 </nav>
 
@@ -98,10 +98,10 @@ if ($result) {
                             <div class="card-body">
                                 <h5 class="card-title"><a data-bs-toggle="offcanvas" href="#quotationDetail" role="button" aria-controls="offcanvasRight"><u>Cotización #<?php echo $id_cotizacion ?></u></a></h5>
                                 <label type="text" class="card-text w-100">Origen</label>
-                                <input type="text" class="card-text w-100" <?php if (is_null($dir_rem)) { ?> value="N/A" <?php } else { ?> value="<?php echo $dir_rem ?>" <?php } ?> disabled="disabled">
-                                <br>
+                                <textarea rows="3" class="form-control w-100" readonly="readonly"><?php echo $dir_rem ?></textarea>
                                 <label type="text" class="card-text w-100">Destino</label>
-                                <input type="text" class="card-text w-100 mb-3" value="<?php echo $dir_dest ?>" disabled="disabled"><br>
+                                <!-- <input type="text" class="card-text w-100 mb-3" value="<?php echo $dir_dest ?>" disabled="disabled"> -->
+                                <textarea rows="3" class="form-control w-100" readonly="readonly"><?php echo $dir_dest ?></textarea>
                                 <?php if (count($paquetesCotizados) > 1) { ?>
                                     <div class="mb-2">Paquetes en cotización (<?php echo count($paquetesCotizados) ?>)</div>
                                     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -308,7 +308,7 @@ if ($result) {
                                 <?php } ?>
                                 <div class="d-flex justify-content-center row mt-3">
                                     <div class="col-2">
-                                        <input type="submit" name="submit" value="Solicitar guía" class="btn btn-danger">
+                                        <input type="submit" name="submit" value="Solicitar guía" class="btn btn-success">
                                     </div>
                                 </div>
                             </form>
@@ -342,13 +342,13 @@ if ($result) {
                             <?php foreach ($servicioElegido as $one) { ?>
                                 <div class="row">
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['paqueteria'] ?>" disabled="disabled">
+                                        <input class="form-control" type="text" value="<?php echo $one['paqueteria'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['tiempo_estimado'] ?>" disabled="disabled">
+                                        <input class="form-control" type="text" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['precio'] ?>" disabled="disabled">
+                                        <input class="form-control"type="text" value="<?php echo $one['precio'] ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
@@ -387,13 +387,13 @@ if ($result) {
                             <?php foreach ($servicioElegido as $one) { ?>
                                 <div class="row">
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['paqueteria'] ?>" disabled="disabled">
+                                        <input class="form-control" type="text" value="<?php echo $one['paqueteria'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['tiempo_estimado'] ?>" disabled="disabled">
+                                        <input class="form-control" type="text" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input type="text" value="<?php echo $one['precio'] ?>" disabled="disabled">
+                                        <input class="form-control" type="text" value="<?php echo $one['precio'] ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
@@ -411,9 +411,9 @@ if ($result) {
                             ?>
                             <?php foreach ($guiaEnvio as $one) { ?>
                                 <div class="row mt-4">
-                                    <div class="col-12 text-center">
-                                        <h5 class="mt-3">La guía de este envío es:</h5>
-                                        <input type="text" class="text-center w-50" value="<?php echo $one['guia'] ?>" readonly="readonly">
+                                    <div class="col-12">
+                                        <h5 class="mt-3 text-center">La guía de este envío es:</h5>
+                                        <input type="text" class="form-control text-center" value="<?php echo $one['guia'] ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
