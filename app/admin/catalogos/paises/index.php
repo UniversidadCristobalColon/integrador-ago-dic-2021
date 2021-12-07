@@ -39,11 +39,11 @@ define('RUTA_INCLUDE', '../../../../');
                 </ol>
             </nav>
 
-            <div class="alert alert-success" role="alert">
+            <!--<div class="alert alert-success" role="alert">
                  <i class="fas fa-check"></i> Guardado Exitosamente
              </div>
 
-            <!-- <div class="alert alert-danger" role="alert">
+             <div class="alert alert-danger" role="alert">
                   <i class="fas fa-exclamation-triangle"></i> Mensaje de error
               </div>-->
 
