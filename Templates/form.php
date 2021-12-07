@@ -33,7 +33,7 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Sección</li>
-                    <li class="breadcrumb-item active" aria-current="page">Nombre de la sección</li>
+                    <li class="breadcrumb-item active" aria-current="page">Registro</li>
                 </ol>
             </nav>
 

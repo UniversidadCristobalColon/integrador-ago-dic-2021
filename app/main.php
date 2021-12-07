@@ -60,4 +60,5 @@ define('RUTA_INCLUDE', '../'); //ajustar a necesidad
 <?php getBottomIncudes( RUTA_INCLUDE ) ?>
 </body>
 
+
 </html>
