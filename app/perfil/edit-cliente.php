@@ -2,8 +2,8 @@
 require_once '../../config/global.php';
 require '../../config/db.php';
 
-$id_cliente = 4;//$_SESSION['id_usuario'];
-$sql = "select * from clientes where id = $id_cliente";
+$id_cliente = $_SESSION['id_cliente'];
+$sql = "select * from clientes where id = '$id_cliente'";
 $resultado = mysqli_query($conexion, $sql);
 
 
@@ -65,7 +65,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                             <button type="submit" class="btn btn-success">Actualizar</button>
                         </div>
                         <div class="col text-right">
-                            <a href="mi-perfil.php" class="btn btn-link">Cancelar</a>
+                            <a href="index.php" class="btn btn-link">Cancelar</a>
                         </div>
                     </div>
 
