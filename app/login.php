@@ -19,19 +19,21 @@ if($resultado!=false){
     $encontrados = mysqli_num_rows($resultado);
 
     if($encontrados==1){
-        $pass_en_hash=password_hash($pass, PASSWORD_DEFAULT);//Convierte la contraseña a hash
-        //$pass_en_hash=$pass; Prueba de la contraseña sin hash
 
         $fila=mysqli_fetch_assoc($resultado);
 
         $pass_en_bd=$fila['password'];
-        //Checks if passwords match
-        //if(password_verify($pass_en_bd,$pass_en_hash)){
-        if($pass==$pass_en_bd){
+        //Verifica las contraseñas
+        if(password_verify($pass,$pass_en_bd)){//
+        //if ($pass==$pass_en_bd){
+
             $id_usuario=$fila['id'];
+            $id_cliente=$fila['id_cliente'];
             $email_en_bd=$fila['user'];
             $perfil_usuario=$fila['id_perfil'];
+
             $_SESSION['id_usuario']=$id_usuario;
+            $_SESSION['id_cliente']=$id_cliente;
             $_SESSION['email_usuario']=$email_en_bd;
             $_SESSION['perfil_usuario']=$perfil_usuario;
 
@@ -43,6 +45,7 @@ if($resultado!=false){
             $fila=mysqli_fetch_assoc($resultado);
             $nombre_en_bd=$fila['nombre'];
             $apellidos_en_bd=$fila['apellidos'];
+
             $_SESSION['nombre_usuario']=$nombre_en_bd;
             $_SESSION['apellidos_usuario']=$apellidos_en_bd;
 
