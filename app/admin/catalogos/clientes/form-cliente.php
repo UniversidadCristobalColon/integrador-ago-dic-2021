@@ -9,11 +9,6 @@ function filtrado($datos){
     $datos = htmlspecialchars($datos);
     return $datos;
 }
-/*
-$usuario = 'pakmail_user';
-$password = 'kp3C-sd6WVvRZeBV';
-$db = new PDO('mysql:host=lizbethrojas.me;dbname=pakmail', $usuario, $password);
-*/
 
 ?>
 <!DOCTYPE html>
@@ -163,22 +158,14 @@ $db = new PDO('mysql:host=lizbethrojas.me;dbname=pakmail', $usuario, $password);
                              <select name ='estado'>
                              <option>Seleccione una opción</option>
                                  <?php
-                                 /*
-                                 $query = $db->prepare("SELECT * FROM estados");
-                                 $query->execute();
-                                 $data = $query->fetchAll();
-                                 foreach ($data as $value):
-                                     echo '<option value="'.$value['id'].'">'.$value['estado'].'</option>';
-                                 endforeach
-                                 */
-                                 $sql = $conexion -> query("SELECT * FROM estados");
-                                 while ($row = mysqli_fetch_array($sql)){
-                                     foreach ($row as $a):
-                                     echo '<option value="'.$row['id'].'">'.$row['estados'].'</option>';
-                                     endforeach;
-                                 }
-
+                                 $query = "SELECT * FROM estados";
+                                 $ejecutar = mysqli_query($conexion,$query);
                                  ?>
+                                 <?php
+                                 foreach ($ejecutar as $opciones):
+                                 ?>
+                                  <option value="<?php echo $opciones['id']?>"><?php echo $opciones['estado']?></option>
+                                 <?php endforeach ?>
                              </select>
                         </div>
                         <div class="form-group col-md-6">
