@@ -45,7 +45,7 @@ if ($result) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 
     <title><?php echo PAGE_TITLE ?></title>
 
@@ -55,7 +55,7 @@ if ($result) {
 <body id="page-top">
 
     <?php getNavbar() ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 
     <div id="wrapper">
 
@@ -155,27 +155,30 @@ if ($result) {
 
             <!-- myCustom Structure -->
             <!-- toast -->
-            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <img src="..." class="rounded me-2" alt="...">
-                        <strong class="me-auto">Bootstrap</strong>
-                        <small>11 mins ago</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                    <div class="toast-header bg-warning">
+                        <!-- <img src="..." class="rounded mr-2 bg-danger" alt="..."> -->
+                        <strong class="mr-auto text-dark">...</strong>
+                        <small class="text-dark">Hace menos de 1 segundo</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
+                    <div class="toast-body bg-light font-weight-bold">
+                        ...
                     </div>
                 </div>
             </div>
+
+            <script src="js/scriptIndex.js"></script>
 
             <?php
             if (isset($_GET['state'])) {
                 if ($_GET['state'] == 'notFound') {
             ?>
-                <script src="js/scriptIndex.js"></script>
                     <script>
-                        showToast();
+                        showToast(1);
                     </script>
             <?php
                 }

@@ -8,4 +8,3 @@ function showToast(x){
         }
     }
 }
-

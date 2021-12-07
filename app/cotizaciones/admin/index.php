@@ -143,14 +143,32 @@ if ($result) {
             </div>
             <!-- /.container-fluid -->
 
+            <!-- myCustom Structure -->
+            <!-- toast -->
+            <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                    <div class="toast-header bg-warning">
+                        <!-- <img src="..." class="rounded mr-2 bg-danger" alt="..."> -->
+                        <strong class="mr-auto text-dark">...</strong>
+                        <small class="text-dark">Hace menos de 1 segundo</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body bg-light font-weight-bold">
+                        ...
+                    </div>
+                </div>
+            </div>
+
+            <script src="js/scriptIndex.js"></script>
+
             <?php
             if (isset($_GET['state'])) {
                 if ($_GET['state'] == 'notFound') {
             ?>
                     <script>
-                        window.onload = function(){
-                            alert('La cotización que intenta acceder no existe.');
-                        }
+                        showToast(1);
                     </script>
             <?php
                 }
