@@ -4,41 +4,36 @@ require '../../../config/db.php';
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 ?>
 <?php
+// $id_cliente = $_SESSION['id_cliente'];
+$id_cliente = 23;
 $id_cotizacion = $_GET['id'];
 // CONSULTA INFORMACIÓN DE LA COTIZACIÓN SELECCIONADA
 $sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
         CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem,
         CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest,
         cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-        INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cotizacion = $id_cotizacion";
+        INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cotizacion = $id_cotizacion AND cotiz.id_cliente = $id_cliente";
 $result = mysqli_query($conexion, $sqlCotizacion);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $cliente = $row['cliente'];
-    $dir_rem = $row['dir_rem'];
-    $dir_dest = $row['dir_dest'];
-    $tipo_servicio = $row['tipo_servicio'];
-    $asegurado = $row['asegurado'];
-    $factura = $row['factura'];
-    $recoleccion = $row['recoleccion'];
-    $fecha_creacion = $row['fecha_creacion'];
-    $fecha_respuesta = $row['fecha_respuesta'];
-    $fecha_resolucion = $row['fecha_resolucion'];
-    $actualizacion = $row['actualizacion'];
-    $guia = $row['guia'];
-    $status = $row['status'];
-} else {
-    mysqli_error($conexion);
-}
-// CONSULTA DEL LISTADO DE PAQUETERIAS ACTIVAS
-$sqlPaqueterias = "SELECT id, paqueteria FROM paqueterias WHERE status = 'A';";
-$result = mysqli_query($conexion, $sqlPaqueterias);
-$paqueterias = array();
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $paqueterias[] = $row;
+    if (!is_null($row)) {
+        // var_dump($row);
+        $cliente = $row['cliente'];
+        $dir_rem = $row['dir_rem'];
+        $dir_dest = $row['dir_dest'];
+        $tipo_servicio = $row['tipo_servicio'];
+        $asegurado = $row['asegurado'];
+        $factura = $row['factura'];
+        $recoleccion = $row['recoleccion'];
+        $fecha_creacion = $row['fecha_creacion'];
+        $fecha_respuesta = $row['fecha_respuesta'];
+        $fecha_resolucion = $row['fecha_resolucion'];
+        $actualizacion = $row['actualizacion'];
+        $guia = $row['guia'];
+        $status = $row['status'];
+    }else{
+        header('location: index.php?state=notFound');
     }
-    // var_dump($paqueterias);
 } else {
     mysqli_error($conexion);
 }
