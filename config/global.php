@@ -26,6 +26,43 @@ define('PAGE_TITLE', 'Pakmail');
 
 
 function getSidebar($ruta = ''){
+    $html_admin = '';
+
+    if(!empty($_SESSION['perfil_usuario'])){
+        if($_SESSION['perfil_usuario'] == 1){
+            $html_admin = <<<EOD
+            <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Catálogos</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">                        
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/usuarios/">Usuarios</a>
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/clientes/">Clientes</a>            
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/sucursales/">Sucursales</a>
+            <div class="dropdown-divider"></div>        
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/paqueterias/">Paqueterías</a>            
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/paquetes/">Tipos de paquetes</a>
+            <div class="dropdown-divider"></div>            
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/colonias/">Colonias</a>
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/localidades/">Localidades</a>
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/municipios/">Municipios</a>
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/municipios/">Estados</a>
+            <a class="dropdown-item" href="{$ruta}app/admin/catalogos/paises/">Paises</a>            
+        </div> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{$ruta}app/consultas/envios/">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Consultas</span>
+        </a>
+    </li>
+EOD;
+
+        }
+    }
+
     $html = <<<EOD
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
@@ -41,37 +78,7 @@ function getSidebar($ruta = ''){
             <span>Envíos</span>
         </a>
     </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Catálogos</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">                        
-            <a class="dropdown-item" href="#">Usuarios</a>
-            <a class="dropdown-item" href="#">Clientes</a>            
-            <a class="dropdown-item" href="#">Sucursales</a>
-            <div class="dropdown-divider"></div>        
-            <a class="dropdown-item" href="#">Paqueterías</a>            
-            <a class="dropdown-item" href="#">Tipos de paquetes</a>
-            <div class="dropdown-divider"></div>            
-            <a class="dropdown-item" href="#">Colonias</a>
-            <a class="dropdown-item" href="#">Localidades</a>
-            <a class="dropdown-item" href="#">Municipios</a>            
-        </div> 
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{$ruta}charts.php">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Gráficos</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{$ruta}tables.php">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tablas</span>
-        </a>
-    </li>
+    $html_admin
 </ul>
 EOD;
 
