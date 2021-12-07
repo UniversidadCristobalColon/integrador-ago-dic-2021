@@ -2,6 +2,12 @@
 require_once '../../../config/global.php';
 require '../../../config/db.php';
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
+
+$tipo_perfil = $_SESSION['perfil_usuario'];
+if ($tipo_perfil != 1) {
+    header('location: ../../main.php');
+}
+
 ?>
 <?php
 $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,

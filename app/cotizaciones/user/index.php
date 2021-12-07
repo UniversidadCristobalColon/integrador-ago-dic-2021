@@ -3,12 +3,15 @@ require_once '../../../config/global.php';
 require '../../../config/db.php';
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
-$id_cliente = 23;
-// $id_usuario = $_SESSION['id_usuario'];
-// $id_cliente = $_SESSION['id_cliente'];
-// $tipo_perfil = $_SESSION['perfil_usuario'];
-// $email_usuario = $_SESSION['email_usuario'];
+// $id_cliente = 23;
+$id_usuario = $_SESSION['id_usuario'];
+$id_cliente = $_SESSION['id_cliente'];
+$tipo_perfil = $_SESSION['perfil_usuario'];
+$email_usuario = $_SESSION['email_usuario'];
 
+if ($tipo_perfil != 2) {
+    header('location: ../../main.php');
+}
 
 // var_dump($id_usuario);
 // var_dump($id_cliente);

@@ -2,10 +2,16 @@
 require_once '../../../config/global.php';
 require '../../../config/db.php';
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
+
+$tipo_perfil = $_SESSION['perfil_usuario'];
+if ($tipo_perfil != 2) {
+    header('location: ../../main.php');
+}
+
 ?>
 <?php
-// $id_cliente = $_SESSION['id_cliente'];
-$id_cliente = 137;
+$id_cliente = $_SESSION['id_cliente'];
+// $id_cliente = 137;
 $id_cotizacion = $_GET['id'];
 // CONSULTA INFORMACIÓN DE LA COTIZACIÓN SELECCIONADA
 $sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
