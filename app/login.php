@@ -26,8 +26,8 @@ if($resultado!=false){
 
         $pass_en_bd=$fila['password'];
         //Checks if passwords match
-        if(password_verify($pass_en_bd,$pass_en_hash)){
-
+        //if(password_verify($pass_en_bd,$pass_en_hash)){
+        if($pass==$pass_en_bd){
             $id_usuario=$fila['id'];
             $email_en_bd=$fila['user'];
             $perfil_usuario=$fila['id_perfil'];

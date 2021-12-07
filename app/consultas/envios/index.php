@@ -316,7 +316,6 @@ if ($resultado) {
                                                 <div class="modal-body table-responsive">
                                                     <?php
                                                     $envio = $e['id'];
-                                                    print_r($envio);
                                                     $sql = "select * from paquetes_enviados where envio = '$envio' AND status='A'";
                                                     $resultado = mysqli_query($conexion, $sql);
                                                     $pak = array();
@@ -423,7 +422,8 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Información de pago</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Información de
+                                                        pago</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -463,7 +463,8 @@ if ($resultado) {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Cancelación de envío</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Cancelación de
+                                                        envío</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -648,19 +649,12 @@ if ($resultado) {
         } else {
             $('#env tbody tr:has(td)').each(function () {
                 var rowPaqueteria = $.trim($(this).find('td:eq(1)').text());
+                var paqu = rowPaqueteria.split('\n');
                 if (paqueteria.toUpperCase() != 'ALL') {
-                    if (rowPaqueteria.toUpperCase().includes(paqueteria.toUpperCase())) {
+                    if (paqu[0].toUpperCase() == paqueteria.toUpperCase()) {
                         $(this).show();
                     } else {
                         $(this).hide();
-                    }
-                } else if ($(this).find('td:eq(1)').text() != '') {
-                    if (paqueteria != 'all') {
-                        if (rowPaqueteria.toUpperCase().includes(paqueteria.toUpperCase())) {
-                            $(this).show();
-                        } else {
-                            $(this).hide();
-                        }
                     }
                 }
             });
