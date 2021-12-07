@@ -1,7 +1,7 @@
 <?php
 require '../../../config/db.php';
 
-$idEnv = $_POST['id'];
+$idEnv = $_POST['id_form_fact'];
 var_dump($_FILES);
 $temp = $_FILES['factura']['tmp_name'];
 $type = $_FILES['factura']['type'];
