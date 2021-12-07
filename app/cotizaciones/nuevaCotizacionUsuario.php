@@ -17,7 +17,7 @@ function obtenerDirecciones($conexion) {
             entre_calles,
             referencia
             FROM `direcciones`
-            WHERE id_cliente = 23;";
+            WHERE id_cliente = 113;";
 
     $resultado = mysqli_query($conexion, $selectDirecciones);
 
@@ -64,9 +64,28 @@ $direcciones = obtenerDirecciones($conexion);
             }
         }*/
 
-        var numPaquete = 1;
+
+
+        /*$(document).ready(function(){
+            $("input[name='origen']").change(function(){
+                if($(this).val() == 'S') {
+                    $("#paquetes").addClass("d-none");
+                } else if($(this).val == 'R') {
+                    $("#paquetes").removeClass("d-none");
+                }
+            });
+        });*/
+
+        var numPaquete = 0;
+        var pesoRealTotal = 0;
+        var pesoVolumetricoTotal = 0;
+        var pesoFacturar = 0;
+        var totalesPesosReales = [];
+        var totalesPesosVolum = [];
 
         function procesarPaquete() {
+            ++numPaquete;
+
             var tipoProducto = $("#inputProducto option:selected").val();
 
             var embalaje = 'N';
@@ -75,7 +94,6 @@ $direcciones = obtenerDirecciones($conexion);
                 embalaje = 'S';
             }
 
-
             var peso = $("#inputPeso").val();
             var largo = $("#inputLargo").val();
             var ancho = $("#inputAncho").val();
@@ -83,19 +101,53 @@ $direcciones = obtenerDirecciones($conexion);
             var cantidad = $("#inputCantidad").val();
             var descProducto = $("#descProducto").val();
 
-            var stringPaquete = tipoProducto + "," + embalaje + "," + peso + "," + largo + "," + ancho + "," + alto + "," + cantidad;
 
+            $("#inputPeso").val("");
+            $("#inputLargo").val("");
+            $("#inputAncho").val("");
+            $("#inputAlto").val("");
+            $("#inputCantidad").val("");
+            $("#descProducto").val("");
+
+
+
+
+            var pesoVolumetricoInd = (largo * ancho * alto) / 5000;
+            var pesoTotalPaquete = peso * cantidad;
+            var pesoVolTotalPaquete = pesoVolumetricoInd * cantidad;
+
+            totalesPesosReales.push(pesoTotalPaquete);
+            //console.log(totalesPesosReales);
+
+            totalesPesosVolum.push(pesoVolTotalPaquete);
+            //console.log(totalesPesosVolum);
+
+            var pesoString = Number.parseFloat(peso).toFixed(2);
+            var pesoVolIndString = Number.parseFloat(pesoVolumetricoInd).toFixed(4);
+
+            pesoVolumetricoTotal += pesoVolumetricoInd * cantidad;
+            pesoRealTotal += pesoTotalPaquete;
+
+            var stringPaquete = tipoProducto + "," + embalaje + "," + peso + "," + largo + "," + ancho + "," + alto + "," + cantidad + "," + descProducto;
 
             var renglonPaquetes = "" +
                 "<tr>" +
-                "<th scope='row'>"+ numPaquete + "</th>" +
+                //"<th scope='row'>"+ numPaquete + "</th>" +
                 "<td>"+ tipoProducto + "</td>" +
                 "<td>" + embalaje + "</td>" +
-                "<td>" + peso + "</td>" +
+                //"<td>" + peso + "</td>" +
+                "<td>Peso real: " + pesoString + " kg<br>Peso vol: " + pesoVolIndString + " kg</td>" +
                 "<td>" + largo + "x" + ancho + "x" + alto + "</td>" +
                 "<td>" + cantidad + "</td>" +
-                "<td>qqwetd</td>" +
+                "<td>" + descProducto + "</td>" +
+                //"<td><!--<a href='#' class='btn btn-link btn-sm btn-sm'>Editar</a>--> <a href='#' class='btn btn-link btn-sm' onclick='eliminarPaquete('\"" + numPaquete + "\"')'>Eliminar</a></td>" +
+                "<td><a href='#paquetes' class='btn btn-link btn-sm' onclick='eliminarPaquete(" + numPaquete + ")'>Eliminar</a></td>" +
+                //"<td><input type="hidden" value=\"" + peso + "\" name="paquete[]"></td>" +
+                //"<td><input type='hidden' value='" + peso + "' + name='paquete[]'></td>" +
+                "<td><input type='hidden' value='" + stringPaquete + "' + name='paquete[]'></td>" +
                 "</tr>";
+
+            //alert(stringPaquete);
 
             //$("#paquetes tr:last").append(renglonPaquetes);
             //$("#paquetes tbody tr:last").append(renglonPaquetes);
@@ -107,13 +159,98 @@ $direcciones = obtenerDirecciones($conexion);
                 $("#paquetes tr:last").after(renglonPaquetes);
             }
 
-            numPaquete++;
 
-            //alert(stringPaquete);.
+
+            //alert(stringPaquete);
 
             $("#datosPaquetes").val(stringPaquete);
 
+            if(pesoRealTotal >= pesoVolumetricoTotal) {
+                pesoFacturar = pesoRealTotal;
+            } else if(pesoRealTotal <= pesoVolumetricoTotal){
+                pesoFacturar = pesoVolumetricoTotal;
+            }
+
+            //alert(pesoFacturar);
+
+            var stringPesos = "Total peso real: " + pesoRealTotal.toFixed(2) + " | Total peso volumétrico: " + pesoVolumetricoTotal.toFixed(2) + " | Peso a facturar: " + pesoFacturar.toFixed(2);
+
+            $("#paquetes").find("caption").text(stringPesos);
+            //alert(stringPesos);
+
+            $("#pesoRealTotal").val(pesoRealTotal);
+            $("#pesoTotalVol").val(pesoVolumetricoTotal);
+            $("#pesoAFacturar").val(pesoFacturar);
+
+
             //return stringPaquete;
+        }
+
+        function eliminarPaquete(numFila) {
+            console.log("Numero de fila");
+            console.log(numFila);
+
+            var indicePaquete = numFila - 1;
+            //alert(indicePaquete);
+
+            $("#paquetes tbody").find("tr").eq(indicePaquete).remove();
+            //console.log("Numero de filas");
+            $("#paquetes tbody").children("tr").each(function(indice){
+                fila = indice + 1;
+                //console.log(fila);
+                //$(this).find("td").eq(6).find("a").attr("href", "eliminarPaquete(" + indice + ")");
+                $(this).find("td").eq(6).find("a").attr("href", "#paquetes");
+                $(this).find("td").eq(6).find("a").attr("onclick", "eliminarPaquete(" + fila + ")");
+                //console.log($(this).find("td").length);
+            });
+
+            pesoEliminado = totalesPesosReales.splice(indicePaquete, 1);
+            pesoVolEliminado = totalesPesosVolum.splice(indicePaquete, 1);
+
+            //console.log(pesoEliminado[0]);
+            //console.log(pesoVolEliminado[0]);
+
+            pesoRealTotal -= pesoEliminado;
+            pesoVolumetricoTotal -= pesoVolEliminado;
+
+            //pesoRealTotal -= totalesPesosReales[indicePaquete];
+            //pesoVolumetricoTotal -= totalesPesosVolum[indicePaquete];
+
+            //totalesPesosReales.splice(indicePaquete, 1);
+            //totalesPesosVolum.splice(indicePaquete, 1);
+
+            if(pesoRealTotal < 0 || pesoVolumetricoTotal < 0) {
+                pesoRealTotal = 0;
+                pesoVolumetricoTotal = 0;
+            }
+
+            if(pesoRealTotal >= pesoVolumetricoTotal) {
+                pesoFacturar = pesoRealTotal;
+            } else if(pesoRealTotal <= pesoVolumetricoTotal){
+                pesoFacturar = pesoVolumetricoTotal;
+            }
+
+
+
+
+            var stringPesos = "Total peso real: " + pesoRealTotal.toFixed(2) + " | Total peso volumétrico: " + pesoVolumetricoTotal.toFixed(2) + " | Peso a facturar: " + pesoFacturar.toFixed(2);
+            $("#paquetes").find("caption").text(stringPesos);
+
+            $("#pesoRealTotal").val(pesoRealTotal);
+            $("#pesoTotalVol").val(pesoVolumetricoTotal);
+            $("#pesoAFacturar").val(pesoFacturar);
+
+            numPaquete--;
+        }
+
+        function esconderTablaOrigen() {
+            $("#tablaOrigen").addClass("d-none");
+            //console.log("hola");
+        }
+
+        function mostrarTablaOrigen() {
+            $("#tablaOrigen").removeClass("d-none");
+            console.log("hoal2");
         }
 
         //var paquete = procesarPaquete()
@@ -125,6 +262,7 @@ $direcciones = obtenerDirecciones($conexion);
         }*/
 
     </script>
+
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE ) ?>
@@ -192,7 +330,7 @@ $direcciones = obtenerDirecciones($conexion);
                     <div class="form-check-inline">
                         <input class="form-check-input" type="checkbox" id="asegurar" name="asegurar" value="S">
                         <label class="form-check-label" for="asegurar">
-                            Asegurar el envío<!--<a class="-underline" href="#">Mas información</a>-->
+                            Asegurar el envío (opcional)<!--<a class="-underline" href="#">Mas información</a>-->
                         </label>
                     </div>
                 </div>
@@ -210,18 +348,23 @@ $direcciones = obtenerDirecciones($conexion);
 
                 </div>
 
+                <input type="hidden" id="pesoRealTotal" name="pesoRealTotal" value="">
+                <input type="hidden" id="pesoTotalVol" name="pesoTotalVol" value="">
+                <input type="hidden" id="pesoAFacturar" name="pesoAFacturar" value="">
                 <input type="hidden" id="datosPaquetes" name="datosPaquetes" value="">
 
                 <table id="paquetes" class="table table-sm table-hover">
-                    <caption>Paquetes agregados</caption>
+                    <!--<caption>Paquetes agregados</caption>-->
+                    <caption></caption>
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <!--<th scope="col">#</th>-->
                         <th scope="col">Tipo</th>
                         <th scope="col">Embalaje</th>
-                        <th scope="col">Peso</th>
+                        <th scope="col">Peso (individual)</th>
                         <th scope="col">Dimensiones</th>
                         <th scope="col">Cantidad</th>
+                        <th scope="col">Descripción</th>
                         <th scope="col">Accion</th>
                     </tr>
                     </thead>
@@ -276,16 +419,12 @@ $direcciones = obtenerDirecciones($conexion);
                                     <div class="form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="embalaje" value="embalaje">
                                         <label class="form-check-label" for="embalaje">
-                                            Requiero embalaje <a class="-underline" href="#">Mas información</a>
+                                            Requiero embalaje (opcional)<!--<a class="-underline" href="#"> Mas información</a>-->
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group col-md-2">
-                                        <label for="inputPeso">Peso</label>
-                                        <input type="text" class="form-control" id="inputPeso">
-                                    </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputLargo">Largo</label>
                                         <input type="text" class="form-control" id="inputLargo">
@@ -298,9 +437,17 @@ $direcciones = obtenerDirecciones($conexion);
                                         <label for="inputAlto">Alto</label>
                                         <input type="text" class="form-control" id="inputAlto">
                                     </div>
+                                    <!--<div class="form-group col-md-4">
+                                        <label for="inputPesoVol">Peso volumétrico</label>
+                                        <input type="text" class="form-control" id="inputPesoVol" readonly>
+                                    </div>-->
                                 </div>
 
                                 <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputPeso">Peso individual</label>
+                                        <input type="text" class="form-control" id="inputPeso">
+                                    </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputCantidad">Cantidad</label>
                                         <input type="text" class="form-control" id="inputCantidad">
@@ -308,7 +455,7 @@ $direcciones = obtenerDirecciones($conexion);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="descProducto">Descripción del producto (en caso de requerir empaque)</label>
+                                    <label for="descProducto">Descripción del producto</label>
                                     <textarea class="form-control col-md-10" id="descProducto" rows="3"></textarea>
                                 </div>
                             </div>
@@ -325,15 +472,15 @@ $direcciones = obtenerDirecciones($conexion);
 
                 <div class="form-row">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="origen" id="sucursal" value="S">
+                        <input class="form-check-input" type="radio" name="origen" id="sucursal" onclick="esconderTablaOrigen()" value="S">
                         <label class="form-check-label" for="sucursal">Dejaré en sucursal</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="origen" id="recoleccion" value="S">
+                        <input class="form-check-input" type="radio" name="origen" id="recoleccion" onclick="mostrarTablaOrigen()" value="R">
                         <label class="form-check-label" for="recoleccion">Requiero recolección</label>
                     </div>
 
-                    <table class="table table-sm table-hover">
+                    <table id="tablaOrigen" class="table table-sm table-hover d-none">
                         <caption>Direcciones registradas</caption>
                         <thead>
                         <tr>
@@ -460,7 +607,7 @@ $direcciones = obtenerDirecciones($conexion);
                     <div class="form-check-inline">
                         <input class="form-check-input" type="checkbox" id="factura" name="factura" value="S">
                         <label class="form-check-label" for="factura">
-                            Requiero factura<!--<a class="-underline" href="#">Mas información</a>-->
+                            Requiero factura (opcional)<!--<a class="-underline" href="#">Mas información</a>-->
                         </label>
                     </div>
                 </div>
