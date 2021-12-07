@@ -7,7 +7,7 @@ include '../../../../config/db.php';
 if( isset($_POST) && count($_POST)>0 && isset($conexion) ) {
 
     $usuario = $_POST["correo"];
-    $passowrd = md5($_POST["password"]);
+    $passowrd = password_hash($_POST["password"], PASSWORD_DEFAULT); //password hash
     $nombre = $_POST["nombre"];
     $apellidos = $_POST["apellidos"];
     $correo = $_POST["correo"];
@@ -22,7 +22,8 @@ if( isset($_POST) && count($_POST)>0 && isset($conexion) ) {
         //$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         //$codigo_activacion = substr(str_shuffle($permitted_chars), 0, 30);
 
-        $query = "INSERT INTO `pakmail`.usuarios (user, password, id_perfil) VALUES ('$usuario','$passowrd','$id_insert') ";
+        $tipo = $_POST["tipo"];
+        $query = "INSERT INTO `pakmail`.usuarios (user, password, id_perfil) VALUES ('$usuario','$passowrd','$tipo') ";
 
         if( $insert = mysqli_query($conexion,$query) ){
 

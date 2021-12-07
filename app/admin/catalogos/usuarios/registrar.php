@@ -92,10 +92,19 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         <div class="invalid-feedback">Apellidos requeridos</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="correo">Correo</label>
-                    <input name="correo" type="text" class="form-control" id="correo">
-                    <div class="invalid-feedback">Correo inválido</div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="correo">Correo</label>
+                        <input name="correo" type="text" class="form-control" id="correo">
+                        <div class="invalid-feedback">Correo inválido</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="tipo">Tipo de usuario</label>
+                        <select name="tipo" id="tipo" class="custom-select">
+                            <option value="1">Usuario pakmail</option>
+                            <option value="2">Cliente</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
