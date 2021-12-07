@@ -12,8 +12,9 @@ require_once '../../../vendor/Excel/SimpleXLSXGen.php';
 //FROM `cotizaciones` left join clientes on id_cliente = clientes.id left join direcciones dir_rem on id_dir_rem = dir_rem.id left join direcciones dir_des on id_dir_dest = dir_des.id;";
 
 $sql = "SELECT id_cotizacion, CONCAT(clientes.nombre, ' ', clientes.apellidos) AS nombre_cliente, 
-CONCAT(remitente.calle, ' ', remitente.num_exterior, ' ', coloniasremitente.colonia, ' CP ', municipiosremitente.municipio, ' ', estadosremitente.estado ) AS remitente, tipo_servicio, 
+CONCAT(remitente.calle, ' ', remitente.num_exterior, ' ', coloniasremitente.colonia, ' CP ', municipiosremitente.municipio, ' ', estadosremitente.estado ) AS remitente, 
 CONCAT(destinatario.calle, ' ', destinatario.num_exterior, ' ', coloniasdestinatario.colonia, ' CP ', municipiosdestinatario.municipio, ' ', estadosdestinatario.estado ) AS destinatario,
+tipo_servicio, 
 CASE asegurado WHEN 'S' THEN 'asegurado' WHEN 'N' THEN 'No asegurado' END as 'Asegurado', 
 CASE factura WHEN 'S' THEN 'Facturado' WHEN 'N' THEN 'no facturado' END as 'facturado', 
 CASE recoleccion WHEN 'S' THEN 'Con recolección' WHEN 'N' THEN 'Sin recolección' END as 'recolectado', 
