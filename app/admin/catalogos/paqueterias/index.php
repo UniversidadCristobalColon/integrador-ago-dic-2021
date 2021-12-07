@@ -53,9 +53,9 @@ if($resultado) {
                 </ol>
             </nav>
 
-            <div class="alert alert-success" role="alert">
+            <!--<div class="alert alert-success" role="alert">
                  <i class="fas fa-check"></i> Guardado Exitosamente
-             </div>
+             </div> -->
 
             <!-- <div class="alert alert-danger" role="alert">
                   <i class="fas fa-exclamation-triangle"></i> Mensaje de error
@@ -63,7 +63,7 @@ if($resultado) {
 
              <div class="row my-3">
                  <div class="col text-right">
-                     <a href="paqueterias.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                     <a href="nueva_paqueteria.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
                  </div>
              </div>
             <?php
@@ -77,10 +77,11 @@ if($resultado) {
                          <th>Website</th>
                          <th>Domicilio</th>
                          <th>Estatus</th>
-                         <th>Creacion</th>
-                         <th>Actualizacion</th>
-                         <th></th>
-                         <th></th>
+                         <th>Municipios</th>
+                         <th>Creación</th>
+                         <th>Actualización</th>
+                         <th>Acciones</th>
+
 
 
                      </tr>
@@ -95,11 +96,14 @@ if($resultado) {
                              <td><?php echo $p['website']?></td>
                              <td><?php echo $p['domicilio'] ?></td>
                              <td><?php echo $p['status']?></td>
+                             <td><?php echo $p['id_municipio'] ?></td>
                              <td><?php echo $p['creacion'] ?></td>
                              <td><?php echo $p['actualizacion']?></td>
 
-                             <td><a href="borrar.php?id=<?php echo $p['id'] ?>" class="btn btn-danger btn-sm">Eliminar</a></td>
-                             <td><a href="paqueterias.php?id=<?php echo $p['id'] ?>" class="btn btn-secondary btn-sm">Actualizar</a></td>
+                             <td><a href="actualizar_paqueteria.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+
+                             </td>
+
                          </tr>
                          <?php
                      }
