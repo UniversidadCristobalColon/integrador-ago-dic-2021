@@ -18,7 +18,7 @@ require_once '../../config/db.php';
 
 define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
 
-function obtenerDirecciones($conexion, $idCliente) {
+function obtenerDirecciones($conexion) {
 
     //$idCliente = $_SESSION['id_cliente'];
 
@@ -29,16 +29,23 @@ function obtenerDirecciones($conexion, $idCliente) {
 
     $selectDirecciones = "
         SELECT 
-            id,
-            cp,
-            calle,
-            num_exterior,
-            num_interior,
-            entre_calles,
-            referencia,
-            alias
-            FROM `direcciones`
-            WHERE id_cliente = $idCliente AND alias <> 'Sucursal';";
+               direcciones.id, 
+               direcciones.cp, 
+               direcciones.calle, 
+               direcciones.num_exterior, 
+               direcciones.num_interior, 
+               direcciones.entre_calles, 
+               direcciones.referencia, 
+               direcciones.alias, 
+               direcciones.id_cliente, 
+               clientes.nombre, 
+               clientes.apellidos,
+               clientes.email,
+               clientes.celular,
+               clientes.telefono
+        FROM `direcciones` 
+            INNER JOIN `clientes` ON clientes.id = direcciones.id_cliente 
+        WHERE direcciones.alias <> 'sucursal';";
 
     $resultado = mysqli_query($conexion, $selectDirecciones);
 
@@ -61,7 +68,49 @@ function obtenerDirecciones($conexion, $idCliente) {
 }
 
 //echo"direcciones<br>";
-$direcciones = obtenerDirecciones($conexion, $id_cliente);
+$direcciones = obtenerDirecciones($conexion);
+
+function obtenerClientes($conexion) {
+
+    //$idCliente = $_SESSION['id_cliente'];
+
+    /*echo "idcliente<br>";
+    echo $idCliente;
+    echo "<br>";
+    echo "<br>";*/
+
+    $selectClientes = "
+        SELECT 
+               id, 
+               nombre, 
+               apellidos, 
+               celular, 
+               telefono,
+               email
+        FROM `clientes`;";
+
+    $resultado = mysqli_query($conexion, $selectClientes);
+
+    if($resultado) {
+
+        while( $fila = mysqli_fetch_assoc($resultado)) {
+            $clientes[] = $fila;
+        }
+
+        return $clientes;
+
+    } else {
+        //echo "error<br>";
+        echo mysqli_error($conexion);
+
+    }
+
+    return false;
+
+}
+
+//echo"direcciones<br>";
+$clientes = obtenerClientes($conexion);
 
 
 
@@ -339,6 +388,83 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
             </div>-->
 
             <form action="procesarNuevaCotizacion.php" method="post" enctype="multipart/form-data">
+
+                <div class="table-responsive mb-3">
+
+                    <h2 class="font-weight-normal">Clientes</h2>
+
+                    <table class="table table-bordered dataTable">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Celular y telefono</th>
+                            <th>Email</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Celular y telefono</th>
+                            <th>Email</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <?php
+                        foreach($clientes as $tablaClientes) {
+                            $id = $tablaClientes['id'];
+                            $nombre = $tablaClientes['nombre'];
+                            $apellidos = $tablaClientes['apellidos'];
+
+                            $celular = "N/A";
+
+                            if(array_key_exists('celular', $tablaClientes)) {
+                                $celular = $tablaClientes['celular'];
+
+                                if(empty($celular)) {
+                                    $celular = "N/A";
+                                }
+                            }
+
+                            $telefono = "N/A";
+
+                            if(array_key_exists('telefono', $tablaClientes)) {
+                                $telefono = $tablaClientes['telefono'];
+
+                                if(empty($telefono)) {
+                                    $telefono = "N/A";
+                                }
+                            }
+
+                            $celYTel = $celular . "/" . $telefono;
+
+                            $email = "N/A";
+
+                            if(array_key_exists('email', $tablaClientes)) {
+                                $email = $tablaClientes['email'];
+
+                                if(empty($email)) {
+                                    $email = "N/A";
+                                }
+                            }
+
+                        ?>
+                        <tr>
+                            <th scope="row"><?php echo $nombre . " " . $apellidos; ?></th>
+                            <td><?php echo $celYTel; ?></td>
+                            <td><?php echo $email; ?></td>
+                            <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>"></label></td>
+                        </tr>
+                        <?php
+                        }
+                        ?>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
                 <h2 class="font-weight-normal">Servicio</h2>
                 <div class="form-row">
                     <div class="form-group col-md-4">
@@ -431,98 +557,100 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label for="inputProducto">¿Qué desea enviar?</label>
-                                        <select id="inputProducto" class="custom-select mr-sm-6">
-                                            <option selected></option>
-                                            <option value="paquete">Paquete</option>
-                                            <option value="documento">Documento</option>
-                                        </select>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="inputProducto">¿Qué desea enviar?</label>
+                                            <select id="inputProducto" class="custom-select mr-sm-6">
+                                                <option selected></option>
+                                                <option value="paquete">Paquete</option>
+                                                <option value="documento">Documento</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="embalaje" value="embalaje">
+                                            <label class="form-check-label" for="embalaje">
+                                                Requiero embalaje (opcional)<!--<a class="-underline" href="#"> Mas información</a>-->
+                                            </label>
+                                        </div>
                                     </div>
 
-                                    <div class="form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="embalaje" value="embalaje">
-                                        <label class="form-check-label" for="embalaje">
-                                            Requiero embalaje (opcional)<!--<a class="-underline" href="#"> Mas información</a>-->
-                                        </label>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputLargo">Largo</label>
+                                            <input type="text" class="form-control" id="inputLargo">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputAncho">Ancho</label>
+                                            <input type="text" class="form-control" id="inputAncho">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputAlto">Alto</label>
+                                            <input type="text" class="form-control" id="inputAlto">
+                                        </div>
+                                        <!--<div class="form-group col-md-4">
+                                            <label for="inputPesoVol">Peso volumétrico</label>
+                                            <input type="text" class="form-control" id="inputPesoVol" readonly>
+                                        </div>-->
                                     </div>
-                                </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-2">
-                                        <label for="inputLargo">Largo</label>
-                                        <input type="text" class="form-control" id="inputLargo">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="inputPeso">Peso individual</label>
+                                            <input type="text" class="form-control" id="inputPeso">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputCantidad">Cantidad</label>
+                                            <input type="text" class="form-control" id="inputCantidad">
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputAncho">Ancho</label>
-                                        <input type="text" class="form-control" id="inputAncho">
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputAlto">Alto</label>
-                                        <input type="text" class="form-control" id="inputAlto">
-                                    </div>
-                                    <!--<div class="form-group col-md-4">
-                                        <label for="inputPesoVol">Peso volumétrico</label>
-                                        <input type="text" class="form-control" id="inputPesoVol" readonly>
-                                    </div>-->
-                                </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label for="inputPeso">Peso individual</label>
-                                        <input type="text" class="form-control" id="inputPeso">
+                                    <div class="form-group">
+                                        <label for="descProducto">Descripción del producto</label>
+                                        <textarea class="form-control col-md-10" id="descProducto" rows="3"></textarea>
                                     </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputCantidad">Cantidad</label>
-                                        <input type="text" class="form-control" id="inputCantidad">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="descProducto">Descripción del producto</label>
-                                    <textarea class="form-control col-md-10" id="descProducto" rows="3"></textarea>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-success" onclick="procesarPaquete()">Guardar</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-success" onclick="procesarPaquete()">Guardar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-                <h2 class="font-weight-normal">Origen</h2>
+                <div class="table-responsive mb-3">
 
-                <div class="form-row">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="origen" id="sucursal" onclick="esconderTablaOrigen()" value="S">
-                        <label class="form-check-label" for="sucursal">Dejaré en sucursal</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="origen" id="recoleccion" onclick="mostrarTablaOrigen()" value="R">
-                        <label class="form-check-label" for="recoleccion">Requiero recolección</label>
-                    </div>
+                    <h2 class="font-weight-normal">Destino</h2>
 
-                    <table id="tablaOrigen" class="table table-sm table-hover d-none">
-                        <caption>Direcciones registradas</caption>
+                    <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">CP</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Referencia</th>
-                            <th scope="col">Alias</th>
-                            <th scope="col">Seleccionar</th>
+                            <th>Nombre</th>
+                            <th>Contacto</th>
+                            <th>Direccion</th>
+                            <th>Referencia</th>
+                            <th>Alias</th>
+                            <th>Seleccionar</th>
                         </tr>
                         </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Contacto</th>
+                            <th>Direccion</th>
+                            <th>Referencia</th>
+                            <th>Alias</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                        </tfoot>
                         <tbody>
                         <?php
-                        $numeroDireccion = 1;
+
+
 
                         foreach($direcciones as $tablaDireccion) {
-                            $id = $tablaDireccion['id'];
+                            $idDireccion = $tablaDireccion['id'];
                             $cp = $tablaDireccion['cp'];
                             $calle = $tablaDireccion['calle'];
 
@@ -551,137 +679,80 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                             $entreCalles = $tablaDireccion['entre_calles'];
                             $referencia = $tablaDireccion['referencia'];
                             $alias = $tablaDireccion['alias'];
-                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ", entre calles " . $entreCalles;
+                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ",  entre calles " . $entreCalles. ", CP: " . $cp;
+
+                            $idCliente = $tablaDireccion['id_cliente'];
+                            $nombre = $tablaDireccion['nombre'];
+                            $apellidos = $tablaDireccion['apellidos'];
+                            $nombreCliente = $nombre . " " . $apellidos;
+
+                            $email = $tablaDireccion['email'];
+                            $celular = $tablaDireccion['celular'];
+                            $telefono = $tablaDireccion['telefono'];
+                            //$celYTel = $celular . "/" . $telefono;
+
+                            $contacto = "Cel: " . $celular . "<br>Tel: " . $telefono . "<br>Email: " . $email;
+
+
+
                             ?>
                             <tr>
-                                <th scope="row"><?php echo $numeroDireccion; ?></th>
-                                <td><?php echo $cp; ?></td>
+                                <th scope="row"><?php echo $nombreCliente; ?></th>
+                                <td><?php echo $contacto; ?></td>
+                                <!--<td><?php //echo $email; ?></td>-->
                                 <td><?php echo $direccion; ?></td>
                                 <td><?php echo $referencia; ?></td>
                                 <td><?php echo $alias; ?></td>
-                                <td><label><input type="radio" name="direcOrigen" value="<?php echo $id; ?>"></label></td>
+                                <td><label><input type="radio" name="destino" value="<?php echo $idDireccion; ?>"></label></td>
                             </tr>
 
                             <?php
-
-                            $numeroDireccion++;
                         }
                         ?>
-
-                        </tbody>
                     </table>
                 </div>
 
-                <h2 class="font-weight-normal">Destino</h2>
-
-                <table class="table table-sm table-hover">
-                    <caption>Direcciones registradas</caption>
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">CP</th>
-                        <th scope="col">Dirección</th>
-                        <th scope="col">Referencia</th>
-                        <th scope="col">Alias</th>
-                        <th scope="col">Seleccionar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $numeroDireccion = 1;
-
-                    foreach($direcciones as $tablaDireccion) {
-                        $id = $tablaDireccion['id'];
-                        $cp = $tablaDireccion['cp'];
-                        $calle = $tablaDireccion['calle'];
-                        //$numExt = $tablaDireccion['num_exterior'];
-
-                        $numExt = "N/A";
-
-                        if(array_key_exists('num_exterior', $tablaDireccion)) {
-                            $numExt = $tablaDireccion['num_exterior'];
-
-                            if(empty($numExt)) {
-                                $numExt = "N/A";
-                            }
-                        }
-
-                        $numInt = "N/A";
-
-                        if(array_key_exists('num_interior', $tablaDireccion)) {
-                            $numInt = $tablaDireccion['num_interior'];
-
-                            if(empty($numInt)) {
-                                $numInt = "N/A";
-                            }
-                        }
-
-                        //$numInt = $d['num_int'];
-                        $entreCalles = $tablaDireccion['entre_calles'];
-                        $referencia = $tablaDireccion['referencia'];
-                        $alias = $tablaDireccion['alias'];
-                        //$direccion = $calle . " numero " . $numExt . " entre calles " . $entreCalles;
-                        $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ", entre calles " . $entreCalles;
-                        ?>
+                <!-- Tabla responsiva
+                <div class="table-responsive mb-3">
+                    <table class="table table-bordered dataTable">
+                        <caption>Direcciones registradas</caption>
+                        <thead>
                         <tr>
-                            <th scope="row"><?php echo $numeroDireccion; ?></th>
-                            <td><?php echo $cp; ?></td>
-                            <td><?php echo $direccion; ?></td>
-                            <td><?php echo $referencia; ?></td>
-                            <td><?php echo $alias; ?></td>
-                            <td><label><input type="radio" name="direcDestino" value="<?php echo $id; ?>"></label></td>
+                            <th>Direccion</th>
+                            <th>Acciones</th>
                         </tr>
-
-                        <?php
-
-                        $numeroDireccion++;
-                    }
-                    ?>
-
-                    </tbody>
-                </table>
-
-                    <!-- Tabla responsiva
-                    <div class="table-responsive mb-3">
-                        <table class="table table-bordered dataTable">
-                            <caption>Direcciones registradas</caption>
-                            <thead>
-                            <tr>
-                                <th>Direccion</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Direccion</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td><a href="#" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Direccion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td><a href="#" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ashton Cox</td>
+                            <td><a href="#" class="btn btn-link btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Eliminar</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                -->
+            -->
 
                 <div class="form-row mb-4">
                     <div class="form-check-inline">
                         <input class="form-check-input" type="checkbox" id="factura" name="factura" value="S">
                         <label class="form-check-label" for="factura">
-                            Requiero factura (opcional)<!--<a class="-underline" href="#">Mas información</a>-->
+                            Requiere factura (opcional)<!--<a class="-underline" href="#">Mas información</a>-->
                         </label>
                     </div>
                 </div>

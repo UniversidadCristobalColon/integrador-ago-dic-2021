@@ -1,12 +1,22 @@
 <?php
+$status = session_status();
+
+if($status == PHP_SESSION_NONE) {
+    //echo "no hay sesion";
+    session_start();
+}
+
+
+$idCliente = $_SESSION['id_cliente'];
+
+echo "id cliente<br>";
+echo $idCliente ."<br>";
+
 require_once '../../config/db.php';
 //require_once '../../config/global.php';
 //echo "hola<br>";
 $tipoServicio = $_POST['tipoServicio'];
-$asegurado = $_POST['asegurar'];
-$factura = $_POST['factura'];
 $origen = $_POST['origen'];
-$direcOrigen = $_POST['direcOrigen'];
 $direcDestino = $_POST['direcDestino'];
 //$paquete = $_POST['datosPaquetes'];
 $paquetes = $_POST['paquete'];
@@ -18,6 +28,28 @@ echo $pesoRealTotal . "<br>";
 echo $pesoTotalVol . "<br>";
 echo $pesoAFacturar . "<br>";*/
 
+if(array_key_exists('asegurar', $_POST)) {
+    echo "asegurar si existe<br>";
+    $asegurado = $_POST['asegurar'];
+} else {
+    echo "asegurar no existe<br>";
+    $asegurado ='N';
+}
+
+if(array_key_exists('factura', $_POST)) {
+    echo "factura si existe<br>";
+    $factura = $_POST['factura'];
+} else {
+    echo "factura no existe<br>";
+    $factura ='N';
+}
+
+if(array_key_exists('direcOrigen', $_POST)) {
+    echo "direcOrigen si existe<br>";
+    $direcOrigen = $_POST['direcOrigen'];
+} else {
+    echo "direcorigen no existe<br>";
+}
 
 //$datosPaquete = explode(",", $paquete);
 
@@ -31,7 +63,7 @@ echo "factura" . "<br>";
 echo var_dump($factura);
 echo "<br>";*/
 
-if(is_null($asegurado)) {
+/*if(is_null($asegurado)) {
     //echo "asegurado es nulo<br>";
     $asegurado = 'N';
 }
@@ -39,7 +71,7 @@ if(is_null($asegurado)) {
 if(is_null($factura)) {
     //echo "factura es nulo<br>";
     $factura = 'N';
-}
+}*/
 
 echo "origen<br>";
 echo var_dump($origen);
@@ -48,24 +80,36 @@ echo "<br>";
 $recoleccion = 'N';
 
 if($origen == 'S') {
-    //echo "Origen sucursal<br>";
-    //$obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = AND alias = 'sucursal'";
-    $resultado = mysqli_query($conexion, $insert);
+    echo "Origen sucursal<br>";
+    echo "justo antes de select direc origen<br>";
+    echo "id cliente: " . $idCliente . "<br>";
+    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
+    $resultado = mysqli_query($conexion, $obtenerDirecOrigen);
+
+
 
     if($resultado) {
 
-        $direcOrigen = mysqli_insert_id($conexion);
+        $direcsOrigen = array();
+
+        while($fila = mysqli_fetch_assoc($resultado)) {
+            $direcsOrigen = $fila;
+        }
+
+        //var_dump($direcsOrigen);
+
+        $direcOrigen = $direcsOrigen['id'];
 
         echo "<br>";
         echo "id dir origen: " . $direcOrigen;
         echo "<br>";
         echo "<br>";
     } else {
-        echo mysqli_erro($conexion);
+        echo mysqli_error($conexion);
     }
 
 } else if($origen == 'R') {
-    //echo "Origen recolección<br>";
+    echo "Origen recolección<br>";
     $recoleccion = 'S';
 }
 
@@ -132,11 +176,9 @@ echo "<br>";*/
 //$select = "SELECT cp, calle, num_exterior, num_interior, entre_calles, referencia FROM `direcciones` WHERE id_cliente = 23; ";
 
 
-/*EMPIEZA AQUI
-$insertCotizacion = "INSERT INTO cotizaciones (id_cotizacion, id_cliente, id_dir_rem, id_dir_dest, tipo_servicio, asegurado, factura, recoleccion, peso_total_real, peso_total_vol, peso_a_facturar, fecha_creacion) VALUES (null, 113, $direcOrigen, $direcDestino, '$tipoServicio', '$asegurado', '$factura', '$recoleccion', $pesoRealTotal, $pesoTotalVol, $pesoAFacturar, NOW())";
+
+$insertCotizacion = "INSERT INTO cotizaciones (id_cotizacion, id_cliente, id_dir_rem, id_dir_dest, tipo_servicio, asegurado, factura, recoleccion, peso_total_real, peso_total_vol, peso_a_facturar, fecha_creacion) VALUES (null, $idCliente, $direcOrigen, $direcDestino, '$tipoServicio', '$asegurado', '$factura', '$recoleccion', $pesoRealTotal, $pesoTotalVol, $pesoAFacturar, NOW())";
 $resultado = mysqli_query($conexion, $insertCotizacion);
-
-
 
 if($resultado) {
 
@@ -151,14 +193,14 @@ if($resultado) {
         /*echo "paqueteIndice<br>";
         echo $paqueteIndice;
         echo "<br>";
-        echo "<br>";*\/
+        echo "<br>";*/
 
         $paquete = explode(",", $paqueteIndice);
 
         /*echo "paquete<br>";
         echo var_dump($paquete);
         echo "<br>";
-        echo "<br>";*\/
+        echo "<br>";*/
 
         $tipo = $paquete[0];
         $embalaje = $paquete[1];
@@ -186,7 +228,7 @@ if($resultado) {
         echo "cantidad:" . $cantidad;
         echo "<br>";
         echo "descripcion:" . $descripcion;
-        echo "<br>";*\/
+        echo "<br>";*/
 
 
         //$insertPaquete = "INSERT INTO paquetecotizado (id_paquete, id_cotizacion, tipo, peso, largo, ancho, alto, embalaje, descripcion ,peso_volum, cantidad, creacion) VALUES (null, $idCotizacion, '$tipo', $peso, $largo, $ancho, $alto, '$embalaje', 'zapatos' , 36, $cantidad ,NOW())";
@@ -208,6 +250,6 @@ if($resultado) {
 
 } else {
     echo mysqli_error($conexion);
-}*/
+}
 
 ?>
