@@ -22,12 +22,11 @@ $estado = '';
 $referencia = '';
 if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
-    //$id_fiscal = $_GET['id_cliente'];
-    $sql = "SELECT * FROM clientes WHERE id = $id_cliente";
-    $sql2 = "SELECT * FROM fiscales WHERE id_cliente = $id_cliente";
 
-    $resultado = mysqli_query($conexion, $sql);
-    $resultado2 = mysqli_query($conexion, $sql2);
+    $query = "SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = $id_cliente";
+//select * from clientes a, fiscales b where a.id = b.id_cliente and a.id = $id_cliente
+//SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = 126;
+    $resultado = mysqli_query($conexion, $query);
 
     if($resultado){
         $fila = mysqli_fetch_assoc($resultado);
@@ -35,9 +34,6 @@ if(!empty($_GET['id'])){
         $apellidos = $fila['apellidos'];
         $celular = $fila['celular'];
         $telefono = $fila['telefono'];
-    }
-    if($resultado2){
-        $fila = mysqli_fetch_assoc($resultado2);
         $razon = $fila['razon'];
         $rfc = $fila['rfc'];
         $email1 = $fila['email1'];
@@ -54,12 +50,10 @@ if(!empty($_GET['id'])){
         $referencia = $fila['referencia'];
     }
 
+
+
+
 }
-/*
-$usuario = 'pakmail_user';
-$password = 'kp3C-sd6WVvRZeBV';
-$db = new PDO('mysql:host=lizbethrojas.me;dbname=pakmail', $usuario, $password);
-*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -189,19 +183,16 @@ $db = new PDO('mysql:host=lizbethrojas.me;dbname=pakmail', $usuario, $password);
                         <div class="form-group col-md-6">
                             <label>Estado</label>
                             <select name="estado">
-                                <option>Seleccione una opción</option>
-
+                                <option>Seleccione una opción:</option>
                                 <?php
-                                /*
-                                 $query = $db->prepare("SELECT * FROM estados");
-                                 $query->execute();
-                                 $data = $query->fetchAll();
-                                 foreach ($data as $value):
-                                     echo '<option value="'.$value['id'].'">'.$value['estado'].'</option>';
-                                 endforeach
-                                */
-                                 ?>
-
+                                $query = "SELECT * FROM estados";
+                                $ejecutar = mysqli_query($conexion,$query);
+                                ?>
+                                <?php
+                                foreach ($ejecutar as $opciones):
+                                    ?>
+                                    <option value="<?php echo $opciones['id']?>"><?php echo $opciones['estado']?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
                         <div class="form-group col-md-6">

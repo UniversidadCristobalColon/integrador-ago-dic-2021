@@ -68,6 +68,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
+                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -76,6 +77,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Celular</th>
+                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                         </tfoot>
@@ -84,9 +86,10 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                         foreach ($clientes as $c){
                         ?>
                         <tr>
-                            <td><?php echo $c['nombre']?></td>
+                            <td><?php echo $c['nombre']?> <?php echo $c['apellidos']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
+                            <td><?php echo $c['status'] ?></td>
                             <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
                                 <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a>
                             </td>
