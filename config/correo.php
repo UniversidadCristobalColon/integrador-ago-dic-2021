@@ -1,36 +1,57 @@
 <?php
-require 'db.php';
 
-function envioCorreos($ruta= ''){
+    $subject=$_POST['subject'];
+    $email_destino=$_POST['email_destino'];
+    $message=$_POST['message'];
 
-$sql1= "select usuario from serviciocorreos";
-$sql2= "select password from serviciocorreos";
+//function enviarCorreo($email_destino, $subject, $message){
+//        global $conexion;
 
-$EMAIL=mysqli_query($conexion,$sql1);
-$PASS=mysqli_query($conexion,$sql2);
+        require_once 'db.php';
 
-if(isset($_POST['sendmail'])) {
-    require_once '../../../../vendor/autoload.php';
+        require_once '../vendor/autoload.php';
 
+        $sql = "select usuario, password from serviciocorreos";
 
-    // Create the Transport
-    $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
-        ->setUsername(EMAIL)
-        ->setPassword(PASS);
+        $resultado = mysqli_query($conexion, $sql);
 
-    // Create the Mailer using your created Transport
-    $mailer = new Swift_Mailer($transport);
+        $datos = array();
 
-    // Create a message
-    $message = (new Swift_Message($_POST[$subject]))
-        ->setFrom([EMAIL => 'Servicios Pakmail'])
-        ->setTo([$_POST[$destino]])
-        ->setBody($_POST[$message]);
+        if ($resultado) {
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $datos[] = $fila;
+            }
+        }
 
-    if ($mailer->send($message)) {
-        return true;
-    }
-}
-}
+//        print_r($datos);
+
+        $EMAIL = $datos[0]['usuario'];
+        $PASS = $datos[0]['password'];
+
+        define('EMAIL', $EMAIL);
+        define('PASS', $PASS);
+
+        // Create the Transport
+        $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+            ->setUsername(EMAIL)
+            ->setPassword(PASS);
+
+        // Create the Mailer using your created Transport
+        $mailer = new Swift_Mailer($transport);
+
+        // Create a message
+        $message = (new Swift_Message($_POST['subject']))
+            ->setFrom([EMAIL => 'Servicios Pakmail'])
+            ->setTo([$_POST['email_destino']])
+            ->setBody($_POST['message']);
+
+        // Send the message
+        if ($result = $mailer->send($message)) {
+            echo "Correo Enviado!";
+        } else {
+            echo "Fallo en Envio!";
+        }
+        header('location:javascript://history.go(-1)');
+
+//    }
 ?>
-
