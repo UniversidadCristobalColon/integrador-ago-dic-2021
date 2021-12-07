@@ -1,9 +1,18 @@
 <?php
 require_once '../../../../config/global.php';
+require '../../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../../');
 
+$sql = "SELECT * FROM paises";
+$resultado = mysqli_query($conexion,$sql);
 
+$paises = array();
+if($resultado) {
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $paises[] = $fila;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,6 +27,14 @@ define('RUTA_INCLUDE', '../../../../');
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE ) ?>
+
+    <script>
+        function confirmar(){
+            if(confirm('Estas seguro de Desactivarlo')){
+                window.location = 'borrar.php?id=' + id;
+            }
+        }
+    </script>
 </head>
 
 <body id="page-top">
@@ -57,6 +74,7 @@ define('RUTA_INCLUDE', '../../../../');
                  <table class="table table-bordered dataTable">
                      <thead>
                      <tr>
+                         <th>#</th>
                          <th>Países</th>
                          <th>Creación</th>
                          <th>Actualización</th>
@@ -68,15 +86,20 @@ define('RUTA_INCLUDE', '../../../../');
                      <tfoot>
                      </tfoot>
                      <tbody>
-
-                     <tr>
-                         <td>México (MEX)</td>
-                         <td>2021-12-01 00:50:43</td>
-                         <td>2021-12-02 00:50:43</td>
-                         <td>A</td>
-                         <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
-                     </tr>
-
+                     <?php
+                     foreach ($paises as $p){
+                         ?>
+                         <tr>
+                             <td><?php echo $p['id']?></td>
+                             <td><?php echo $p['pais']?></td>
+                             <td><?php echo $p['creacion']?></td>
+                             <td><?php echo $p['actualizacion']?></td>
+                             <td><?php echo $p['status']?></td>
+                             <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $p['id']?>')" href="borrar.php?id=<?php echo $p['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
+                         </tr>
+                         <?php
+                     }
+                     ?>
                      </tbody>
                  </table>
              </div>

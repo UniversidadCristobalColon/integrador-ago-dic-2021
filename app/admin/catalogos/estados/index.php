@@ -1,5 +1,6 @@
 <?php
 require_once '../../../../config/global.php';
+require '../../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../../');
 
@@ -12,7 +13,6 @@ if($resultado) {
         $estados[] = $fila;
     }
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -28,6 +28,14 @@ if($resultado) {
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE ) ?>
+
+    <script>
+        function confirmar(){
+            if(confirm('Estas seguro de Desactivarlo')){
+                window.location = 'borrar.php?id=' + id;
+            }
+        }
+    </script>
 </head>
 
 <body id="page-top">
@@ -67,6 +75,7 @@ if($resultado) {
                  <table class="table table-bordered dataTable">
                      <thead>
                      <tr>
+                         <th>#</th>
                          <th>Estados</th>
                          <th>Creación</th>
                          <th>Actualización</th>
@@ -82,11 +91,12 @@ if($resultado) {
                      foreach ($estados as $e){
                      ?>
                      <tr>
+                         <td><?php echo $e['id']?></td>
                          <td><?php echo $e['estado']?></td>
                          <td><?php echo $e['creacion']?></td>
                          <td><?php echo $e['actualizacion']?></td>
                          <td><?php echo $e['status']?></td>
-                         <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" class="btn btn-link btn-sm">Desactivar</a></td>
+                         <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $e['id']?>')" href="borrar.php?id=<?php echo $e['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>
                      <?php
                      }
