@@ -20,12 +20,19 @@ function get_sucursales(): array{
 }
 
 function get_sucursal($id): array{
-
     $sucursal = [];
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, c.id as id_colonia, l.localidad, l.id as id_localidad, m.municipio, m.id as id_municipio, e.estado, e.id as id_estado, s.creacion, s.actualizacion, s.status FROM sucursales s LEFT JOIN colonias c on s.id_colonia = c.id LEFT JOIN localidades l on l.id = s.id_localidad left join municipios m on m.id = l.id_municipio left join estados e on e.id = m.id_estado where s.id = $id;";
+        $query = "SELECT s.id,s.sucursal, s.domicilio, c.cp, c.colonia, c.id as id_colonia, l.localidad, l.id 
+                    as id_localidad, m.municipio, m.id 
+                    as id_municipio, e.estado, e.id 
+                    as id_estado, s.creacion, s.actualizacion, s.status 
+                    FROM sucursales s 
+                    LEFT JOIN colonias c on s.id_colonia = c.id 
+                    LEFT JOIN localidades l on l.id = s.id_localidad 
+                    LEFT JOIN municipios m on m.id = l.id_municipio 
+                    LEFT JOIN estados e on e.id = m.id_estado WHERE s.id = $id;";
         if ($result = mysqli_query($conexion, $query))
             $sucursal = $result->fetch_assoc();
     }
@@ -122,7 +129,6 @@ function get_estados(): array{
             while ($row = $result->fetch_assoc())
                 array_push($estados, $row);
     }
-
     return $estados;
 }
 
@@ -131,7 +137,7 @@ function get_municipios($id_estado):array{
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_estado,municipio from municipios where status = 'A' and id_estado = $id_estado";
+        $query = "select id, id_estado,municipio from municipios where status = 'A' and id_estado = $id_estado order by municipio asc";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($municipios, $row);
@@ -144,26 +150,23 @@ function get_localidades($id_municipio):array{
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_municipio,localidad from localidades where status = 'A' and id_municipio = $id_municipio";
+        $query = "select id, id_municipio,localidad from localidades where status = 'A' and id_municipio = $id_municipio order by localidad asc";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($localidades, $row);
     }
-
     return $localidades;
 }
 
-function get_colonias($id_municipio):array
-{
+function get_colonias($id_municipio):array{
     $colonias = [];
     include '../../../../config/db.php';
 
     if( isset($conexion) ) {
-        $query = "select id, id_municipio,colonia,cp from colonias where status = 'A' and id_municipio = $id_municipio";
+        $query = "select id, id_municipio,colonia,cp from colonias where status = 'A' and id_municipio = $id_municipio order by colonia asc";
         if ($result = mysqli_query($conexion, $query))
             while ($row = $result->fetch_assoc())
                 array_push($colonias, $row);
     }
-
     return $colonias;
 }
