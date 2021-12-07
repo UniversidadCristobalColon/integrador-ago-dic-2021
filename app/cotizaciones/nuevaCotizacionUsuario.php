@@ -38,7 +38,7 @@ function obtenerDirecciones($conexion, $idCliente) {
             referencia,
             alias
             FROM `direcciones`
-            WHERE id_cliente = $idCliente AND alias <> 'Sucursal';";
+            WHERE id_cliente = $idCliente AND alias <> 'sucursal';";
 
     $resultado = mysqli_query($conexion, $selectDirecciones);
 
@@ -344,7 +344,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                     <div class="form-group col-md-4">
                         <label for="inputServicio">Tipo de servicio</label>
                         <!--<input type="email" class="form-control" id="inputEmail4">-->
-                        <select id="inputServicio" class="custom-select mr-sm-4" name="tipoServicio">
+                        <select id="inputServicio" class="custom-select mr-sm-4" name="tipoServicio" required>
                             <option selected value="default">Seleccione una opción...</option>
                             <option value="Urgente">Urgente</option>
                             <option value="Dia siguiente">Dia siguiente</option>
@@ -487,7 +487,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-success" onclick="procesarPaquete()">Guardar</button>
+                            <button type="button" class="btn btn-success" onclick="procesarPaquete()" data-dismiss="modal""">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -497,7 +497,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
 
                 <div class="form-row">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="origen" id="sucursal" onclick="esconderTablaOrigen()" value="S">
+                        <input class="form-check-input" type="radio" name="origen" id="sucursal" onclick="esconderTablaOrigen()" value="S" required>
                         <label class="form-check-label" for="sucursal">Dejaré en sucursal</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -506,12 +506,12 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                     </div>
 
                     <table id="tablaOrigen" class="table table-sm table-hover d-none">
-                        <caption>Direcciones registradas</caption>
+
                         <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">CP</th>
-                            <th scope="col">Dirección</th>
+                            <th scope="col">Mis direcciones</th>
                             <th scope="col">Referencia</th>
                             <th scope="col">Alias</th>
                             <th scope="col">Seleccionar</th>
@@ -551,7 +551,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                             $entreCalles = $tablaDireccion['entre_calles'];
                             $referencia = $tablaDireccion['referencia'];
                             $alias = $tablaDireccion['alias'];
-                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ", entre calles " . $entreCalles;
+                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . "<br>entre calles " . $entreCalles;
                             ?>
                             <tr>
                                 <th scope="row"><?php echo $numeroDireccion; ?></th>
@@ -575,12 +575,12 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                 <h2 class="font-weight-normal">Destino</h2>
 
                 <table class="table table-sm table-hover">
-                    <caption>Direcciones registradas</caption>
+
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">CP</th>
-                        <th scope="col">Dirección</th>
+                        <th scope="col">Mis direcciones</th>
                         <th scope="col">Referencia</th>
                         <th scope="col">Alias</th>
                         <th scope="col">Seleccionar</th>
@@ -621,7 +621,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                         $referencia = $tablaDireccion['referencia'];
                         $alias = $tablaDireccion['alias'];
                         //$direccion = $calle . " numero " . $numExt . " entre calles " . $entreCalles;
-                        $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ", entre calles " . $entreCalles;
+                        $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . "<br>entre calles " . $entreCalles;
                         ?>
                         <tr>
                             <th scope="row"><?php echo $numeroDireccion; ?></th>
@@ -629,7 +629,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                             <td><?php echo $direccion; ?></td>
                             <td><?php echo $referencia; ?></td>
                             <td><?php echo $alias; ?></td>
-                            <td><label><input type="radio" name="direcDestino" value="<?php echo $id; ?>"></label></td>
+                            <td><label><input type="radio" name="direcDestino" value="<?php echo $id; ?>" required></label></td>
                         </tr>
 
                         <?php

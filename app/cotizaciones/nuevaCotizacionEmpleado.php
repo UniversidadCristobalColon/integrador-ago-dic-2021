@@ -387,7 +387,7 @@ $clientes = obtenerClientes($conexion);
                 </div>
             </div>-->
 
-            <form action="procesarNuevaCotizacion.php" method="post" enctype="multipart/form-data">
+            <form action="procesarNuevaCotizacionEmpleado.php" method="post" enctype="multipart/form-data">
 
                 <div class="table-responsive mb-3">
 

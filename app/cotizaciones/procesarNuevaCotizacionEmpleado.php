@@ -7,46 +7,43 @@ if($status == PHP_SESSION_NONE) {
 }
 
 
-$idCliente = $_SESSION['id_cliente'];
+//$idCliente = $_SESSION['id_cliente'];
 
-echo "id cliente<br>";
-echo $idCliente ."<br>";
+/*echo "id cliente<br>";
+echo $idCliente ."<br>";*/
 
 require_once '../../config/db.php';
 //require_once '../../config/global.php';
 //echo "hola<br>";
+$idCliente = $_POST['cliente'];
 $tipoServicio = $_POST['tipoServicio'];
-$origen = $_POST['origen'];
-$direcDestino = $_POST['direcDestino'];
-//$paquete = $_POST['datosPaquetes'];
+//$origen = $_POST['origen'];
+//$direcDestino = $_POST['direcDestino'];
 $paquetes = $_POST['paquete'];
+$direcDestino = $_POST['destino'];
+//$paquete = $_POST['datosPaquetes'];
 $pesoRealTotal = $_POST['pesoRealTotal'];
 $pesoTotalVol = $_POST['pesoTotalVol'];
 $pesoAFacturar = $_POST['pesoAFacturar'];
-/*echo "hola" . "<br>";
-echo $pesoRealTotal . "<br>";
-echo $pesoTotalVol . "<br>";
-echo $pesoAFacturar . "<br>";*/
+//echo "hola" . "<br>";
+echo $idCliente . "<br>";
+echo $direcDestino . "<br>";
+echo $tipoServicio . "<br>";
 
 if(array_key_exists('asegurar', $_POST)) {
-    //echo "asegurar si existe<br>";
+    echo "asegurar si existe<br>";
     $asegurado = $_POST['asegurar'];
 } else {
-    //echo "asegurar no existe<br>";
+    echo "asegurar no existe<br>";
     $asegurado ='N';
 }
 
 if(array_key_exists('factura', $_POST)) {
-    //echo "factura si existe<br>";
+    echo "factura si existe<br>";
     $factura = $_POST['factura'];
 } else {
-    //echo "factura no existe<br>";
+    echo "factura no existe<br>";
     $factura ='N';
-}
-
-if(array_key_exists('direcOrigen', $_POST)) {
-    //echo "direcOrigen si existe<br>";
-    $direcOrigen = $_POST['direcOrigen'];
 }
 
 //$datosPaquete = explode(",", $paquete);
@@ -71,16 +68,19 @@ if(is_null($factura)) {
     $factura = 'N';
 }*/
 
-echo "origen<br>";
+/*echo "origen<br>";
 echo var_dump($origen);
-echo "<br>";
+echo "<br>";*/
 
 $recoleccion = 'N';
 
-if($origen == 'S') {
+/*if($origen == 'S') {
     echo "Origen sucursal<br>";
     //echo "justo antes de select direc origen<br>";
-    echo "id cliente: " . $idCliente . "<br>";
+    echo "id cliente: " . $idCliente . "<br>";*/
+
+    //EMPIEZA AQUI
+
     $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
     $resultado = mysqli_query($conexion, $obtenerDirecOrigen);
 
@@ -106,29 +106,6 @@ if($origen == 'S') {
         echo mysqli_error($conexion);
     }
 
-} else if($origen == 'R') {
-    echo "Origen recolección<br>";
-    $recoleccion = 'S';
-}
-
-/*echo "recoleccion<br>";
-var_dump($recoleccion);*/
-
-/*echo var_dump($direcOrigen);
-echo "<br>";
-echo var_dump($direcDestino);
-echo "<br>";
-echo var_dump($paquetes);
-echo "<br>";
-//echo print_r($paqueteDatos);
-echo "paquetes inicio";
-echo "<br>";
-echo $paquetes[0];
-echo "<br>";
-echo "<br>";
-echo $paquetes[1];
-echo "<br>";
-echo "<br>";*/
 
 /*foreach($paquetes as $paqueteIndice) {
     $paquete = explode(",", $paqueteIndice);
@@ -174,7 +151,7 @@ echo "<br>";*/
 //$select = "SELECT cp, calle, num_exterior, num_interior, entre_calles, referencia FROM `direcciones` WHERE id_cliente = 23; ";
 
 
-
+//OTRO AQUI
 $insertCotizacion = "INSERT INTO cotizaciones (id_cotizacion, id_cliente, id_dir_rem, id_dir_dest, tipo_servicio, asegurado, factura, recoleccion, peso_total_real, peso_total_vol, peso_a_facturar, fecha_creacion) VALUES (null, $idCliente, $direcOrigen, $direcDestino, '$tipoServicio', '$asegurado', '$factura', '$recoleccion', $pesoRealTotal, $pesoTotalVol, $pesoAFacturar, NOW())";
 $resultado = mysqli_query($conexion, $insertCotizacion);
 
