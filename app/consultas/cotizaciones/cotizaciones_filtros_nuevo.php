@@ -99,5 +99,4 @@ $consulta = $conexion->query($query);
 
 <?php getBottomIncudes( RUTA_INCLUDE ) ?>
 </body>
-
 </html>
