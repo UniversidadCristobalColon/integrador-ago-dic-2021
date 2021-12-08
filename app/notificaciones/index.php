@@ -92,7 +92,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                                         echo "<span class='badge badge-pill badge-secondary'>Leída</span>";
                                     }else{
                                         $id_algo = $propositos['id'];
-                                            echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como Leido</a>";
+                                            echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como leído</a>";
                                     }
                                     ?>
                                     </td>
@@ -109,7 +109,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                                                 echo "<span class='badge badge-pill badge-secondary'>Leída</span>";
                                             }else{
                                                 $id_algo = $propositos['id'];
-                                                echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como Leido</a>";
+                                                echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como leído</a>";
                                             }
                                             ?>
                                         </td>
