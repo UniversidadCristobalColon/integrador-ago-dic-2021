@@ -234,7 +234,7 @@ $clientes = obtenerClientes($conexion);
         function procesarPaquete() {
 
             if (validarCamposPaquete()) {
-                console.log("ProcesarPaquete");
+                //console.log("ProcesarPaquete");
                 ++numPaquete;
 
                 var tipoProducto = $("#inputProducto option:selected").val();
@@ -270,12 +270,12 @@ $clientes = obtenerClientes($conexion);
 
                 var pesoVolumetricoInd = (largo * ancho * alto) / 5000;
                 var pesoTotalPaquete = peso * cantidad;
-                console.log("pesoTotalPaqute");
-                console.log(pesoTotalPaquete);
+                //console.log("pesoTotalPaqute");
+                //console.log(pesoTotalPaquete);
                 var pesoVolTotalPaquete = pesoVolumetricoInd * cantidad;
 
-                console.log("totalesPesosreales");
-                console.log(totalesPesosReales);
+                //console.log("totalesPesosreales");
+                //console.log(totalesPesosReales);
                 totalesPesosReales.push(pesoTotalPaquete);
 
 
@@ -307,7 +307,7 @@ $clientes = obtenerClientes($conexion);
                     "<td><input type='hidden' value='" + stringPaquete + "' + name='paquete[]'></td>" +
                     "</tr>";
 
-                alert(stringPaquete);
+                //alert(stringPaquete);
 
                 //$("#paquetes tr:last").append(renglonPaquetes);
                 //$("#paquetes tbody tr:last").append(renglonPaquetes);
@@ -349,14 +349,14 @@ $clientes = obtenerClientes($conexion);
 
         function validarCamposPaquete() {
 
-            console.log("validarCamposPaquete");
+            //console.log("validarCamposPaquete");
 
             $valido = true;
 
             var producto = $("#inputProducto").val();
 
             if(producto == "default") {
-                console.log("producto default");
+                //console.log("producto default");
                 $valido = false;
             }
 
@@ -414,10 +414,10 @@ $clientes = obtenerClientes($conexion);
             }*/
 
             if((isNaN(largo)) || (isNaN(ancho)) || (isNaN(alto)) || (isNaN(peso))) {
-                alert("alguno no es numero");
+                alert("Un dato del paquete no es numero");
                 $valido = false;
             } else if(largo < 0 || ancho < 0 || alto < 0 || peso < 0) {
-                alert("alguno es menor a 0");
+                alert("Un dato del paquete es menor a 0");
                 $valido = false;
             }
 
@@ -425,8 +425,8 @@ $clientes = obtenerClientes($conexion);
         }
 
         function eliminarPaquete(numFila) {
-            console.log("Numero de fila");
-            console.log(numFila);
+            //console.log("Numero de fila");
+            //console.log(numFila);
 
             var indicePaquete = numFila - 1;
             //alert(indicePaquete);
