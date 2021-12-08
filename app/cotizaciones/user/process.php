@@ -9,8 +9,8 @@ if($status == PHP_SESSION_NONE) {
 
 $idCliente = $_SESSION['id_cliente'];
 
-echo "id cliente<br>";
-echo $idCliente ."<br>";
+/*echo "id cliente<br>";
+echo $idCliente ."<br>";*/
 
 //require_once '../../../config/global.php';
 require_once '../../../config/db.php';
@@ -71,17 +71,21 @@ if(is_null($factura)) {
     $factura = 'N';
 }*/
 
-echo "origen<br>";
+/*echo "origen<br>";
 echo var_dump($origen);
-echo "<br>";
+echo "<br>";*/
 
 $recoleccion = 'N';
 
 if($origen == 'S') {
-    echo "Origen sucursal<br>";
+    //echo "Origen sucursal<br>";
+
     //echo "justo antes de select direc origen<br>";
-    echo "id cliente: " . $idCliente . "<br>";
-    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
+
+    //echo "id cliente: " . $idCliente . "<br>";
+    //Original
+    //$obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
+    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias LIKE '%sucursal';";
     $resultado = mysqli_query($conexion, $obtenerDirecOrigen);
 
 
@@ -98,16 +102,16 @@ if($origen == 'S') {
 
         $direcOrigen = $direcsOrigen['id'];
 
-        echo "<br>";
+        /*echo "<br>";
         echo "id dir origen: " . $direcOrigen;
         echo "<br>";
-        echo "<br>";
+        echo "<br>";*/
     } else {
         echo mysqli_error($conexion);
     }
 
 } else if($origen == 'R') {
-    echo "Origen recolección<br>";
+    //echo "Origen recolección<br>";
     $recoleccion = 'S';
 }
 
@@ -182,10 +186,10 @@ if($resultado) {
 
     $idCotizacion = mysqli_insert_id($conexion);
 
-    echo "<br>";
+    /*echo "<br>";
     echo "id cotizacion: " . $idCotizacion;
     echo "<br>";
-    echo "<br>";
+    echo "<br>";*/
 
     foreach($paquetes as $paqueteIndice) {
         /*echo "paqueteIndice<br>";
@@ -236,15 +240,17 @@ if($resultado) {
         if($resultado) {
             $idPaqueteCot = mysqli_insert_id($conexion);
 
-            echo "<br>";
+            /*echo "<br>";
             echo "id paquete cotizado" . $idPaqueteCot;
             echo "<br>";
-            echo "<br>";
+            echo "<br>";*/
         } else {
             echo mysqli_error($conexion);
         }
 
     }
+
+    header('location: index.php');
 
 } else {
     echo mysqli_error($conexion);
