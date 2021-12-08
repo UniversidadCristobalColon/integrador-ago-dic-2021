@@ -8,7 +8,6 @@ $alto = $_POST['alto'];
 $peso = $_POST['peso'];
 $ancho = $_POST['ancho'];
 $largo = $_POST['largo'];
-$status = $_POST['status'];
 
 
 if(empty($id_paquete)){
@@ -16,7 +15,7 @@ if(empty($id_paquete)){
 VALUES (null,'$descripcion','$tipo',NOW(),NULL,'A','$peso','$alto','$ancho','$largo')";
 
 }else{
-    $query = "UPDATE tipos_paquetes SET descripcion = '$descripcion', tipo = '$tipo', actualizacion =  NOW(),status = '$status', peso = '$peso', alto = '$alto', ancho = '$ancho', largo = '$largo'
+    $query = "UPDATE tipos_paquetes SET descripcion = '$descripcion', tipo = '$tipo', actualizacion =  NOW(), peso = '$peso', alto = '$alto', ancho = '$ancho', largo = '$largo'
  WHERE id = $id_paquete";
 
     $resultado = mysqli_query($conexion, $query);
