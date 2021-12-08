@@ -1,11 +1,34 @@
 <?php
+error_reporting(0);
 require_once '../../../config/global.php';
+require '../../../config/db.php';
 
-define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
+define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
-$query = "SELECT * FROM cotizaciones";
-$conexion = mysqli_connect('lizbethrojas.me', 'pakmail_user', 'kp3C-sd6WVvRZeBV', 'pakmail');
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $where = "";
+    $tipodeserv = $_POST['tiposerv'];
+    $limite = $_POST['limite'];
+    $fechas = $_POST['fecha'];
+
+}
+
+//funcion buscar
+if (isset($_POST['buscar'])){
+    if (($_POST['tiposerv'] OR $_POST['limite'] OR $_POST['fecha'])){
+        $where="where tipo_servicio like '".$tipodeserv."%' and fecha_creacion like '".$fechas."%'";
+
+    }
+}
+
+$query = "SELECT * FROM cotizaciones $where $limite";
+$query2 = "SELECT * FROM envios";
+$query3 = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente, CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem, CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest $where $limite";
+
 $consulta = $conexion->query($query);
+$consulta2 = $conexion->query($query2);
+$consulta3 = $conexion->query($query3);
+
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +43,7 @@ $consulta = $conexion->query($query);
 
     <title><?php echo PAGE_TITLE ?></title>
 
-    <?php getTopIncludes(RUTA_INCLUDE ) ?>
+    <?php getTopIncludes(RUTA_INCLUDE) ?>
 </head>
 
 <body id="page-top">
@@ -37,55 +60,56 @@ $consulta = $conexion->query($query);
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Catálogos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Nombre del catálogo</li>
+                    <li class="breadcrumb-item">Cotizaciones</li>
+                    <li class="breadcrumb-item active" aria-current="page">Consultas cotizaciones</li>
                 </ol>
             </nav>
-
-            <div class="alert alert-success" role="alert">
-                <i class="fas fa-check"></i> Mensaje de éxito
-            </div>
-
-            <div class="alert alert-danger" role="alert">
-                <i class="fas fa-exclamation-triangle"></i> Mensaje de error
-            </div>
-
-            <div class="row my-3">
-                <div class="col text-right">
-                    <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
-                </div>
-            </div>
-
-            <div class="table-responsive mb-3">
-                <table class="table table-bordered dataTable">
-                    <thead>
-                    <tr>
-                        <th>Tipo de servicio</th>
-                        <th>Asegurado</th>
-                        <th>Factura</th>
-                        <th>Fecha de creacion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    while ($registroclientes = $consulta->fetch_array(MYSQLI_BOTH)){
-                        echo'<tr>',
-                            '<td>'.$registroclientes['tipo_servicio'].'</td>'.
-                            '<td>'.$registroclientes['asegurado'].'</td>'.
-                            '<td>'.$registroclientes['factura'].'</td>'.
-                            '<td>'.$registroclientes['fecha_creacion'].'</td>';
-                    }?>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
-        <!-- /.container-fluid -->
 
-        <?php getFooter() ?>
+        <form method="post">
+            <h10>Tipo de servicio:</h10>
+            <select name="tiposerv">
+                <option value="">Todos</option>
+                <option value="Dia siguiente">Dia siguiente</option>
+                <option value="Estandar">Estandar</option>
+                <option value="Urgente">Urgente</option>
+            </select>
+            <h10>Fechas: </h10>
+                <input name="fecha" type="date" value="fecha_creacion">
+        <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
+        <button type="button" class="btn btn-primary">Exportar a Excel</button>
+        </form>
+
+        <div class="table-responsive mt-5">
+            <table class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    <th>Tipo de servicio</th>
+                    <th>Cliente</th>
+                    <th>Direccion del destinatario</th>
+                    <th>Fecha de creacion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                while ($registro = $consulta->fetch_array(MYSQLI_BOTH) AND $registro3 = $consulta3->fetch_array()) {
+                    echo '<tr>',
+                        '<td>' . $registro['tipo_servicio'] . '</td>' .
+                        '<td>' . $registro3['cliente'] . '</td>' .
+                        '<td>' . $registro3['dir_dest'] . '</td>' .
+                        '<td>' . $registro['fecha_creacion'] . '</td>';
+                } ?>
+                </tbody>
+            </table>
+        </div>
 
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.container-fluid -->
+
+    <?php getFooter() ?>
+
+</div>
+<!-- /.content-wrapper -->
 
 </div>
 <!-- /#wrapper -->
@@ -97,6 +121,6 @@ $consulta = $conexion->query($query);
 
 <?php getModalLogout() ?>
 
-<?php getBottomIncudes( RUTA_INCLUDE ) ?>
+<?php getBottomIncudes(RUTA_INCLUDE) ?>
 </body>
 </html>
