@@ -5,31 +5,36 @@ require '../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $where = "";
     $tipodeserv = $_POST['tiposerv'];
-    $limite = $_POST['limite'];
+    $nombre = $_POST['name'];
+    $muni = $_POST['mun'];
     $fechas = $_POST['fecha'];
 
 }
 
 //funcion buscar
-if (isset($_POST['buscar'])){
-    if (($_POST['tiposerv'] OR $_POST['limite'] OR $_POST['fecha'])){
-        $where="where tipo_servicio like '".$tipodeserv."%' and fecha_creacion like '".$fechas."%'";
-
+if (isset($_POST['buscar'])) {
+    if (($_POST['tiposerv'] or $_POST['fecha'] or $_POST['name'] or $_POST['mun'])) {
+        $where = "where tipo_servicio like '" . $tipodeserv . "%' and fecha_creacion like '" . $fechas . "%' and CONCAT(cli.nombre, ' ', cli.apellidos) like '" . $nombre . "%' and municipio like '" . $muni . "%'";
     }
 }
 
-$query = "SELECT * FROM cotizaciones $where $limite";
-$query2 = "SELECT * FROM envios";
-$query3 = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente, CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem, CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest $where $limite";
+$query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
+         CONCAT(' C.P. ',
+              dir_dest.cp)                    
+         AS dir_dest,
+           cotiz.tipo_servicio, cotiz.fecha_creacion,
+       m.municipio
+        , col.cp
+         FROM cotizaciones cotiz
+           INNER JOIN clientes cli ON cli.id = cotiz.id_cliente
+           INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest 
+           INNER JOIN colonias col ON col.id = dir_dest.id_colonia
+           INNER JOIN municipios m on col.id_municipio = m.id $where";
 
 $consulta = $conexion->query($query);
-$consulta2 = $conexion->query($query2);
-$consulta3 = $conexion->query($query3);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -60,56 +65,80 @@ $consulta3 = $conexion->query($query3);
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Cotizaciones</li>
-                    <li class="breadcrumb-item active" aria-current="page">Consultas cotizaciones</li>
+                    <li class="breadcrumb-item">Consultas</li>
+                    <li class="breadcrumb-item active" aria-current="page">Cotizaciones</li>
                 </ol>
             </nav>
-        </div>
+            <form method="post">
+                <div class="row  align-items-end">
+                    <div class="col-md-2">
+                        <label>Nombre:</label>
+                        <form action=“CotizacionesExcel.php” method=“get”>
+                            <input class="form-control" placeholder="Nombre" name="name"/>
+                        </form>
+                    </div>
+                        <div class="col-md-2">
+                            <label>Municipio:</label>
+                            <form action=“CotizacionesExcel.php” method=“get”>
+                                <input class="form-control" placeholder="Municipio" name="mun"/>
+                            </form>
+                        </div>
+                    <div class="col-md-2">
+                        <label>Tipo de servicio:</label>
+                        <form action=“CotizacionesExcel.php” method=“get”>
+                            <select name="tiposerv" class="form-control">
+                                <option value="">Todos</option>
+                                <option value="Dia siguiente">Dia siguiente</option>
+                                <option value="Estandar">Estandar</option>
+                                <option value="Urgente">Urgente</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Fechas: </label>
+                        <form action=“CotizacionesExcel.php” method=“get”>
+                            <input name="fecha" type="date" value="fecha_creacion" class="form-control">
+                        </form>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary">Exportar a Excel</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th>Tipo de servicio</th>
+                        <th>Cliente</th>
+                        <th>Dirección del destinatario</th>
+                        <th>Fecha de creación</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    while ($registro = $consulta->fetch_array()) {
+                        echo '<tr>',
+                            '<td>' . $registro['tipo_servicio'] . '</td>' .
+                            '<td>' . $registro['cliente'] . '</td>' .
+                            '<td>' . $registro['municipio'] . '</td>' .
+                            '<td>' . $registro['fecha_creacion'] . '</td>';
+                    } ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <form method="post">
-            <h10>Tipo de servicio:</h10>
-            <select name="tiposerv">
-                <option value="">Todos</option>
-                <option value="Dia siguiente">Dia siguiente</option>
-                <option value="Estandar">Estandar</option>
-                <option value="Urgente">Urgente</option>
-            </select>
-            <h10>Fechas: </h10>
-                <input name="fecha" type="date" value="fecha_creacion">
-        <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
-        <button type="button" class="btn btn-primary">Exportar a Excel</button>
-        </form>
-
-        <div class="table-responsive mt-5">
-            <table class="table table-bordered dataTable">
-                <thead>
-                <tr>
-                    <th>Tipo de servicio</th>
-                    <th>Cliente</th>
-                    <th>Direccion del destinatario</th>
-                    <th>Fecha de creacion</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                while ($registro = $consulta->fetch_array(MYSQLI_BOTH) AND $registro3 = $consulta3->fetch_array()) {
-                    echo '<tr>',
-                        '<td>' . $registro['tipo_servicio'] . '</td>' .
-                        '<td>' . $registro3['cliente'] . '</td>' .
-                        '<td>' . $registro3['dir_dest'] . '</td>' .
-                        '<td>' . $registro['fecha_creacion'] . '</td>';
-                } ?>
-                </tbody>
-            </table>
         </div>
+        <!-- /.container-fluid -->
+
+        <?php getFooter() ?>
 
     </div>
-    <!-- /.container-fluid -->
-
-    <?php getFooter() ?>
-
-</div>
-<!-- /.content-wrapper -->
+    <!-- /.content-wrapper -->
 
 </div>
 <!-- /#wrapper -->
