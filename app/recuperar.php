@@ -1,6 +1,5 @@
 <?php
 session_start();
-require '../config/db.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,11 +16,11 @@ require '../config/db.php';
     <title>Pakmail</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../../../../Users/alex2/Desktop/proyectoaxel/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="../../../../Users/alex2/Desktop/proyectoaxel/css/sb-admin.css" rel="stylesheet">
-    <link href="../../../../Users/alex2/Desktop/proyectoaxel/img/favicon.jpg" rel="shortcut icon" type="image/png"/>
+    <link href="../css/sb-admin.css" rel="stylesheet">
+    <link href="../img/favicon.jpg" rel="shortcut icon" type="image/png"/>
 
 </head>
 
@@ -65,11 +64,11 @@ require '../config/db.php';
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/jquery/jquery.min.js"></script>
-<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="../../../../Users/alex2/Desktop/proyectoaxel/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 </body>
 
