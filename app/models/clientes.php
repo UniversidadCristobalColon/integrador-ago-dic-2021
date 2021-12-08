@@ -39,7 +39,8 @@ class clientes{
       $conn = new DBConnect(); // se construye el objeto
       $conexion = $conn->connect(); //el objeto invoca mediante una flecha -> a la funcion connect escrita en DBConnect
       $stmt = null; 
-      $query ="udpate clientes set  email_verificado='S',email_verificado_fecha = NOW() where id=".$id;
+      $query ="update clientes set  email_verificado='S',email_verificado_fecha = NOW() where id=".$id;
+
       $stmt =  $conexion->prepare($query);
       $respuesta = $stmt->execute();
       return $respuesta;
@@ -47,3 +48,4 @@ class clientes{
    }
 }
 
+/* **/

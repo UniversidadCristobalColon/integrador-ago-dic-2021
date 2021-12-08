@@ -28,14 +28,14 @@
         <div class="card-body">
             <?php
 
-            if(isset($_REQUEST["id"]) && $_REQUEST["id"]=="1"){
+            if(isset($_REQUEST["id"])){
                 include_once("models/clientes.php");
                 $cli = new clientes();
                 $cli->confirmar($_REQUEST["id"]);
                 ?>
                 <div class="text-center mb-4">
                     <h4>Registro</h4>
-                    <p>Su cuenta ha sido verificada exitosamente, debe confirmar su correo electrónico para poder usar la cuenta.</p>
+                    <p>Su cuenta ha sido verificada exitosamente.</p>
                 </div>
 
 
