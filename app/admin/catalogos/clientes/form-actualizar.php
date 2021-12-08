@@ -43,7 +43,7 @@ if(!empty($_GET['id'])){
         $colonia = $fila['colonia'];
         $localidad = $fila['localidad'];
         $municipio = $fila['municipio'];
-        $estado = $fila['estado'];
+        $estado = $fila['id_estado'];
         $referencia = $fila['referencia'];
     }
     $query2 = "SELECT * FROM fiscales WHERE id_cliente = $id_cliente";
