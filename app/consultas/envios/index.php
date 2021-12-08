@@ -384,23 +384,23 @@ $id_tabla_paquetes = '';
                                     if (!file_exists($file1) && !file_exists($file2) && $tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm"
-                                           onclick="muestraFact(<?php echo $idEnv; ?>)">Asignar factura</a>
+                                           onclick="muestraFact(<?php echo $idEnv; ?>)">Factura</a>
                                         <?php
                                     } else if (file_exists($file1)) {
-                                        echo "<a href='$file1' target='_blank' class='btn btn-link btn-sm btn-sm'>Descargar factura</a>";
+                                        echo "<a href='$file1' target='_blank' class='btn btn-link btn-sm btn-sm'>Factura</a>";
                                     } else {
-                                        echo "<a href='$file2' target='_blank' class='btn btn-link btn-sm btn-sm'>Descargar factura</a>";
+                                        echo "<a href='$file2' target='_blank' class='btn btn-link btn-sm btn-sm'>Factura</a>";
                                     }
                                     if (is_null($e['metodo_pago']) && $tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm"
-                                           onclick="muestraPago(<?php echo $idEnv; ?>)">Agregar info. pago</a>
+                                           onclick="muestraPago(<?php echo $idEnv; ?>)">Pago</a>
                                         <?php
                                     }
                                     if ($tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm"
-                                           onclick="muestraStat(<?php echo $idEnv; ?>,<?php echo $e['cliente']; ?>)">Actualizar estado</a>
+                                           onclick="muestraStat(<?php echo $idEnv; ?>,<?php echo $e['cliente']; ?>)">Estado</a>
                                         <?php
                                     }
                                     if ($e['seguimiento'] == 'P') {
@@ -410,9 +410,9 @@ $id_tabla_paquetes = '';
                                         <?php
                                     }
                                     ?>
-                                    <form action="Ticket.php" method="post">
+                                    <form action="Ticket.php" method="post" target="_blank">
                                         <input type="hidden" name="id_envio" value="<?php echo $e['id'] ?>">
-                                        <button type="submit" class="btn btn-link btn-sm btn-sm">Descargar ticket
+                                        <button type="submit" class="btn btn-link btn-sm btn-sm">Ticket
                                         </button>
                                     </form>
 
