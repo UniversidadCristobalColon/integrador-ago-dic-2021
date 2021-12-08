@@ -7,7 +7,8 @@ if(array_key_exists('cliente', $_GET)){
 }
 if(array_key_exists('estado', $_GET)){
     $estado = $_GET['estado'];
-    $where[] = " status = '$estado' ";
+    $where[] = " estadosremitente.estado = '$estado' ";
+
 }
 if(array_key_exists('destinatario', $_GET)){
     $destinatario = $_GET['destinatario'];
