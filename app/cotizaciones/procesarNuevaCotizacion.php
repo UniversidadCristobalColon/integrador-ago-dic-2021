@@ -12,8 +12,8 @@ $idCliente = $_SESSION['id_cliente'];
 echo "id cliente<br>";
 echo $idCliente ."<br>";
 
-require_once '../../config/db.php';
 //require_once '../../config/global.php';
+require_once '../../config/db.php';
 //echo "hola<br>";
 $tipoServicio = $_POST['tipoServicio'];
 $origen = $_POST['origen'];

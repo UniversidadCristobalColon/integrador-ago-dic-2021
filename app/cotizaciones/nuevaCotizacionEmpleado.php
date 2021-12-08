@@ -100,11 +100,20 @@ function obtenerClientes($conexion) {
 
     if($resultado) {
 
+        $hayClientes = false;
+
         while( $fila = mysqli_fetch_assoc($resultado)) {
+            $hayClientes = true;
             $clientes[] = $fila;
         }
 
-        return $clientes;
+        if($hayClientes) {
+            return $clientes;
+        } else {
+            return false;
+        }
+
+
 
     } else {
         //echo "error<br>";
