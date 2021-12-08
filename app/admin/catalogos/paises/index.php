@@ -13,6 +13,7 @@ if($resultado) {
         $paises[] = $fila;
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,8 +31,8 @@ if($resultado) {
 
     <script>
         function confirmar(){
-            if(confirm('Estas seguro de Desactivarlo')){
-                window.location = 'borrar.php?id=' + id;
+            if(confirm('¿Estás seguro de desactivarlo?')){
+                window.location = 'desactivar.php?id=' + id;
             }
         }
     </script>
@@ -60,52 +61,53 @@ if($resultado) {
                  <i class="fas fa-check"></i> Guardado Exitosamente
              </div>
 
-             <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert">
                   <i class="fas fa-exclamation-triangle"></i> Mensaje de error
               </div>-->
 
-             <div class="row my-3">
-                 <div class="col text-right">
-                     <a href="paises.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
-                 </div>
-             </div>
+            <div class="row my-3">
+                <div class="col text-right">
+                    <a href="paises.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>
+                </div>
+            </div>
 
-             <div class="table-responsive mb-3">
-                 <table class="table table-bordered dataTable">
-                     <thead>
-                     <tr>
-                         <th>#</th>
-                         <th>Países</th>
-                         <th>Creación</th>
-                         <th>Actualización</th>
-                         <th>Estatus</th>
-                         <th>Acciones</th>
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Países</th>
+                        <th>Creación</th>
+                        <th>Actualización</th>
+                        <th>Estatus</th>
+                        <th>Acciones</th>
 
-                     </tr>
-                     </thead>
-                     <tfoot>
-                     </tfoot>
-                     <tbody>
-                     <?php
-                     foreach ($paises as $p){
-                         ?>
-                         <tr>
-                             <td><?php echo $p['id']?></td>
-                             <td><?php echo $p['pais']?></td>
-                             <td><?php echo $p['creacion']?></td>
-                             <td><?php echo $p['actualizacion']?></td>
-                             <td><?php echo $p['status']?></td>
-                             <td><a href="paises.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $p['id']?>')" href="borrar.php?id=<?php echo $p['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
-                         </tr>
-                         <?php
-                     }
-                     ?>
-                     </tbody>
-                 </table>
-             </div>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    </tfoot>
+                    <tbody>
+                    <?php
+                    $contador = 0;
+                    foreach ($paises as $p){
+                    ?>
+                    <tr>
+                        <td><?php echo ++$contador ?></td>
+                        <td><?php echo $p['pais']?></td>
+                        <td><?php echo $p['creacion']?></td>
+                        <td><?php echo $p['actualizacion']?></td>
+                        <td><?php echo $p['status']?></td>
+                        <td><a href="paises.php?id=<?php echo $p['id']?>" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $p['id']?>')" href="desactivar.php?id=<?php echo $p['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
 
-         </div>
-         <!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
 
         <?php getFooter() ?>
 

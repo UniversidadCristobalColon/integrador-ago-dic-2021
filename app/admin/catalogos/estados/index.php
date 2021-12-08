@@ -31,8 +31,8 @@ if($resultado) {
 
     <script>
         function confirmar(){
-            if(confirm('Estas seguro de Desactivarlo')){
-                window.location = 'borrar.php?id=' + id;
+            if(confirm('¿Estás seguro de desactivarlo?')){
+                window.location = 'desactivar.php?id=' + id;
             }
         }
     </script>
@@ -88,15 +88,16 @@ if($resultado) {
                      </tfoot>
                      <tbody>
                      <?php
+                     $contador = 0;
                      foreach ($estados as $e){
                      ?>
                      <tr>
-                         <td><?php echo $e['id']?></td>
+                         <td><?php echo ++$contador ?></td>
                          <td><?php echo $e['estado']?></td>
                          <td><?php echo $e['creacion']?></td>
                          <td><?php echo $e['actualizacion']?></td>
                          <td><?php echo $e['status']?></td>
-                         <td><a href="estados.php" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $e['id']?>')" href="borrar.php?id=<?php echo $e['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
+                         <td><a href="estados.php?id=<?php echo $e['id']?>" class="btn btn-link btn-sm btn-sm">Editar</a> <a href="#" onclick="confirmar('<?php echo $e['id']?>')" href="desactivar.php?id=<?php echo $e['id']?>" class="btn btn-link btn-sm">Desactivar</a></td>
                      </tr>
                      <?php
                      }

@@ -1,7 +1,23 @@
 <?php
 require_once '../../../../config/global.php';
+require '../../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
+
+$id_estado = '';
+$estado = '';
+
+if (!empty($_GET['id'])){
+    $id_estado = $_GET['id'];
+    $sql = "SELECT * FROM estados WHERE id = $id_estado";
+    $resultado = mysqli_query($conexion, $sql);
+
+    if ($resultado){
+        $fila = mysqli_fetch_assoc($resultado);
+        $estado = $fila['estado'];
+
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -51,9 +67,11 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
          <!-- /.container-fluid -->
 
         <div class="container">
+            <form action="guardar.php" method="post">
+            <input type="hidden" name="id_estado" value="<?php echo $id_estado ?>" />
             <div class="row mb-5">
                 <div class="col">
-                    <a href="index.php" class="btn btn-success">Guardar</a>
+                    <input type="submit" name="accion" value="Guardar" class="btn btn-success"/>
                 </div>
                 <div class="col text-right">
                     <a href="index.php" class="btn btn-link">Cancelar</a>
@@ -64,8 +82,9 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="inputEstado">Estado</label>
-                        <input type="text" class="form-control" id="inputEstado" required>
+                        <input type="text"  name="estado" class="form-control" value="<?php echo $estado ?>" required>
                     </div>
+            </form>
             </form>
         </div>
         <!-- /.container -->

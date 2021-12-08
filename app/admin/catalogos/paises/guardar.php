@@ -1,9 +1,18 @@
 <?php
 require '../../../../config/db.php';
 
-$query = "INSERT INTO paises (id, pais, creacion, actualizacion, status) 
-VALUES (null,'Alemania',NOW() ,NOW(),'A')";
+$id_pais = $_POST['id_pais'];
+$pais    = $_POST['pais'];
 
+if (empty($id_pais)){
+$query = "insert into paises(id,pais)values (null,'$pais')";
+}else{
+    $query = "update paises set pais = '$pais'where id = $id_pais";
+}
 $resultado = mysqli_query($conexion, $query);
 
-var_dump($resultado);
+if($resultado){
+    header('location: index.php');
+}
+
+?>
