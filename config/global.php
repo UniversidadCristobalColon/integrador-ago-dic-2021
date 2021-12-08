@@ -28,6 +28,8 @@ define('PAGE_TITLE', 'Pakmail');
 function getSidebar($ruta = ''){
     $html_admin = '';
 
+    $ruta = RUTA_INCLUDE;
+
     if(!empty($_SESSION['perfil_usuario'])){
         if($_SESSION['perfil_usuario'] == 1){
             $html_admin = <<<EOD
@@ -53,7 +55,7 @@ function getSidebar($ruta = ''){
         </div> 
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{$ruta}app/consultas/envios/">
+        <a class="nav-link" href="{$ruta}app/consultas/cotizaciones/cotizaciones_filtros_nuevo.php">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Consultas</span>
         </a>
@@ -63,17 +65,20 @@ EOD;
         }
     }
 
+    $url_cotizaciones = $_SESSION['perfil_usuario'] == 1 ? RUTA_INCLUDE . 'app/cotizaciones/admin/index.php' : RUTA_INCLUDE . 'app/cotizaciones/user/index.php';
+    $url_envios = RUTA_INCLUDE . 'app/consultas/envios/index.php';
+
     $html = <<<EOD
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
     <li class="nav-item">
-        <a class="nav-link" href="{$ruta}index.php">
+        <a class="nav-link" href="$url_cotizaciones">
             <i class="fas fa-calculator"></i>
             <span>Cotizaciones</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{$ruta}index.php">
+        <a class="nav-link" href="$url_envios">
             <i class="fas fa-truck"></i>
             <span>Envíos</span>
         </a>
@@ -86,6 +91,17 @@ EOD;
 }
 
 function getNavbar($ruta = ''){
+    $ruta = RUTA_INCLUDE;
+
+    $html_usuario = '';
+
+    if(!empty($_SESSION['perfil_usuario']) && $_SESSION['perfil_usuario'] == 2){
+        $html_usuario = <<<EOD
+        <a class="dropdown-item" href="{$ruta}app/direcciones/index.php">Mis direcciones</a>
+EOD;
+
+    }
+
     $html = <<<EOD
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -111,7 +127,7 @@ function getNavbar($ruta = ''){
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0 mr-md-3 my-2 my-md-0">
         <li class="nav-item mx-1">
-            <a class="nav-link" href="#" id="alertsDropdown">                
+            <a class="nav-link" href="{$ruta}app/notificaciones/index.php" id="alertsDropdown">                
                 <i class="fas fa-bell fa-fw"></i>                
             </a>            
         </li>        
@@ -121,10 +137,9 @@ function getNavbar($ruta = ''){
                 <i class="fas fa-user-circle fa-fw"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Mi perfil</a>
-                <a class="dropdown-item" href="{$ruta}direcciones/index.php">Mis direcciones</a>
-                <a class="dropdown-item" href="#">Mis facturas</a>
+                <a class="dropdown-item" href="{$ruta}app/perfil/index.php">Mi perfil</a>                                
                 <div class="dropdown-divider"></div>
+                $html_usuario
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Salir</a>
             </div>
         </li>

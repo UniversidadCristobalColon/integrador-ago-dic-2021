@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 if( !isset($_GET["estado"]) ) {
     if( isset($_GET["exito_catalogo_colonias"]) )
         header('location: index.php?estado=1&exito_catalogo_colonias='.$_GET["exito_catalogo_colonias"]);
