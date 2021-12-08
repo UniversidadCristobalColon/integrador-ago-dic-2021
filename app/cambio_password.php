@@ -13,8 +13,8 @@ if ($pass1!=$pass2){
     $_SESSION['login_error']=1;
     header('location: cambiar_password.php');
 }else{
-    if (strlen($pass1)<=7){
-        $_SESSION['error_pass']="La contraseña tiene que tener al menos 8 caracteres" ;
+    if (strlen($pass1)<=5){
+        $_SESSION['error_pass']="La contraseña tiene que tener al menos 6 caracteres" ;
         $_SESSION['login_error']=1;
         header('location: cambiar_password.php');
     }else{
