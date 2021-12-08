@@ -111,8 +111,6 @@ define('RUTA_INCLUDE', '../../../../');
                                 <div id="length" class="invalid"><b>Minimo 13 Caracteres</b></div>
                             </div>
                         </div>
-
-
                         <div class="form-group col-md-6">
                             <label>Email Secundario</label>
                             <input type = "email" class="form-control" name="email2">
@@ -156,7 +154,7 @@ define('RUTA_INCLUDE', '../../../../');
                         </div>
                         <div class="form-group col-md-6">
                             <label>Estado</label>
-                             <select name ='estado'>
+                             <select name ='estado' class="form-control custom-select">
                              <option value = 0>Seleccione una opción</option>
                                  <?php
                                  $query = "SELECT * FROM estados";

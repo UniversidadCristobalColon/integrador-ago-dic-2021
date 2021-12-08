@@ -204,7 +204,7 @@ if(!empty($_GET['id'])){
                         </div>
                         <div class="form-group col-md-6">
                             <label>Estado</label>
-                            <select name="estado">
+                            <select name="estado" class="form-control custom-select">
                                 <option value = 0 >Seleccione una opción:</option>
                                 <?php
                                 $query = "SELECT * FROM estados";
