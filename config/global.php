@@ -137,9 +137,9 @@ EOD;
                 <i class="fas fa-user-circle fa-fw"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{$ruta}app/perfil/index.php">Mi perfil</a>                                
-                <div class="dropdown-divider"></div>
-                $html_usuario
+                <a class="dropdown-item" href="{$ruta}app/perfil/index.php">Mi perfil</a>
+                $html_usuario                                
+                <div class="dropdown-divider"></div>                
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Salir</a>
             </div>
         </li>
