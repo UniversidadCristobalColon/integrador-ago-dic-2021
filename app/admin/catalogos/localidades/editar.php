@@ -52,8 +52,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Municipios</li>
-                        <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
+                        <li class="breadcrumb-item">Localidades</li>
+                        <li class="breadcrumb-item active" aria-current="page">Editar</li>
                     </ol>
                 </nav>
 
@@ -85,14 +85,14 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     <div class="form-row">
                         <input type="hidden" name="id" id="id" value="<?php echo $ent["id"]; ?>">
                         <div class="form-group col-md-6 col-sm-12">
-                            <label for="nombre">Municipio</label>
+                            <label for="nombre">Localidad</label>
                             <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $ent["localidad"] ?>" required>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label for="municipio">Municipio</label>
                             <select class="custom-select" name="municipio" id="municipio">
                                 <?php
-                                $query = "SELECT * FROM `pakmail`.municipios";
+                                $query = "SELECT * FROM `pakmail`.municipios ORDER BY municipio";
 
                                 if ($result = mysqli_query($conexion, $query)) {
                                     while ($row = $result->fetch_assoc()) {
