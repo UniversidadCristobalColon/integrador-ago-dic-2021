@@ -3,7 +3,7 @@ require_once '../../config/global.php';
 require '../../config/db.php';
 $id_usuario = $_SESSION['id_usuario'];
 $contenido = '';
-$sql = "select * from notificaciones where id_usuario=$id_usuario";
+$sql = "select * from notificaciones where id_usuario='$id_usuario' order by creacion DESC";
 
 $resultado = mysqli_query($conexion, $sql);
 
@@ -30,16 +30,18 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <script>
-        function vistono(leida_fecha){
-            if(leida_fecha == ' '){
-                set color: grey;
-            }else{
-                ('td').css('color', 'grey');
-            }
-
+<script>
+    function color(celda, leida) {
+        if(leida == 'S'){
+            celda.style.backgroundColor = "#8e8b8b";
+            console.log("esto entra pero no hace nada");
+        }else if(leida == 'N'){
+            celda.style.backgroundColor = "#ffffff";
+            console.log("esto entra pero no hace nada pero si tiene N");
         }
-    </script>
+    }
+</script>
+
     <title><?php echo PAGE_TITLE ?></title>
 
 
@@ -55,15 +57,14 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
     <?php getSidebar() ?>
 
 
-
     <div id="content-wrapper">
 
         <div class="container-fluid">
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Catálogos</li>
-                    <li class="breadcrumb-item active" aria-current="page">Notificacion</li>
+                    <li class="breadcrumb-item">Notificaciones</li>
+                    <li class="breadcrumb-item active" aria-current="page">Notificación</li>
                 </ol>
             </nav>
             <!-- Page Content -->
@@ -71,11 +72,12 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                 <?php
                 if (count($proposito) > 0) {
                     ?>
-                    <table class="table table-bordered ">
+                    <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
-                            <th>Descripcion</th>
-                            <th>Notificacion Recibida</th>
+                            <th>Descripción</th>
+                            <th>Notificación recibida</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,13 +85,18 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                         foreach ($proposito as $propositos) {
                             if ($propositos['id_perfil'] == '1') {
                                 ?>
-
                                 <tr>
-                                    <td id="descrip"><?php echo $propositos['descripcion'] ?></td>
-                                    <td id="fecha"><?php echo $propositos['creacion'] ?></td>
-                                    <td><a href="nuevanoti.php?id=<?php echo $propositos['id'] ?>"
-                                           onclick="vistono('<?php echo $propositos['leida_fecha'] ?>')"
-                                           class="btn btn-success btn-sm">Marcar como Leido</a></td>
+                                    <td id="celda"><?php echo $propositos['descripcion'] ?></td>
+                                    <td id="celda"><?php echo $propositos['creacion'] ?></td>
+                                    <td><?php if($propositos['leida'] == 'S'){
+                                        echo "<span class='badge badge-pill badge-secondary'>Leída</span>";
+                                    }else{
+                                        $id_algo = $propositos['id'];
+                                            echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como Leido</a>";
+                                    }
+                                    ?>
+                                    </td>
+
                                 </tr>
                                 <?php
                             } else {
@@ -98,9 +105,14 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                                     <tr>
                                         <td><?php echo $propositos['descripcion'] ?></td>
                                         <td><?php echo $propositos['creacion'] ?></td>
-                                        <td><a href="nuevanoti.php?id=<?php echo $propositos['id'] ?>"
-                                               onclick="vistono('<?php echo $propositos['leida_fecha'] ?>')"
-                                               class="btn btn-success btn-sm">Marcar como Leido</a></td>
+                                        <td><?php if($propositos['leida'] == 'S'){
+                                                echo "<span class='badge badge-pill badge-secondary'>Leída</span>";
+                                            }else{
+                                                $id_algo = $propositos['id'];
+                                                echo "<a href='nuevanoti.php?id=$id_algo' class='btn btn-link btn-sm'>Marcar como Leido</a>";
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
