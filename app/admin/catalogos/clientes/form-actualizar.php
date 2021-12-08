@@ -22,7 +22,6 @@ $estado = '';
 $referencia = '';
 if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
-
     $query = "SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = $id_cliente";
     $resultado = mysqli_query($conexion, $query);
 
