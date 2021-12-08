@@ -400,13 +400,13 @@ $id_tabla_paquetes = '';
                                     if ($tipo_usuario == 1) {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm"
-                                           onclick="muestraStat(<?php echo $idEnv; ?>)">Actualizar estado</a>
+                                           onclick="muestraStat(<?php echo $idEnv; ?>,<?php echo $e['cliente']; ?>)">Actualizar estado</a>
                                         <?php
                                     }
                                     if ($e['seguimiento'] == 'P') {
                                         ?>
                                         <a href="#" class="btn btn-link btn-sm btn-sm"
-                                           onclick="muestraCancel(<?php echo $idEnv; ?>)">Cancelar</a>
+                                           onclick="muestraCancel(<?php echo $idEnv; ?>,<?php echo $e['cliente']; ?>)">Cancelar</a>
                                         <?php
                                     }
                                     ?>
@@ -548,6 +548,8 @@ $id_tabla_paquetes = '';
                                           name="comment"
                                           id="comment" maxlength="150"></textarea>
                                 <input type="hidden" id="id_form_cancel" name="id_form_cancel">
+                                <input type="hidden" id="id_client_cancel" name="id_client_cancel">
+                                <input type="hidden" id="id_type_cancel" name="id_type_cancel" value="<?php echo $tipo_usuario; ?>">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
@@ -584,6 +586,7 @@ $id_tabla_paquetes = '';
                                     <option value="E">Entregado</option>
                                 </select>
                                 <input type="hidden" id="id_form_stat" name="id_form_stat">
+                                <input type="hidden" id="id_client_stat" name="id_client_stat">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
@@ -624,8 +627,9 @@ $id_tabla_paquetes = '';
         $('#formFact').modal('show');
     }
 
-    function muestraCancel(idEnv) {
+    function muestraCancel(idEnv,idCli) {
         $('#id_form_cancel').val(idEnv);
+        $('#id_client_cancel').val(idCli);
         $('#formCancel').modal('show');
     }
 
@@ -634,8 +638,9 @@ $id_tabla_paquetes = '';
         $('#formPago').modal('show');
     }
 
-    function muestraStat(idEnv) {
+    function muestraStat(idEnv,idCli) {
         $('#id_form_stat').val(idEnv);
+        $('#id_client_stat').val(idCli);
         $('#formStat').modal('show');
     }
 
