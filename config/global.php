@@ -166,7 +166,9 @@ EOD;
     echo $html;
 }
 
-function getModalLogout($ruta = '/integrador-ago-dic-2021/app/'){
+function getModalLogout(){
+    $ruta = RUTA_INCLUDE;
+
     $html = <<<EOD
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
