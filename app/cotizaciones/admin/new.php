@@ -14,11 +14,18 @@ if($status == PHP_SESSION_NONE) {
 //echo $_SESSION['id_cliente'];
 
 $idCliente = 0;
+$idClienteGET = 0;
+$hayCliente = 0;
 
 if(array_key_exists('idCliente', $_GET)) {
-    $idCliente = $_GET['idCliente'];
-    echo $idCliente . "<br>";
+    $idClienteGET = $_GET['idCliente'];
+    $hayCliente = 1;
+    //echo $idClienteGET . "<br>";
+    //echo $hayCliente . "<br>";
+    $idCliente = $idClienteGET;
 }
+
+//echo $hayCliente . "<br>";
 
 require_once '../../../config/global.php';
 require_once '../../../config/db.php';
@@ -683,7 +690,29 @@ $clientes = obtenerClientes($conexion);
                         <tr>
                             <th scope="row"><?php echo $nombre . " " . $apellidos; ?></th>
                             <td><?php echo $contacto; ?></td>
+                            <?php
+
+                            if($hayCliente == 0) {
+                                //echo "No hay cliente<br>";
+                                ?>
                             <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" onclick="obtenerCliente()" required></label></td>
+                            <!--}-->
+                            <?php } else {
+                                //echo "Hay cliente";
+                                //$hayCliente = 0;
+                                if($idClienteGET == $id) {
+                                    //echo "El id del cliente es igual al de GET<br>";
+                                    ?>
+                                    <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" checked="checked" onclick="obtenerCliente()" required></label></td>
+                                <?php
+                                } else {
+                                    //echo "El id del cliente no es igual al de GET<br>";//echo "hola otra vez<br>";
+                                    ?>
+                                    <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" onclick="obtenerCliente()" required></label></td>
+                            <?php
+                                }
+                            }
+                                ?>
                         </tr>
                         <?php
                         }
