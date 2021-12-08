@@ -352,7 +352,7 @@ $clientes = obtenerClientes($conexion);
             //console.log("validarCamposPaquete");
 
             $valido = true;
-
+            //
             var producto = $("#inputProducto").val();
 
             if(producto == "default") {
