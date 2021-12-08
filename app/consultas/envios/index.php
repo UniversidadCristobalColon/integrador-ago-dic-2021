@@ -410,7 +410,7 @@ $id_tabla_paquetes = '';
                                         <?php
                                     }
                                     ?>
-                                    <form action="Ticket.php" method="post">
+                                    <form action="Ticket.php" method="post" target="_blank">
                                         <input type="hidden" name="id_envio" value="<?php echo $e['id'] ?>">
                                         <button type="submit" class="btn btn-link btn-sm btn-sm">Ticket
                                         </button>
