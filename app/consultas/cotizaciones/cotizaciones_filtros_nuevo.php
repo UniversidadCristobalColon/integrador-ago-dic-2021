@@ -71,39 +71,41 @@ $consulta = $conexion->query($query);
                     <li class="breadcrumb-item active" aria-current="page">Cotizaciones</li>
                 </ol>
             </nav>
-            <form method="post">
+            <form method="post" action="cotizaciones_filtros_nuevo.php">
                 <div class="row  align-items-end">
                     <div class="col-md-2">
                         <label>Nombre:</label>
-                            <input type="text" class="form-control" placeholder="Nombre" name="name"/>
+                        <input type="text" class="form-control" placeholder="Nombre" name="name"/>
                     </div>
-                        <div class="col-md-2">
-                            <label>Municipio:</label>
-                                <input type="text" class="form-control" placeholder="Municipio" name="mun"/>
-                        </div>
+                    <div class="col-md-2">
+                        <label>Municipio:</label>
+                        <input type="text" class="form-control" placeholder="Municipio" name="mun"/>
+                    </div>
                     <div class="col-md-2">
                         <label>Tipo de servicio:</label>
-                            <select name="tiposerv" class="form-control">
-                                <option value="">Todos</option>
-                                <option value="Dia siguiente">Dia siguiente</option>
-                                <option value="Estandar">Estandar</option>
-                                <option value="Urgente">Urgente</option>
-                        </form>
+                        <select name="tiposerv" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="Dia siguiente">Dia siguiente</option>
+                            <option value="Estandar">Estandar</option>
+                            <option value="Urgente">Urgente</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <label>Fechas: </label>
-                            <input name="fecha" type="date" value="fecha_creacion" class="form-control">
+                        <input name="fecha" type="date" value="fecha_creacion" class="form-control">
                     </div>
                     <div class="col-md-1">
                         <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
                     </div>
-                    <div class="col-md-3">
-                        <a href="CotizacionesExcel.php" target="_blank">Exportar a Excel</a>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary" formtarget="_blank"
+                                formaction="CotizacionesExcel.php" formmethod="get">Exportar a Excel
+                        </button>
                     </div>
                 </div>
             </form>
             <br>
-            <div class="table-responsive mb-3">
+            <div class="table-responsive mb-2">
                 <table class="table table-bordered dataTable">
                     <thead>
                     <tr>
