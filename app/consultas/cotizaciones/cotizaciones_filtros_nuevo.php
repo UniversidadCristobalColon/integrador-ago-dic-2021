@@ -35,6 +35,14 @@ $query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS 
            INNER JOIN municipios m on col.id_municipio = m.id 
            INNER join envios e on cli.id = e.cliente $where";
 
+$resultado = mysqli_query($conexion, $query);
+$envios = array();
+if ($resultado) {
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $envios[] = $fila;
+    }
+}
+
 
 $consulta = $conexion->query($query);
 ?>
@@ -119,10 +127,25 @@ $consulta = $conexion->query($query);
                     <tbody>
                     <?php
                     while ($registro = $consulta->fetch_array()) {
+                        $estado='';
+                        switch ($registro['seguimiento']) {
+                            case 'P':
+                                $estado = 'Pendiente';
+                                break;
+                            case 'C':
+                                $estado = 'En camino';
+                                break;
+                            case 'E':
+                                $estado = 'Entregado';
+                                break;
+                            case 'X':
+                                $estado = 'Cancelado';
+                                break;
+                        }
                         echo '<tr>',
                             '<td>' . $registro['tipo_servicio'] . '</td>' .
                             '<td>' . $registro['cliente'] . '</td>' .
-                            '<td>' . $registro['seguimiento'] . '</td>' .
+                            '<td>' . $estado . '</td>' .
                             '<td>' . $registro['municipio'] . '</td>' .
                             '<td>' . $registro['fecha_creacion'] . '</td>';
                     } ?>
