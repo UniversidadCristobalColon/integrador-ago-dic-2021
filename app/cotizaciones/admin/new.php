@@ -201,6 +201,7 @@ $clientes = obtenerClientes($conexion);
     <meta name="author" content="">
 
     <script type="text/javascript">
+
         /*window.onload = function() {
             if (window.jQuery) {
                 // jQuery is loaded
@@ -209,8 +210,24 @@ $clientes = obtenerClientes($conexion);
                 // jQuery is not loaded
                 alert("Doesn't Work");
             }
-        }*/
+        }
 
+        $('.form-control-chosen').chosen({
+            allow_single_deselect: true,
+            width: '100%'
+        });
+        $('.form-control-chosen-required').chosen({
+            allow_single_deselect: false,
+            width: '100%'
+        });
+        $('.form-control-chosen-search-threshold-100').chosen({
+            allow_single_deselect: true,
+            disable_search_threshold: 100,
+            width: '100%'
+        });
+        $('.form-control-chosen-optgroup').chosen({
+            width: '100%'
+        });*/
 
 
         /*$(document).ready(function(){
@@ -220,6 +237,25 @@ $clientes = obtenerClientes($conexion);
                 } else if($(this).val == 'R') {
                     $("#paquetes").removeClass("d-none");
                 }
+            });
+        });*/
+
+        /*$(document).ready(function(){
+            $('.form-control-chosen').chosen({
+                allow_single_deselect: true,
+                width: '100%'
+            });
+            $('.form-control-chosen-required').chosen({
+                allow_single_deselect: false,
+                width: '100%'
+            });
+            $('.form-control-chosen-search-threshold-100').chosen({
+                allow_single_deselect: true,
+                disable_search_threshold: 100,
+                width: '100%'
+            });
+            $('.form-control-chosen-optgroup').chosen({
+                width: '100%'
             });
         });*/
 
@@ -486,12 +522,16 @@ $clientes = obtenerClientes($conexion);
             //console.log("numPaquete");
             //console.log(numPaquete);
 
+            /*if() {
+
+            }*/
+
             if(numPaquete == 0) {
                 //console.log("hoal desde validaar");
                 $("#formulario").submit(function(e){
                     e.preventDefault();
                 });
-
+                alert("Ingrese un paquete");
             }
 
 
@@ -522,20 +562,20 @@ $clientes = obtenerClientes($conexion);
             console.log("hola");
             console.log(idCliente);
             //var url = "nuevaCotizacionUsuario.php?idCliente=" + idCliente;
-            var urlRaul = "../direcciones/index.php?idCliente=" + idCliente;
-            $("#direc").attr("href", urlRaul);
+            //var urlRaul = "../direcciones/index.php?idCliente=" + idCliente;
+            //$("#direc").attr("href", urlRaul);
 
-            var urlRecargar = "new.php?idCliente=" + idCliente;
+            //var urlRecargar = "new.php?idCliente=" + idCliente;
 
-            $(window).attr('location',urlRecargar);
+            //$(window).attr('location',urlRecargar);
         }
 
         function recargarDirecciones() {
             //Obtener valor radio seleccionado
             $idCliente = $("input[name='cliente']:checked").val();
 
-            console.log("hola");
-            console.log($idCliente)
+            //console.log("hola");
+            //console.log($idCliente)
 
             var url= "new.php?idCliente=";
             //$(window).attr('location','https://tutorialdeep.com/knowhow/get-current-page-url-jquery/');
@@ -706,6 +746,15 @@ $clientes = obtenerClientes($conexion);
 
                         </tbody>
                     </table>
+                </div>
+
+                <div class="form-row">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        <option>Option One</option>
+                        <option>Option Two</option>
+                        <option>Option Three</option>
+                    </select>
                 </div>
 
                 <div class="form-row">
@@ -885,7 +934,7 @@ $clientes = obtenerClientes($conexion);
 
                     <div class="col-4">
                         <!--<a class="btn btn-success" href="nuevaCotizacionUsuario.php?">Crear direccion</a>-->
-                        <a class="btn btn-success" id="direc" href="#top">Crear direccion</a>
+                        <!--<a class="btn btn-success" id="direc" href="#top">Crear direccion</a>-->
                     </div>
                     <!--<div class="col text-right">-->
 
