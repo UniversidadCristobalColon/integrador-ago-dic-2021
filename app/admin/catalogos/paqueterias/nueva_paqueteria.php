@@ -94,19 +94,8 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <input type = "text" class="form-control" name="referencia" required value="">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Municipio*</label>
-                            <select name="id_municipio" class="form-control" required>
-                                <?php
-                                $query = "SELECT * FROM municipios";
-                                $ejecutar = mysqli_query($conexion,$query);
-                                ?>
-
-                                <?php
-                                foreach ($ejecutar as $opciones):
-                                    ?>
-                                    <option value="<?php echo $opciones['id']?>"><?php echo $opciones['municipio']?></option>
-                                <?php endforeach ?>
-                            </select>
+                            <label for = "inputmunicipio">Municipio*</label>
+                            <input type = "text" class="form-control" name="municipio" required value="">
                         </div>
 
                     </div>
