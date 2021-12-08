@@ -51,11 +51,18 @@ function obtenerDirecciones($conexion) {
 
     if($resultado) {
 
+        $hayDirecciones = false;
+
         while( $fila = mysqli_fetch_assoc($resultado)) {
+            $hayDirecciones = true;
             $direcciones[] = $fila;
         }
 
-        return $direcciones;
+        if($hayDirecciones) {
+            return $direcciones;
+        } else {
+            return false;
+        }
 
     } else {
         //echo "error<br>";
@@ -112,8 +119,6 @@ function obtenerClientes($conexion) {
 //echo"direcciones<br>";
 $clientes = obtenerClientes($conexion);
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -156,108 +161,189 @@ $clientes = obtenerClientes($conexion);
         var totalesPesosVolum = [];
 
         function procesarPaquete() {
-            ++numPaquete;
 
-            var tipoProducto = $("#inputProducto option:selected").val();
+            if (validarCamposPaquete()) {
 
-            var embalaje = 'N';
+                ++numPaquete;
 
-            if($("#embalaje").is(":checked")) {
-                embalaje = 'S';
+                var tipoProducto = $("#inputProducto option:selected").val();
+
+                var embalaje = 'N';
+
+                if ($("#embalaje").is(":checked")) {
+                    embalaje = 'S';
+                }
+
+                var peso = $("#inputPeso").val();
+                var largo = $("#inputLargo").val();
+                var ancho = $("#inputAncho").val();
+                var alto = $("#inputAlto").val();
+
+                var largoString = Number.parseFloat(largo).toFixed(2);
+                var anchoString = Number.parseFloat(ancho).toFixed(2);
+                var altoString = Number.parseFloat(alto).toFixed(2);
+
+
+                var cantidad = $("#inputCantidad").val();
+                var descProducto = $("#descProducto").val();
+
+
+                $("#embalaje").prop("checked", false);
+                $("#inputPeso").val("");
+                $("#inputLargo").val("");
+                $("#inputAncho").val("");
+                $("#inputAlto").val("");
+                $("#inputCantidad").val("");
+                $("#descProducto").val("");
+
+
+                var pesoVolumetricoInd = (largo * ancho * alto) / 5000;
+                var pesoTotalPaquete = peso * cantidad;
+                var pesoVolTotalPaquete = pesoVolumetricoInd * cantidad;
+
+                totalesPesosReales.push(pesoTotalPaquete);
+                //console.log(totalesPesosReales);
+
+                totalesPesosVolum.push(pesoVolTotalPaquete);
+                //console.log(totalesPesosVolum);
+
+                var pesoString = Number.parseFloat(peso).toFixed(2);
+                var pesoVolIndString = Number.parseFloat(pesoVolumetricoInd).toFixed(4);
+
+                pesoVolumetricoTotal += pesoVolumetricoInd * cantidad;
+                pesoRealTotal += pesoTotalPaquete;
+
+                var stringPaquete = tipoProducto + "," + embalaje + "," + peso + "," + largo + "," + ancho + "," + alto + "," + cantidad + "," + descProducto;
+
+                var renglonPaquetes = "" +
+                    "<tr>" +
+                    //"<th scope='row'>"+ numPaquete + "</th>" +
+                    "<td>" + tipoProducto + "</td>" +
+                    "<td>" + embalaje + "</td>" +
+                    //"<td>" + peso + "</td>" +
+                    "<td>Peso real: " + pesoString + " kg<br>Peso vol: " + pesoVolIndString + " kg</td>" +
+                    "<td>" + largoString + "x" + anchoString + "x" + altoString + "</td>" +
+                    "<td>" + cantidad + "</td>" +
+                    "<td>" + descProducto + "</td>" +
+                    //"<td><!--<a href='#' class='btn btn-link btn-sm btn-sm'>Editar</a>--> <a href='#' class='btn btn-link btn-sm' onclick='eliminarPaquete('\"" + numPaquete + "\"')'>Eliminar</a></td>" +
+                    "<td><a href='#paquetes' class='btn btn-link btn-sm' onclick='eliminarPaquete(" + numPaquete + ")'>Eliminar</a></td>" +
+                    //"<td><input type="hidden" value=\"" + peso + "\" name="paquete[]"></td>" +
+                    //"<td><input type='hidden' value='" + peso + "' + name='paquete[]'></td>" +
+                    "<td><input type='hidden' value='" + stringPaquete + "' + name='paquete[]'></td>" +
+                    "</tr>";
+
+                //alert(stringPaquete);
+
+                //$("#paquetes tr:last").append(renglonPaquetes);
+                //$("#paquetes tbody tr:last").append(renglonPaquetes);
+                var numFilasTabla = $("#paquetes tbody tr").length;
+
+                if (numFilasTabla == 0) {
+                    $("#paquetes tbody").append(renglonPaquetes);
+                } else if (numFilasTabla > 0) {
+                    $("#paquetes tr:last").after(renglonPaquetes);
+                }
+
+
+                //alert(stringPaquete);
+
+                $("#datosPaquetes").val(stringPaquete);
+
+                if (pesoRealTotal >= pesoVolumetricoTotal) {
+                    pesoFacturar = pesoRealTotal;
+                } else if (pesoRealTotal <= pesoVolumetricoTotal) {
+                    pesoFacturar = pesoVolumetricoTotal;
+                }
+
+                //alert(pesoFacturar);
+
+                var stringPesos = "Total peso real: " + pesoRealTotal.toFixed(2) + " | Total peso volumétrico: " + pesoVolumetricoTotal.toFixed(2) + " | Peso a facturar: " + pesoFacturar.toFixed(2);
+
+                $("#paquetes").find("caption").text(stringPesos);
+                //alert(stringPesos);
+
+                $("#pesoRealTotal").val(pesoRealTotal);
+                $("#pesoTotalVol").val(pesoVolumetricoTotal);
+                $("#pesoAFacturar").val(pesoFacturar);
+            } else {
+                alert("Verifique que los datos de entrada sean correctos");
             }
 
-            var peso = $("#inputPeso").val();
+            //return stringPaquete;
+        }
+
+        function validarCamposPaquete() {
+            $valido = true;
+
+            var producto = $("#inputProducto").val();
+
+            if(producto == "default") {
+                //console.log("producto default");
+                $valido = false;
+            }
+
             var largo = $("#inputLargo").val();
             var ancho = $("#inputAncho").val();
             var alto = $("#inputAlto").val();
+            var peso = $("#inputPeso").val();
+
             var cantidad = $("#inputCantidad").val();
-            var descProducto = $("#descProducto").val();
 
+            /*console.log("largo1");
+            console.log(largo);
 
+            largo.replace(/[^0-9]/g, '');
+            ancho.replace(/[^0-9]/g, '');
+            alto.replace(/[^0-9]/g, '');
+            peso.replace(/[^0-9]/g, '');
 
-            $("#embalaje").prop("checked", false);
-            $("#inputPeso").val("");
-            $("#inputLargo").val("");
-            $("#inputAncho").val("");
-            $("#inputAlto").val("");
-            $("#inputCantidad").val("");
-            $("#descProducto").val("");
+            console.log("largo2");
+            console.log(largo);
+            console.log("ancho");
+            console.log(ancho);
+            console.log("alto");
+            console.log(alto);
+            console.log("peso");
+            console.log(peso);
 
+            */
 
+            largo = parseFloat(largo);
+            ancho = parseFloat(ancho);
+            alto = parseFloat(alto);
+            peso = parseFloat(peso);
 
+            /*$("#inputLargo").val(largo);
+            $("#inputAncho").val(ancho);
+            $("#inputAlto").val(alto);
+            $("#inputPeso").val(peso);*/
 
-            var pesoVolumetricoInd = (largo * ancho * alto) / 5000;
-            var pesoTotalPaquete = peso * cantidad;
-            var pesoVolTotalPaquete = pesoVolumetricoInd * cantidad;
+            /*if(!isNaN(largo)) {
+                alert("largo es numero");
+            } else {
+                alert("largo no es numero");
+            }*/
 
-            totalesPesosReales.push(pesoTotalPaquete);
-            //console.log(totalesPesosReales);
+            /*if(!(isNaN(largo)) && !(isNaN(ancho)) && !(isNaN(alto)) && !(isNaN(peso))) {
+                console.log("pase el 1er if");
+                if(largo > 0 && ancho > 0 && alto > 0 && peso > 0) {
+                    alert("vientos");
+                } else {
+                    alert("alguno de los valores no es mayor a 0");
+                }
+            } else {
+                alert("Falta un valor o alguno de los valores en las dimensiones no es numero");
+            }*/
 
-            totalesPesosVolum.push(pesoVolTotalPaquete);
-            //console.log(totalesPesosVolum);
-
-            var pesoString = Number.parseFloat(peso).toFixed(2);
-            var pesoVolIndString = Number.parseFloat(pesoVolumetricoInd).toFixed(4);
-
-            pesoVolumetricoTotal += pesoVolumetricoInd * cantidad;
-            pesoRealTotal += pesoTotalPaquete;
-
-            var stringPaquete = tipoProducto + "," + embalaje + "," + peso + "," + largo + "," + ancho + "," + alto + "," + cantidad + "," + descProducto;
-
-            var renglonPaquetes = "" +
-                "<tr>" +
-                //"<th scope='row'>"+ numPaquete + "</th>" +
-                "<td>"+ tipoProducto + "</td>" +
-                "<td>" + embalaje + "</td>" +
-                //"<td>" + peso + "</td>" +
-                "<td>Peso real: " + pesoString + " kg<br>Peso vol: " + pesoVolIndString + " kg</td>" +
-                "<td>" + largo + "x" + ancho + "x" + alto + "</td>" +
-                "<td>" + cantidad + "</td>" +
-                "<td>" + descProducto + "</td>" +
-                //"<td><!--<a href='#' class='btn btn-link btn-sm btn-sm'>Editar</a>--> <a href='#' class='btn btn-link btn-sm' onclick='eliminarPaquete('\"" + numPaquete + "\"')'>Eliminar</a></td>" +
-                "<td><a href='#paquetes' class='btn btn-link btn-sm' onclick='eliminarPaquete(" + numPaquete + ")'>Eliminar</a></td>" +
-                //"<td><input type="hidden" value=\"" + peso + "\" name="paquete[]"></td>" +
-                //"<td><input type='hidden' value='" + peso + "' + name='paquete[]'></td>" +
-                "<td><input type='hidden' value='" + stringPaquete + "' + name='paquete[]'></td>" +
-                "</tr>";
-
-            //alert(stringPaquete);
-
-            //$("#paquetes tr:last").append(renglonPaquetes);
-            //$("#paquetes tbody tr:last").append(renglonPaquetes);
-            var numFilasTabla = $("#paquetes tbody tr").length;
-
-            if(numFilasTabla == 0) {
-                $("#paquetes tbody").append(renglonPaquetes);
-            } else if(numFilasTabla > 0) {
-                $("#paquetes tr:last").after(renglonPaquetes);
+            if((isNaN(largo)) || (isNaN(ancho)) || (isNaN(alto)) || (isNaN(peso))) {
+                //alert("alguno no es numero");
+                $valido = false;
+            } else if(largo < 0 || ancho < 0 || alto < 0 || peso < 0) {
+                //alert("alguno es menor a 0");
+                $valido = false;
             }
 
-
-
-            //alert(stringPaquete);
-
-            $("#datosPaquetes").val(stringPaquete);
-
-            if(pesoRealTotal >= pesoVolumetricoTotal) {
-                pesoFacturar = pesoRealTotal;
-            } else if(pesoRealTotal <= pesoVolumetricoTotal){
-                pesoFacturar = pesoVolumetricoTotal;
-            }
-
-            //alert(pesoFacturar);
-
-            var stringPesos = "Total peso real: " + pesoRealTotal.toFixed(2) + " | Total peso volumétrico: " + pesoVolumetricoTotal.toFixed(2) + " | Peso a facturar: " + pesoFacturar.toFixed(2);
-
-            $("#paquetes").find("caption").text(stringPesos);
-            //alert(stringPesos);
-
-            $("#pesoRealTotal").val(pesoRealTotal);
-            $("#pesoTotalVol").val(pesoVolumetricoTotal);
-            $("#pesoAFacturar").val(pesoFacturar);
-
-
-            //return stringPaquete;
+            return $valido;
         }
 
         function eliminarPaquete(numFila) {
@@ -317,6 +403,23 @@ $clientes = obtenerClientes($conexion);
             numPaquete--;
         }
 
+        function validarPaqueteYDirecciones() {
+
+            //console.log("numPaquete");
+            //console.log(numPaquete);
+
+            if(numPaquete == 0) {
+                //console.log("hoal desde validaar");
+                $("#formulario").submit(function(e){
+                    e.preventDefault();
+                });
+
+            }
+
+
+
+        }
+
         function esconderTablaOrigen() {
             $("#tablaOrigen").addClass("d-none");
             //console.log("hola");
@@ -340,6 +443,20 @@ $clientes = obtenerClientes($conexion);
     <title><?php echo PAGE_TITLE ?></title>
 
     <?php getTopIncludes(RUTA_INCLUDE ) ?>
+
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { /* Safari, Chrome, Edge y Opera */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -387,7 +504,7 @@ $clientes = obtenerClientes($conexion);
                 </div>
             </div>-->
 
-            <form action="procesarNuevaCotizacionEmpleado.php" method="post" enctype="multipart/form-data">
+            <form action="procesarNuevaCotizacionEmpleado.php" method="post" enctype="multipart/form-data" id="formulario">
 
                 <div class="table-responsive mb-3">
 
@@ -454,7 +571,7 @@ $clientes = obtenerClientes($conexion);
                             <th scope="row"><?php echo $nombre . " " . $apellidos; ?></th>
                             <td><?php echo $celYTel; ?></td>
                             <td><?php echo $email; ?></td>
-                            <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>"></label></td>
+                            <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" required></label></td>
                         </tr>
                         <?php
                         }
@@ -465,12 +582,14 @@ $clientes = obtenerClientes($conexion);
                 </div>
 
 
-                <h2 class="font-weight-normal">Servicio</h2>
+                <div class="form-row">
+                    <h2 class="font-weight-normal">Servicio</h2>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="inputServicio">Tipo de servicio</label>
                         <!--<input type="email" class="form-control" id="inputEmail4">-->
-                        <select id="inputServicio" class="custom-select mr-sm-4" name="tipoServicio">
+                        <select id="inputServicio" class="custom-select mr-sm-4" name="tipoServicio" required>
                             <option selected value="default">Seleccione una opción...</option>
                             <option value="Urgente">Urgente</option>
                             <option value="Dia siguiente">Dia siguiente</option>
@@ -561,12 +680,21 @@ $clientes = obtenerClientes($conexion);
                                         <div class="form-group col-md-4">
                                             <label for="inputProducto">¿Qué desea enviar?</label>
                                             <select id="inputProducto" class="custom-select mr-sm-6">
-                                                <option selected></option>
+                                                <option value="default" selected></option>
                                                 <option value="paquete">Paquete</option>
                                                 <option value="documento">Documento</option>
                                             </select>
                                         </div>
 
+                                        <!--<div class="form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="embalaje" value="embalaje">
+                                            <label class="form-check-label" for="embalaje">
+                                                Requiero embalaje (opcional)<\!--<a class="-underline" href="#"> Mas información</a>--\>
+                                            </label>
+                                        </div>-->
+                                    </div>
+
+                                    <div class="form-row">
                                         <div class="form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="embalaje" value="embalaje">
                                             <label class="form-check-label" for="embalaje">
@@ -575,18 +703,18 @@ $clientes = obtenerClientes($conexion);
                                         </div>
                                     </div>
 
-                                    <div class="form-row">
+                                    <div class="form-row mt-4">
                                         <div class="form-group col-md-2">
                                             <label for="inputLargo">Largo</label>
-                                            <input type="text" class="form-control" id="inputLargo">
+                                            <input type="number" class="form-control" id="inputLargo" placeholder="cm">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="inputAncho">Ancho</label>
-                                            <input type="text" class="form-control" id="inputAncho">
+                                            <input type="number" class="form-control" id="inputAncho" placeholder="cm">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="inputAlto">Alto</label>
-                                            <input type="text" class="form-control" id="inputAlto">
+                                            <input type="number" class="form-control" id="inputAlto" placeholder="cm">
                                         </div>
                                         <!--<div class="form-group col-md-4">
                                             <label for="inputPesoVol">Peso volumétrico</label>
@@ -597,7 +725,7 @@ $clientes = obtenerClientes($conexion);
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="inputPeso">Peso individual</label>
-                                            <input type="text" class="form-control" id="inputPeso">
+                                            <input type="number" class="form-control" id="inputPeso" placeholder="kg">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="inputCantidad">Cantidad</label>
@@ -619,9 +747,11 @@ $clientes = obtenerClientes($conexion);
                     </div>
                 </div>
 
-                <div class="table-responsive mb-3">
-
+                <div class="form-row">
                     <h2 class="font-weight-normal">Destino</h2>
+                </div>
+
+                <div class="table-responsive mb-3">
 
                     <table class="table table-bordered dataTable">
                         <thead>
@@ -647,7 +777,7 @@ $clientes = obtenerClientes($conexion);
                         <tbody>
                         <?php
 
-
+                        if($direcciones != false) {
 
                         foreach($direcciones as $tablaDireccion) {
                             $idDireccion = $tablaDireccion['id'];
@@ -703,10 +833,11 @@ $clientes = obtenerClientes($conexion);
                                 <td><?php echo $direccion; ?></td>
                                 <td><?php echo $referencia; ?></td>
                                 <td><?php echo $alias; ?></td>
-                                <td><label><input type="radio" name="destino" value="<?php echo $idDireccion; ?>"></label></td>
+                                <td><label><input type="radio" name="destino" value="<?php echo $idDireccion; ?>" required></label></td>
                             </tr>
 
                             <?php
+                        }
                         }
                         ?>
                     </table>
@@ -764,7 +895,7 @@ $clientes = obtenerClientes($conexion);
                         <button type="button" class="btn btn-danger">Cancelar cotización</button>
                     </div>
                     <div class="row">
-                        <button type="submit" class="btn btn-primary">Realizar cotización</button>
+                        <button type="submit" class="btn btn-primary" id="botonSubmit" onclick="validarPaqueteYDirecciones()">Realizar cotización</button>
                     </div>
                 </div>
 
