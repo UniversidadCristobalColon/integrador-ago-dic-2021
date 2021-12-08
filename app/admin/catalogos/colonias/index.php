@@ -144,6 +144,7 @@ include '../../../../config/db.php';
 
                                 $query =    "SELECT * FROM `pakmail`.municipios WHERE id_estado = $estado order by municipio asc";
 
+
                                 if ($result = mysqli_query($conexion, $query)) {
                                     while ($row = $result->fetch_assoc()) {
                                         ?>

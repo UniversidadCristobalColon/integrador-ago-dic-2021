@@ -142,7 +142,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
 <?php getModalLogout() ?>
 
 <?php getBottomIncudes( RUTA_INCLUDE ) ?>
