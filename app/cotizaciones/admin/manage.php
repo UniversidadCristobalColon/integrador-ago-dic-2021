@@ -12,7 +12,7 @@ if ($tipo_perfil != 1) {
 <?php
 $id_cotizacion = $_GET['id'];
 // CONSULTA INFORMACIÓN DE LA COTIZACIÓN SELECCIONADA
-$sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
+$sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente, cotiz.id_cliente,
         CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem,
         CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest,
         cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
@@ -22,6 +22,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     if (!is_null($row)) {
         $cliente = $row['cliente'];
+        $id_cliente = $row['id_cliente'];
         $dir_rem = $row['dir_rem'];
         $dir_dest = $row['dir_dest'];
         $tipo_servicio = $row['tipo_servicio'];
@@ -301,6 +302,7 @@ if ($result) {
                                         </div>
                                         <div class="col-1 w-100">
                                             <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
+                                            <input type="hidden" name="id_cliente" value="<?php echo $id_cliente ?>">
                                             <a href="javascript:void(0)" class="add_button"><i class="fas fa-plus text-body"></i></a>
                                         </div>
                                     </div>
@@ -404,6 +406,7 @@ if ($result) {
                                     </div>
                                     <div class="col-12">
                                         <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
+                                        <input type="hidden" name="id_cliente" value="<?php echo $id_cliente ?>">
                                         <input type="submit" name="submit" value="Enviar" class="btn btn-success">
                                     </div>
                                 </form>

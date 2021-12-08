@@ -300,6 +300,7 @@ if ($result) {
                                         <div class="col-1 w-100">
                                             <input type="radio" id="<?php echo $one['id_servicio_disponible'] ?>" name="idServicioElegido" value="<?php echo $one['id_servicio_disponible'] ?>">
                                             <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
+                                            <input type="hidden" name="id_cliente" value="<?php echo $id_cliente ?>">
                                         </div>
                                         <div class="col-3 w-100">
                                             <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['paqueteria'] ?></label>
