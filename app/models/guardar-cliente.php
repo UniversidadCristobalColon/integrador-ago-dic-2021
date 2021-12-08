@@ -13,7 +13,7 @@ $usu->id_perfil=$ra;
 $rA=$usu->guardar();
 if($rA>0){
 
-
+/*
 
 	$conexion = mysqli_connect('lizbethrojas.me', 'pakmail_user', 'kp3C-sd6WVvRZeBV', 'pakmail');
 
@@ -52,7 +52,7 @@ if($rA>0){
  			$mailer->send($message);
 
 
-
+*/
 
 	header("Location: ../success.php?v=1");
 }else{
