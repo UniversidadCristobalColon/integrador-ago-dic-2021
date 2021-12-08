@@ -7,6 +7,8 @@ if($status == PHP_SESSION_NONE) {
 }
 
 
+
+
 //$idCliente = $_SESSION['id_cliente'];
 
 /*echo "id cliente<br>";

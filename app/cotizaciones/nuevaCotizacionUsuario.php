@@ -13,6 +13,9 @@ if($status == PHP_SESSION_NONE) {
 
 //echo $_SESSION['id_cliente'];
 
+/*$idCliente = $_GET['idCliente'];
+echo $idCliente . "<br>";*/
+
 require_once '../../config/global.php';
 require_once '../../config/db.php';
 
@@ -43,17 +46,26 @@ function obtenerDirecciones($conexion, $idCliente) {
     $resultado = mysqli_query($conexion, $selectDirecciones);
 
     if($resultado) {
+        //echo  "entro a resultado<br>";
+        $hayDirecciones = false;
 
         while( $fila = mysqli_fetch_assoc($resultado)) {
+            //echo "entro a while<br>";
+            $hayDirecciones = true;
             $direcciones[] = $fila;
         }
 
-        return $direcciones;
+        if($hayDirecciones) {
+            return $direcciones;
+        } else {
+            return false;
+        }
+
+
 
     } else {
         //echo "error<br>";
         echo mysqli_error($conexion);
-
     }
 
     return false;
@@ -339,7 +351,10 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
             </div>-->
 
             <form action="procesarNuevaCotizacion.php" method="post" enctype="multipart/form-data">
-                <h2 class="font-weight-normal">Servicio</h2>
+                <div class="form-row">
+                    <h2 class="font-weight-normal">Servicio</h2>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="inputServicio">Tipo de servicio</label>
@@ -352,15 +367,20 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                         </select>
                     </div>
 
-                    <div class="form-check-inline">
+                    <!--<div class="form-check-inline">
                         <input class="form-check-input" type="checkbox" id="asegurar" name="asegurar" value="S">
                         <label class="form-check-label" for="asegurar">
-                            Asegurar el envío (opcional)<!--<a class="-underline" href="#">Mas información</a>-->
+                            Asegurar el envío (opcional)<!--<a class="-underline" href="#">Mas información</a>--\>
                         </label>
-                    </div>
+                    </div>-->
                 </div>
 
-                <div class="row mb-4 justify-content-between">
+                <div class="form-row ml-2 col-md-4">
+                    <input class="form-check-input" type="checkbox" id="asegurar" name="asegurar" value="S">
+                    <label class="form-check-label" for="asegurar">Asegurar el envío (opcional)<!--<a class="-underline" href="#">Mas información</a>--></label>
+                </div>
+
+                <div class="row mt-4 mb-4 justify-content-between">
                     <div class="col-4">
                         <h2 class="font-weight-normal">Paquete(s)</h2>
                     </div>
@@ -493,9 +513,11 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                 </div>
             </div>
 
-                <h2 class="font-weight-normal">Origen</h2>
-
                 <div class="form-row">
+                    <h2 class="font-weight-normal">Origen</h2>
+                </div>
+
+                <div class="form-row mb-4">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="origen" id="sucursal" onclick="esconderTablaOrigen()" value="S" required>
                         <label class="form-check-label" for="sucursal">Dejaré en sucursal</label>
@@ -504,6 +526,9 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                         <input class="form-check-input" type="radio" name="origen" id="recoleccion" onclick="mostrarTablaOrigen()" value="R">
                         <label class="form-check-label" for="recoleccion">Requiero recolección</label>
                     </div>
+                </div>
+
+                <div class="form-row mb-4">
 
                     <table id="tablaOrigen" class="table table-sm table-hover d-none">
 
@@ -519,6 +544,9 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                         </thead>
                         <tbody>
                         <?php
+
+                        if($direcciones != false) {
+
                         $numeroDireccion = 1;
 
                         foreach($direcciones as $tablaDireccion) {
@@ -566,14 +594,18 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
 
                             $numeroDireccion++;
                         }
+                        }
                         ?>
 
                         </tbody>
                     </table>
                 </div>
 
-                <h2 class="font-weight-normal">Destino</h2>
+                <div class="form-row mb-4">
+                    <h2 class="font-weight-normal">Destino</h2>
+                </div>
 
+                <div class="form-row mb-4">
                 <table class="table table-sm table-hover">
 
                     <thead>
@@ -588,6 +620,9 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                     </thead>
                     <tbody>
                     <?php
+
+                    if($direcciones != false) {
+
                     $numeroDireccion = 1;
 
                     foreach($direcciones as $tablaDireccion) {
@@ -636,10 +671,12 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
 
                         $numeroDireccion++;
                     }
+                    }
                     ?>
 
                     </tbody>
                 </table>
+                </div>
 
                     <!-- Tabla responsiva
                     <div class="table-responsive mb-3">

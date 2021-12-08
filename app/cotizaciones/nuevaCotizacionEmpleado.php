@@ -153,6 +153,7 @@ $clientes = obtenerClientes($conexion);
             });
         });*/
 
+        var idCliente = 0;
         var numPaquete = 0;
         var pesoRealTotal = 0;
         var pesoVolumetricoTotal = 0;
@@ -438,6 +439,13 @@ $clientes = obtenerClientes($conexion);
 
         }*/
 
+        function obtenerCliente() {
+            //console.log($("input[name='cliente']:checked").val());
+            idCliente = $("input[name='cliente']:checked").val();
+            var url = "nuevaCotizacionUsuario.php?idCliente=" + idCliente;
+            $("#direc").attr("href", url);
+        }
+
     </script>
 
     <title><?php echo PAGE_TITLE ?></title>
@@ -506,24 +514,26 @@ $clientes = obtenerClientes($conexion);
 
             <form action="procesarNuevaCotizacionEmpleado.php" method="post" enctype="multipart/form-data" id="formulario">
 
+                <div class="form-row">
+                    <h2 class="font-weight-normal">Clientes</h2>
+                </div>
+
                 <div class="table-responsive mb-3">
 
-                    <h2 class="font-weight-normal">Clientes</h2>
+
 
                     <table class="table table-bordered dataTable">
                         <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Celular y telefono</th>
-                            <th>Email</th>
+                            <th>Contacto</th>
                             <th>Seleccionar</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Nombre</th>
-                            <th>Celular y telefono</th>
-                            <th>Email</th>
+                            <th>Contacto</th>
                             <th>Seleccionar</th>
                         </tr>
                         </tfoot>
@@ -554,8 +564,6 @@ $clientes = obtenerClientes($conexion);
                                 }
                             }
 
-                            $celYTel = $celular . "/" . $telefono;
-
                             $email = "N/A";
 
                             if(array_key_exists('email', $tablaClientes)) {
@@ -566,12 +574,13 @@ $clientes = obtenerClientes($conexion);
                                 }
                             }
 
+                            $contacto = "Cel: " . $celular . "<br>Tel: " . $telefono . "<br>Email: " . $email;
+
                         ?>
                         <tr>
                             <th scope="row"><?php echo $nombre . " " . $apellidos; ?></th>
-                            <td><?php echo $celYTel; ?></td>
-                            <td><?php echo $email; ?></td>
-                            <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" required></label></td>
+                            <td><?php echo $contacto; ?></td>
+                            <td><label><input type="radio" name="cliente" value="<?php echo $id; ?>" onclick="obtenerCliente()" required></label></td>
                         </tr>
                         <?php
                         }
@@ -747,8 +756,22 @@ $clientes = obtenerClientes($conexion);
                     </div>
                 </div>
 
-                <div class="form-row">
+                <!--<div class="form-row">
                     <h2 class="font-weight-normal">Destino</h2>
+                </div>-->
+
+                <div class="row mb-4 justify-content-between">
+                    <div class="col-4">
+                        <h2 class="font-weight-normal">Destino</h2>
+                    </div>
+
+
+                    <div class="col-4">
+                        <!--<a class="btn btn-success" href="nuevaCotizacionUsuario.php?">Crear direccion</a>-->
+                        <a class="btn btn-success" id="direc" href="#top">Crear direccion</a>
+                    </div>
+                    <!--<div class="col text-right">-->
+
                 </div>
 
                 <div class="table-responsive mb-3">
