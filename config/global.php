@@ -184,7 +184,7 @@ function getModalLogout(){
             <div class="modal-body">Seleccione "Salir" a continuación si está listo para finalizar su sesión actual.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary" href="{$ruta}logout.php">Salir</a><!--Cierra sesión y manda al usuario a la pagina del login-->
+                <a class="btn btn-primary" href="{$ruta}app/logout.php">Salir</a><!--Cierra sesión y manda al usuario a la pagina del login-->
             </div>
         </div>
     </div>
