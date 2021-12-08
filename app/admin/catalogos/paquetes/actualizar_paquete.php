@@ -89,9 +89,8 @@ if(!empty($_GET['id'])){
                         <div class="form-group col-md-6">
                         <label>Tipo*</label>
                         <select name="tipo" class="form-control" required>
-                            <option selected>C</option>
-                            <option>S</option>
-                            <small class="text-muted" >C = Caja / S = Sobre</small>
+                            <option selected>Caja</option>
+                            <option>Sobre</option>
                         </select>
                     </div>
                             <div class="form-group col-md-6">
