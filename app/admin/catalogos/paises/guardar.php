@@ -2,7 +2,7 @@
 require '../../../../config/db.php';
 
 $query = "INSERT INTO paises (id, pais, creacion, actualizacion, status) 
-VALUES (null,$paises,NOW() ,NOW(),'A')";
+VALUES (null,'Alemania',NOW() ,NOW(),'A')";
 
 $resultado = mysqli_query($conexion, $query);
 

@@ -1,7 +1,6 @@
 <?php
+session_start();
 require '../config/db.php';
-$subject='Recuperación de contraseña';
-$message='http://localhost/integrador-ago-dic-2021/app/cambiar_password.php'//link temporal prueba
 ?>
 
 <!DOCTYPE html>
@@ -29,21 +28,33 @@ $message='http://localhost/integrador-ago-dic-2021/app/cambiar_password.php'//li
 <body class="bg-dark">
 
 <div class="container">
+
     <div class="card card-login mx-auto mt-5">
         <div class="card-header">Recuperar contraseña</div>
         <div class="card-body">
             <div class="text-center mb-4">
+
                 <h4>¿Olvidó su contraseña?</h4>
                 <p>Se enviará un correo electrónico con instrucciones para recuperar el acceso a su cuenta.</p>
             </div>
-            <form action="..\config/correo.php">
+            <!--agregue el metodo post al form-->
+            <form method="post" action = "../config/correo.php">
                 <div class="form-group">
                     <div class="form-label-group">
-                        <input type="email" name="email_destino" id="inputEmail" class="form-control" placeholder="Correo electrónico"
+                        <!--Cambie el nombre y id del input de correo-->
+
+                        <input type="email" name="email_destino" id="email_destino" class="form-control" placeholder="Correo electrónico"
                                required="required" autofocus="autofocus">
-                        <label for="inputEmail">Correo electrónico</label>
+                        <label for="email_destino">Correo electrónico</label>
+
+                        <!--Agregue estos dos, el primero es titutlo de correo y segundo es el cuerpo, cambia el url al definitivo-->
+                        <input id="subject" name="subject" type="hidden" value="Recuperación de contraseña">
+                        <input id="message" name="message" type="hidden" value="<p>Ingrese en el siguiente <a href=http://localhost/integrador-ago-dic-2021/app/cambiar_password.php>link </a>para realizar el cambio de su contraseña</p>">
+
+
                     </div>
                 </div>
+
                 <button class="btn btn-primary btn-block" type="submit" name="sendmail">Recuperar</button>
             </form>
             <div class="text-center">

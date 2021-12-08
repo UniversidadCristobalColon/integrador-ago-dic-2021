@@ -62,23 +62,9 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
             <form>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="inputEstado">País</label>
                         <input type="text" class="form-control" id="inputPais" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="">Creación</label>
-                        <input type="text" class="form-control" id="" placeholder="Fecha de Creación">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Actualización</label>
-                    <input type="text" class="form-control" id="" placeholder="Fecha de Actualización">
-                </div>
-                <div class="form-group">
-                    <label for="">Estatus</label>
-                    <input type="text" class="form-control" id="" placeholder=" A , B ">
-                </div>
             </form>
         </div>
         <!-- /.container -->

@@ -51,7 +51,24 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     <li class="breadcrumb-item active" aria-current="page">Clientes</li>
                 </ol>
             </nav>
-
+            <?php
+            if(isset($_SESSION['guardar_error'])){
+            ?>
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> <?php echo $_SESSION["guardar_error"]; ?>
+            </div>
+            <?php
+                unset($_SESSION['guardar_error']);
+            }
+            if(isset($_SESSION['registro_exitoso'])){
+            ?>
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check"></i> <?php echo $_SESSION["registro_exitoso"]; ?>
+            </div>
+                <?php
+                unset($_SESSION["registro_exitoso"]);
+            }
+            ?>
             <div class="row my-3">
                 <div class="col text-right">
                     <a href="form-cliente.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</a>

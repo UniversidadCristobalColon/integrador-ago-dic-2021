@@ -23,14 +23,11 @@ $municipio = $_POST['municipio'];
 $estado = $_POST['estado'];
 $referencia = $_POST['referencia'];
 
-echo ($id_cliente);
-
 
 if(empty($id_cliente)){
     $query = "INSERT INTO clientes (id, nombre, apellidos, email, celular, telefono, creacion)
 VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //ejecutar primero este
     $resultado = mysqli_query($conexion, $query);
-//$resultado2 = mysqli_query($conexion, $query2);
 
     if($resultado == true){
         header('location: index.php');
@@ -55,9 +52,11 @@ VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior'
             }
             $query3 = "INSERT INTO usuarios (id, id_cliente ,password, user, id_perfil) VALUES (null, $iduser, '', '$email1', 2)";
             $resultado = mysqli_query($conexion, $query3);
+            $_SESSION['registro_exitoso'] = "Cliente agregado exitosamente";
         }
 
     }else{
+        $_SESSION['guardar_error'] = "No se pudo agregar el usuario";
         echo mysqli_errno($conexion);
     }
 
@@ -76,6 +75,7 @@ VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior'
         header('location: index.php');
 
     }else{
+        $_SESSION['actualizar_error']=1;
         echo mysqli_errno($conexion);
     }
 
