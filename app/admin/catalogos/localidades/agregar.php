@@ -75,7 +75,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
                                 $estados = [];
 
-                                $query =    "SELECT * FROM `pakmail`.municipios";
+                                $query =    "SELECT * FROM `pakmail`.municipios ORDER BY municipio";
 
                                 if ($result = mysqli_query($conexion, $query)) {
                                     var_dump($result);

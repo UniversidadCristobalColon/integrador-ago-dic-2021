@@ -3,9 +3,9 @@
 include '../../../../config/db.php';
 
 $nombre = $_POST["nombre"];
-$estado = $_POST["estado"];
+$municipio = $_POST["municipio"];
 
-$query = "INSERT INTO `pakmail`.municipios (municipio, id_estado) VALUES ('$nombre', '$estado')";
+$query = "INSERT INTO `pakmail`.localidades (localidad, id_municipio, creacion) VALUES ('$nombre', '$municipio', now())";
 
 if( $insert = mysqli_query($conexion,$query) ){
     

@@ -33,7 +33,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Municipios</li>
+                        <li class="breadcrumb-item">Localidades</li>
                         <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
                     </ol>
                 </nav>
@@ -62,25 +62,26 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <a href="index.php" type="button" class="btn btn-link">Cancelar</a>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="nombre">Municipio</label>
+                            <label for="nombre">Localidad</label>
                             <input type="text" class="form-control" name="nombre" id="nombre" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label for="estado">Estado</label>
-                            <select class="custom-select" name="estado" id="estado">
-                                <option value="" selected></option>
+                            <label for="municipio">Municipio</label>
+                            <select class="custom-select" name="municipio" id="municipio">
                                 <?php
 
                                 $estados = [];
 
-                                $query =    "SELECT * FROM `pakmail`.estados";
+                                $query =    "SELECT * FROM `pakmail`.municipios ORDER BY municipio";
 
                                 if ($result = mysqli_query($conexion, $query)) {
+                                    var_dump($result);
                                     while ($row = $result->fetch_assoc()) {
                                 ?>
-                                        <option value="<?php echo $row["id"]; ?>"><?php echo $row["estado"]; ?></option>
+                                        <option value="<?php echo $row["id"]; ?>"><?php echo $row["municipio"]; ?></option>
                                 <?php
                                     }
                                 }

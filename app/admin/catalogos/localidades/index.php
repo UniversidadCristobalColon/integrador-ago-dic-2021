@@ -51,7 +51,7 @@ define('RUTA_INCLUDE', '../../../../');
                             $mensaje = "Reactivado exitosamente";
                             break;
                         case "3":
-                            $mensaje = "Agregado exitosamente";
+                            $mensaje = "Guardado correctamente";
                             break;
                         case "4":
                             $mensaje = "Editado exitosamente";
@@ -134,8 +134,7 @@ define('RUTA_INCLUDE', '../../../../');
                             <tr>
                                 <th>Localidad</th>
                                 <th>Municipio</th>
-                                <th>Creación</th>
-                                <th>Actualización</th>
+                                <th>Última Actualización</th>
                                 <th>Estatus</th>
                                 <th>Acciones</th>
                             </tr>
@@ -156,8 +155,7 @@ define('RUTA_INCLUDE', '../../../../');
                                         <?php $id = $row["id"]; ?>
                                         <td><?php echo $row["localidad"]; ?></td>
                                         <td><?php echo $row["municipio"]; ?></td>
-                                        <td><?php echo $row["creacion"]; ?></td>
-                                        <td><?php echo $row["actualizacion"] != null ? $row["actualizacion"] : ""; ?></td>
+                                        <td><?php echo $row["actualizacion"] != null ? $row["actualizacion"] : $row["creacion"]; ?></td>
                                         <td><?php echo $row["status"] == "A" ? "Activa" : "Inactiva"; ?></td>
                                         <td>
                                             <a href="./editar.php?id=<?php echo $id; ?>" class="btn btn-link btn-sm btn-sm">Editar</a>

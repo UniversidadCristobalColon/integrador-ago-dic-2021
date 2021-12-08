@@ -35,7 +35,7 @@ define('RUTA_INCLUDE', '../../../../');
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Catálogos</li>
-                        <li class="breadcrumb-item active" aria-current="page">Municipios</li>
+                        <li class="breadcrumb-item active" aria-current="page">Localidades</li>
                     </ol>
                 </nav>
 
@@ -51,7 +51,7 @@ define('RUTA_INCLUDE', '../../../../');
                             $mensaje = "Reactivado exitosamente";
                             break;
                         case "3":
-                            $mensaje = "Agregado exitosamente";
+                            $mensaje = "Guardado correctamente";
                             break;
                         case "4":
                             $mensaje = "Editado exitosamente";
@@ -96,58 +96,66 @@ define('RUTA_INCLUDE', '../../../../');
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-4 form-group pl-0">
-                    <label for="estado">Estado</label>
-                    <select class="custom-select" name="estado" id="estado">
-                        <option value="" selected></option>
-                        <?php
+                <div class="row my-3">
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for="estado">Estado</label>
+                        <select class="custom-select" name="estado" id="estado">
+                            <option value="" selected></option>
+                            <?php
 
-                        $estados = [];
+                            $estados = [];
 
-                        $query =    "SELECT * FROM `pakmail`.estados";
+                            $query =    "SELECT * FROM `pakmail`.estados";
 
-                        if ($result = mysqli_query($conexion, $query)) {
-                            while ($row = $result->fetch_assoc()) {
-                        ?>
-                                <option <?php if (isset($_GET["estado"]) && $_GET["estado"] == $row["id"]) echo "selected"; ?> value="<?php echo $row["id"]; ?>"><?php echo $row["estado"]; ?></option>
-                        <?php
+                            if ($result = mysqli_query($conexion, $query)) {
+                                while ($row = $result->fetch_assoc()) {
+                            ?>
+                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["estado"]; ?></option>
+                            <?php
+                                }
                             }
-                        }
 
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <label for="municipio">Municipio</label>
+                        <select class="custom-select" name="municipio" id="municipio">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
                 </div>
+
 
                 <div class="table-responsive mb-3">
                     <table class="table table-bordered" id="table">
                         <thead>
                             <tr>
+                                <th>Localidad</th>
                                 <th>Municipio</th>
-                                <th>Estado</th>
-                                <th>Creación</th>
-                                <th>Actualización</th>
+                                <th>Última Actualización</th>
                                 <th>Estatus</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyEstados" class="d-none">
+                        <tbody id="bodyLocalidades" class="d-none">
                             <?php
 
                             $estados = [];
 
-                            $query = "SELECT m.id, m.municipio, e.estado, m.creacion, m.actualizacion, m.status 
-                                    FROM `pakmail`.municipios m
-                                    LEFT JOIN estados e ON e.id = m.id_estado";
+                            $query = "SELECT l.id, l.localidad, m.municipio, l.creacion, l.actualizacion, l.status 
+                                    FROM `pakmail`.localidades l
+                                    LEFT JOIN municipios m ON m.id = l.id_municipio";
 
                             if ($result = mysqli_query($conexion, $query)) {
                                 while ($row = $result->fetch_assoc()) {
                             ?>
                                     <tr>
                                         <?php $id = $row["id"]; ?>
+                                        <td><?php echo $row["localidad"]; ?></td>
                                         <td><?php echo $row["municipio"]; ?></td>
-                                        <td><?php echo $row["estado"]; ?></td>
-                                        <td><?php echo $row["creacion"]; ?></td>
-                                        <td><?php echo $row["actualizacion"] != null ? $row["actualizacion"] : ""; ?></td>
+                                        <td><?php echo $row["actualizacion"] != null ? $row["actualizacion"] : $row["creacion"]; ?></td>
                                         <td><?php echo $row["status"] == "A" ? "Activa" : "Inactiva"; ?></td>
                                         <td>
                                             <a href="./editar.php?id=<?php echo $id; ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
@@ -185,26 +193,42 @@ define('RUTA_INCLUDE', '../../../../');
     <?php getModalLogout() ?>
 
     <?php getBottomIncudes(RUTA_INCLUDE) ?>
+
+    <script src="functions.js"></script>
 </body>
 
 </html>
 
 <script>
-
     var table;
-
     $(document).ready(function() {
-        
-        table = $('#table').DataTable({"language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-        }});
 
-        $("#bodyEstados").removeClass("d-none");
-        
+        table = $('#table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+
+        $("#bodyLocalidades").removeClass("d-none");
+
         $("#estado").change(() => {
-            let thisvalue = $("#estado option:selected").text();
+            let data = new FormData();
+            data.append("idEstado", $("#estado").val());
+
+            RequestPOST("getMunicipios.php", data).then((municipios) => {
+                $("#municipio").empty();
+                $("#municipio").append("<option value='' selected></option>");
+
+                $.each(municipios, (index, municipio) => {
+                    $("#municipio").append(`<option>${municipio}</option>`);
+                })
+            });
+        });
+
+        $("#municipio").change(() => {
+            let thisvalue = $("#municipio option:selected").text();
             if (thisvalue != "") {
-                $("#bodyEstados").removeClass("d-none")
+                $("#bodyLocalidades").removeClass("d-none")
                 $("#table_info").removeClass("d-none")
                 $("#table_paginate").removeClass("d-none")
                 table.columns(1).search(thisvalue).draw();
@@ -213,8 +237,7 @@ define('RUTA_INCLUDE', '../../../../');
             }
         });
 
-        $("#estado").trigger('change');
+        $("#municipio").trigger('change');
 
     });
-
 </script>
