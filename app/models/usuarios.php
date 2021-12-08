@@ -8,6 +8,7 @@ class usuarios{
 	var $password;	
 	var $id_perfil;	
 	var $creacion;
+    var $id_cliente;
 
 
 	function guardar(){
@@ -17,7 +18,7 @@ class usuarios{
       $conn = new DBConnect(); // se construye el objeto
       $conexion = $conn->connect(); //el objeto invoca mediante una flecha -> a la funcion connect escrita en DBConnect
       $stmt = null; 
-      $query ="INSERT INTO usuarios (user,password,id_perfil,creacion,id_cliente) values ( '$this->user','".password_hash($this->password,PASSWORD_DEFAULT)."', 2, NOW(),'$this->id_perfil');";
+      $query ="INSERT INTO usuarios (user,password,id_perfil,creacion,id_cliente) values ( '$this->user','".password_hash($this->password,PASSWORD_DEFAULT)."', 2, NOW(),'$this->id_cliente');";
       $stmt =  $conexion->prepare($query);
       $respuesta = $stmt->execute();
 
