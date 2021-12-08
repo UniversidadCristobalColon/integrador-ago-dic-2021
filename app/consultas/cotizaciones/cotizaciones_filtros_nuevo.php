@@ -21,7 +21,6 @@ if (isset($_POST['buscar'])) {
         and m.municipio like '" . $muni . "%' and e.seguimiento like '" . $estadopaq . "%'";
     }
 }
-
 $query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente,
          CONCAT(' C.P. ',
               dir_dest.cp)                    
