@@ -2,7 +2,7 @@
 //session_start();
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
-$sql = "SELECT * FROM clientes";
+$sql = "SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente";
 $resultado = mysqli_query($conexion, $sql);
 $clientes = array();
 if($resultado){
@@ -106,9 +106,9 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                             <td><?php echo $c['nombre']?> <?php echo $c['apellidos']?></td>
                             <td><?php echo $c['email']?></td>
                             <td><?php echo $c['celular']?></td>
-                            <td><?php echo $c['status'] ?></td>
-                            <td><a href="form-actualizar.php?id=<?php echo $c['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
-                                <a href="#" onclick="confirmar('<?php echo $c['id'] ?>')" class="btn btn-link btn-sm">Eliminar</a>
+                            <td><?php echo $c['status']?></td>
+                            <td><a href="form-actualizar.php?id=<?php echo $c['id_cliente'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+                                <a href="#" onclick="confirmar('<?php echo $c['id_cliente'] ?>')" class="btn btn-link btn-sm">Eliminar</a>
                             </td>
                         </tr>
                         <?php
