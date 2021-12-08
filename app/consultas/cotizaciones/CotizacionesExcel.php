@@ -1,8 +1,26 @@
 <?php
+$where = array();
+
+if(array_key_exists('cliente', $_GET)){
+    $cliente = $_GET['cliente'];
+    $where[] = " id_cliente = '$cliente' ";
+}
+if(array_key_exists('estado', $_GET)){
+    $estado = $_GET['estado'];
+    $where[] = " status = '$estado' ";
+}
+if(array_key_exists('destinatario', $_GET)){
+    $destinatario = $_GET['destinatario'];
+    $where[] = " id_dir_dest = '$destinatario' ";
+}
+if(array_key_exists('periodo', $_GET)){
+    $periodo = $_GET['periodo'];
+    $where[] = " DATE(fecha_creacion) = '$periodo' ";
+}
+
 
 require_once '../../../config/db.php';
 require_once '../../../vendor/Excel/SimpleXLSXGen.php';
-
 
 //$sql = "SELECT id_cotizacion, CONCAT(clientes.nombre, ' ', clientes.apellidos) nombre_cliente, tipo_servicio,
 //       CASE asegurado WHEN 'S' THEN 'asegurado' WHEN 'N' THEN 'No asegurado' END as 'Asegurado',
@@ -32,6 +50,11 @@ LEFT JOIN municipios AS municipiosdestinatario ON coloniasdestinatario.id_munici
 LEFT JOIN localidades AS localidadesdestinatario ON coloniasdestinatario.id_localidad = localidadesdestinatario.id
 LEFT JOIN estados AS estadosdestinatario ON municipiosdestinatario.id_estado = estadosdestinatario.id;";
 
+if (!empty($where))
+    $sql .= ' WHERE '.implode( ' AND ', $where);
+
+print_r($sql);
+
 $resultado = mysqli_query($conexion, $sql);
 
 $data = array();
@@ -44,8 +67,5 @@ if( $resultado ){
         $data[] = $fila;
     }
 }
-
-
-
 
 SimpleXLSXGen::fromArray( $data )->downloadAs('cotizaciones.xlsx');
