@@ -85,7 +85,7 @@ if($origen == 'S') {
     //echo "id cliente: " . $idCliente . "<br>";
     //Original
     //$obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
-    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias LIKE '%sucursal';";
+    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'Sucursal Pakmail';";
     $resultado = mysqli_query($conexion, $obtenerDirecOrigen);
 
 
