@@ -89,7 +89,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                     $contador = 0;
                     if ( !isset($admin) && count($direcciones) == '0' ){
                      ?>
-                        <div class="alert alert-warning mt-3 mr-4 w-100" role="alert">
+                        <div class="alert alert-warning mt-3 w-100" role="alert">
                             <i class="fas fa-exclamation-triangle"></i> No hay direcciones
                         </div>
                 <?php

@@ -122,7 +122,7 @@ function getNavbar($ruta = ''){
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">Mi perfil</a>
-                <a class="dropdown-item" href="{$ruta}app/direcciones/index.php">Mis direcciones</a>
+                <a class="dropdown-item" href="{$ruta}direcciones/index.php">Mis direcciones</a>
                 <a class="dropdown-item" href="#">Mis facturas</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Salir</a>

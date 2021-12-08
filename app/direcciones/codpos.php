@@ -60,12 +60,12 @@ function saveEditDirection($direction, $connection){
 
     if(!array_key_exists('id', $direction)){
 
-    $sql = "INSERT INTO `direcciones` (`id`, `id_cliente`, `alias`, `calle`, `num_exterior`, `num_interior`, `entre_calles`, `referencia`, `cp`, `id_colonia`, `creacion`, `actualizacion`, `status`) 
+    $sql = "INSERT INTO `direcciones` (`id`, `id_cliente`, `alias`, `calle`, `num_exterior`, `num_interior`, `entre_calles`, `referencia`, `cp`, `id_colonia`, `creacion`, `status`) 
     VALUES
-    (null, '".$direction['cliente']."', '".$direction['alias']."', '".$direction['calle']."', '".$direction['numext']."', '".$direction['numint']."', '".$direction['entrecalles']."', '".$direction['referencia']."', '".$direction['cp']."', '".$direction['colonia']."', 'NOW()', 'NOW()', 'A');";
+    (null, '".$direction['cliente']."', '".$direction['alias']."', '".$direction['calle']."', '".$direction['numext']."', '".$direction['numint']."', '".$direction['entrecalles']."', '".$direction['referencia']."', '".$direction['cp']."', '".$direction['colonia']."', NOW(), 'A');";
 
 
-    $resultado = mysqli_query($connection, $sql);
+    $resultado = mysqli_query($connection, $sql) or trigger_error(mysqli_error($connection));
 
     if ($resultado) {
         echo json_encode('Direccion creada con exito');
