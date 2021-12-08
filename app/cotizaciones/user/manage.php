@@ -309,7 +309,7 @@ if ($result) {
                                             <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['tiempo_estimado'] ?></label>
                                         </div>
                                         <div class="col-4 w-100">
-                                            <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo $one['precio'] ?></label>
+                                            <label for="<?php echo $one['id_servicio_disponible'] ?>"><?php echo '$' . number_format($one['precio'],2) ?></label>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -355,7 +355,7 @@ if ($result) {
                                         <input class="form-control" type="text" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input class="form-control"type="text" value="<?php echo $one['precio'] ?>" readonly="readonly">
+                                        <input class="form-control"type="text" value="<?php echo '$' . number_format($one['precio'],2) ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
@@ -400,7 +400,7 @@ if ($result) {
                                         <input class="form-control" type="text" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input class="form-control" type="text" value="<?php echo $one['precio'] ?>" readonly="readonly">
+                                        <input class="form-control" type="text" value="<?php echo '$' . number_format($one['precio'],2) ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
