@@ -73,15 +73,12 @@ if($resultado) {
                  <table class="table table-bordered dataTable">
                      <thead>
                      <tr>
-                         <th>Paqueterias</th>
+                         <th>Paqueteria</th>
                          <th>Website</th>
                          <th>Domicilio</th>
                          <th>Estatus</th>
-                         <th>Municipios</th>
-                         <th>Creación</th>
-                         <th>Actualización</th>
+                         <th>Ultima Modificación</th>
                          <th>Acciones</th>
-
 
 
                      </tr>
@@ -90,17 +87,33 @@ if($resultado) {
                      <?php
                      $contador = 0;
                      foreach ($paqueterias as $p){
+                         $id = $p['id'];
                          ?>
                          <tr>
                              <td><?php echo $p['paqueteria'] ?></td>
                              <td><?php echo $p['website']?></td>
-                             <td><?php echo $p['domicilio'] ?></td>
-                             <td><?php echo $p['status']?></td>
-                             <td><?php echo $p['id_municipio'] ?></td>
-                             <td><?php echo $p['creacion'] ?></td>
-                             <td><?php echo $p['actualizacion']?></td>
+                             <td><?php echo $p['domicilio']; echo $p['municipio']; ?></td>
+                             <?php
+                             if($p['status'] == 'A'){
+                                 $estatus = 'Activo' ;
+                             }else{
+                                 $estatus = 'Desactivado';
+                             }
+                             ?>
+                             <td><?php echo $estatus ?></td>
+                             <?php
+                             if(empty($p['actualizacion'])){
+                                 $actual = $p['creacion'];
+                             }else{
+                                 $actual = $p['actualizacion'];
+                             }
+                             ?>
+                             <td><?php echo $actual ?></td>
 
-                             <td><a href="actualizar_paqueteria.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+                             <td>
+
+                                 <a href="actualizar_paqueteria.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+                                 <?php echo $p["status"] == "A" ? "<a href='./eliminar.php?id= $id ' class='btn btn-link btn-sm'>Eliminar</a>" : "<a href='./reactivar.php?id=$id' class='btn btn-link btn-sm'>Reactivar</a>"; ?>
 
                              </td>
 

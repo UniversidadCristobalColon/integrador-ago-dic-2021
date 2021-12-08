@@ -5,7 +5,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 $paqueteria = '';
 $website = '';
 $domicilio = '';
-$id_municipio='';
+$municipio='';
 
 
 if(!empty($_GET['id'])){
@@ -20,7 +20,7 @@ if(!empty($_GET['id'])){
         $paqueteria = $fila['paqueteria'];
         $website = $fila['website'];
         $domicilio = $fila['domicilio'];
-        $id_municipio = $fila['id_municipio'];
+        $municipio = $fila['municipio'];
     }
 
 }
@@ -89,27 +89,10 @@ if(!empty($_GET['id'])){
                             <input type = "text" class="form-control" name="domicilio" required value="<?php echo $domicilio ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Municipio*</label>
-                            <select name="id_municipio" class="form-control" required>
-                                <?php
-                                $query = "SELECT * FROM municipios";
-                                $ejecutar = mysqli_query($conexion,$query);
-                                ?>
+                            <label for = "inputdomicilio">Municipio*</label>
+                            <input type = "text" class="form-control" name="municipio" required value="<?php echo $municipio ?>">
+                        </div>
 
-                                <?php
-                                foreach ($ejecutar as $opciones):
-                                ?>
-                                <option value="<?php echo $opciones['id']?>"><?php echo $opciones['municipio']?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Estatus*</label>
-                            <select name="status" class="form-control" required>
-                                <option selected>A</option>
-                                <option>B</option>
-                            </select>
-                        </div>
 
                     </div>
                 </fieldset>
