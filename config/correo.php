@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 $subject=$_POST['subject'];
@@ -53,6 +54,4 @@ if ($result = $mailer->send($message)) {
     echo "Fallo en Envio!";
 }
 header('location:javascript://history.go(-1)');
-
-//    }
 ?>

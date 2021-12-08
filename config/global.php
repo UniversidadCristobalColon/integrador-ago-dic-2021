@@ -88,10 +88,13 @@ EOD;
 function getNavbar($ruta = ''){
     $html = <<<EOD
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
     <a class="navbar-brand mr-1" href="{$ruta}index.php">Pakmail</a>
+
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
     </button>
+
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <!--<div class="input-group">
@@ -104,6 +107,7 @@ function getNavbar($ruta = ''){
             </div>
         </div>-->
     </form>
+
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0 mr-md-3 my-2 my-md-0">
         <li class="nav-item mx-1">
@@ -214,4 +218,26 @@ EOD;
 
     echo $html;
 }
+
+function notificacion($id_usuario, $id_perfil,$contenido){
+    global $conexion;
+    if($id_usuario){
+        $sql = "select * from usuarios where id_cliente = $id_usuario";
+        $resultado = mysqli_query($conexion, $sql);
+        $notis = array();
+        if ($resultado) {
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $notis[] = $fila;
+            }
+            foreach ($notis as $uSuario){
+                $id_usuario2 = $uSuario['id'];
+            }
+        }else{
+            mysqli_errno($conexion);
+        }
+    }
+    $query = "insert into notificaciones (id, descripcion, id_usuario, leida, creacion,id_perfil) values (null,'$contenido','$id_usuario2','N',NOW(),'$id_perfil')";
+    mysqli_query($conexion, $query);
+}
+
 ?>
