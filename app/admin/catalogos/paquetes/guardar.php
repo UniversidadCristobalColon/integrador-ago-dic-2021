@@ -9,6 +9,12 @@ $peso = $_POST['peso'];
 $ancho = $_POST['ancho'];
 $largo = $_POST['largo'];
 
+if ($tipo == 'Caja'){
+    $tipo = 'C';
+}else{
+    $tipo = 'S';
+}
+
 
 if(empty($id_paquete)){
     $query = "INSERT INTO tipos_paquetes (id, descripcion,tipo, creacion,actualizacion, status, peso,alto,ancho,largo)
