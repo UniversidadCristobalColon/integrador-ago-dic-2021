@@ -13,12 +13,19 @@ if($status == PHP_SESSION_NONE) {
 
 //echo $_SESSION['id_cliente'];
 
-require_once '../../config/global.php';
-require_once '../../config/db.php';
+$idCliente = 0;
 
-define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
+if(array_key_exists('idCliente', $_GET)) {
+    $idCliente = $_GET['idCliente'];
+    echo $idCliente . "<br>";
+}
 
-function obtenerDirecciones($conexion) {
+require_once '../../../config/global.php';
+require_once '../../../config/db.php';
+
+define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
+
+function obtenerDirecciones($conexion, $idCliente) {
 
     //$idCliente = $_SESSION['id_cliente'];
 
@@ -27,7 +34,8 @@ function obtenerDirecciones($conexion) {
     echo "<br>";
     echo "<br>";*/
 
-    $selectDirecciones = "
+    if($idCliente != 0) {
+        $selectDirecciones = "
         SELECT 
                direcciones.id, 
                direcciones.cp, 
@@ -43,39 +51,78 @@ function obtenerDirecciones($conexion) {
                clientes.email,
                clientes.celular,
                clientes.telefono
-        FROM `direcciones` 
-            INNER JOIN `clientes` ON clientes.id = direcciones.id_cliente 
-        WHERE direcciones.alias <> 'sucursal';";
+        FROM `direcciones`
+        INNER JOIN `clientes` ON direcciones.id_cliente = clientes.id
+        INNER JOIN `usuarios` ON clientes.id = usuarios.id_cliente
+        WHERE direcciones.id_cliente = $idCliente AND usuarios.id_perfil = 2 AND direcciones.alias NOT LIKE '%ucursal';";
 
-    $resultado = mysqli_query($conexion, $selectDirecciones);
+        $resultado = mysqli_query($conexion, $selectDirecciones);
 
-    if($resultado) {
+        if($resultado) {
 
-        $hayDirecciones = false;
+            $hayDirecciones = false;
 
-        while( $fila = mysqli_fetch_assoc($resultado)) {
-            $hayDirecciones = true;
-            $direcciones[] = $fila;
-        }
+            while( $fila = mysqli_fetch_assoc($resultado)) {
+                $hayDirecciones = true;
+                $direcciones[] = $fila;
+            }
 
-        if($hayDirecciones) {
-            return $direcciones;
+            if($hayDirecciones) {
+                return $direcciones;
+            } else {
+                return false;
+            }
+
         } else {
-            return false;
+            //echo "error<br>";
+            echo mysqli_error($conexion);
+
         }
 
-    } else {
-        //echo "error<br>";
-        echo mysqli_error($conexion);
+    } /*else {
 
-    }
+        $selectDirecciones = "
+        SELECT 
+               direcciones.id, 
+               direcciones.cp, 
+               direcciones.calle, 
+               direcciones.num_exterior, 
+               direcciones.num_interior, 
+               direcciones.entre_calles, 
+               direcciones.referencia, 
+               direcciones.alias, 
+               direcciones.id_cliente, 
+               clientes.nombre, 
+               clientes.apellidos,
+               clientes.email,
+               clientes.celular,
+               clientes.telefono
+        FROM `direcciones`
+        INNER JOIN `clientes` ON direcciones.id_cliente = clientes.id
+        INNER JOIN `usuarios` ON clientes.id = usuarios.id_cliente
+        WHERE usuarios.id_perfil = 2 AND direcciones.alias NOT LIKE '%ucursal';";
+    }*/
+        /*FROM `direcciones`
+            INNER JOIN `clientes` ON clientes.id = direcciones.id_cliente 
+        WHERE direcciones.alias <> 'sucursal';\";*/
+
+    /*
+     SELECT direcciones.id, direcciones.cp, direcciones.calle, direcciones.referencia, direcciones.alias, direcciones.id_cliente, clientes.id, usuarios.id_cliente, clientes.nombre, clientes.apellidos, usuarios.id, usuarios.id_perfil
+
+    AQUI
+
+    FROM `direcciones`
+INNER JOIN `clientes` ON direcciones.id_cliente = clientes.id
+INNER JOIN `usuarios` ON clientes.id = usuarios.id_cliente
+WHERE usuarios.id_perfil = 2 AND direcciones.alias NOT LIKE '%ucursal';
+     */
 
     return false;
 
 }
 
 //echo"direcciones<br>";
-$direcciones = obtenerDirecciones($conexion);
+$direcciones = obtenerDirecciones($conexion, $idCliente);
 
 function obtenerClientes($conexion) {
 
@@ -451,8 +498,27 @@ $clientes = obtenerClientes($conexion);
         function obtenerCliente() {
             //console.log($("input[name='cliente']:checked").val());
             idCliente = $("input[name='cliente']:checked").val();
-            var url = "nuevaCotizacionUsuario.php?idCliente=" + idCliente;
-            $("#direc").attr("href", url);
+            console.log("hola");
+            console.log(idCliente);
+            //var url = "nuevaCotizacionUsuario.php?idCliente=" + idCliente;
+            var urlRaul = "../direcciones/index.php?idCliente=" + idCliente;
+            $("#direc").attr("href", urlRaul);
+
+            var urlRecargar = "new.php?idCliente=" + idCliente;
+
+            $(window).attr('location',urlRecargar);
+        }
+
+        function recargarDirecciones() {
+            //Obtener valor radio seleccionado
+            $idCliente = $("input[name='cliente']:checked").val();
+
+            console.log("hola");
+            console.log($idCliente)
+
+            var url= "new.php?idCliente=";
+            //$(window).attr('location','https://tutorialdeep.com/knowhow/get-current-page-url-jquery/');
+
         }
 
     </script>
@@ -521,7 +587,7 @@ $clientes = obtenerClientes($conexion);
                 </div>
             </div>-->
 
-            <form action="procesarNuevaCotizacionEmpleado.php" method="post" enctype="multipart/form-data" id="formulario">
+            <form action="process.php" method="post" enctype="multipart/form-data" id="formulario">
 
                 <div class="form-row">
                     <h2 class="font-weight-normal">Clientes</h2>
@@ -924,7 +990,7 @@ $clientes = obtenerClientes($conexion);
 
                 <div class="form-row mb-4 justify-content-around">
                     <div class="row">
-                        <button type="button" class="btn btn-danger">Cancelar cotización</button>
+                        <a class="btn btn-danger" href="index.php">Cancelar cotización</a>
                     </div>
                     <div class="row">
                         <button type="submit" class="btn btn-primary" id="botonSubmit" onclick="validarPaqueteYDirecciones()">Realizar cotización</button>

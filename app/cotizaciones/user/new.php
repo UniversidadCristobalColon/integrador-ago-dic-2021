@@ -16,10 +16,10 @@ if($status == PHP_SESSION_NONE) {
 /*$idCliente = $_GET['idCliente'];
 echo $idCliente . "<br>";*/
 
-require_once '../../config/global.php';
-require_once '../../config/db.php';
+require_once '../../../config/global.php';
+require_once '../../../config/db.php';
 
-define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
+define('RUTA_INCLUDE', '../../../'); //ajustar a necesidad
 
 function obtenerDirecciones($conexion, $idCliente) {
 
@@ -350,7 +350,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
                 </div>
             </div>-->
 
-            <form action="procesarNuevaCotizacion.php" method="post" enctype="multipart/form-data">
+            <form action="process.php" method="post" enctype="multipart/form-data">
                 <div class="form-row">
                     <h2 class="font-weight-normal">Servicio</h2>
                 </div>
@@ -727,7 +727,7 @@ $direcciones = obtenerDirecciones($conexion, $id_cliente);
 
                 <div class="form-row mb-4 justify-content-around">
                     <div class="row">
-                        <button type="button" class="btn btn-danger">Cancelar cotización</button>
+                        <a class="btn btn-danger" href="index.php">Cancelar cotización</a>
                     </div>
                     <div class="row">
                         <button type="submit" class="btn btn-primary">Realizar cotización</button>
