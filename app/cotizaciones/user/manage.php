@@ -263,7 +263,7 @@ if ($result) {
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <h5 class="mt-3">Esperando respuesta de pakmail.</h5>
-                                    <h6>Porfavor regrese más tarde.</h6>
+                                    <h6>Por favor regrese más tarde.</h6>
                                 </div>
                             </div>
 
@@ -362,7 +362,7 @@ if ($result) {
                                 <div class="row mt-4">
                                     <div class="col-12 text-center">
                                         <h5 class="mt-3">Esperando guía.</h5>
-                                        <h6>Porfavor regrese más tarde.</h6>
+                                        <h6>Por favor regrese más tarde.</h6>
                                     </div>
                                 </div>
 
