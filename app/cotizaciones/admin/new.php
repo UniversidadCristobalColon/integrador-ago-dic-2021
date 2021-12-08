@@ -223,28 +223,7 @@ $clientes = obtenerClientes($conexion);
             });
         });*/
 
-        $(document).ready(function(){
-            $('.form-control-chosen').chosen();
-        });
-
-            $('.form-control-chosen').chosen({
-            allow_single_deselect: true,
-            width: '100%'
-        });
-            $('.form-control-chosen-required').chosen({
-            allow_single_deselect: false,
-            width: '100%'
-        });
-            $('.form-control-chosen-search-threshold-100').chosen({
-            allow_single_deselect: true,
-            disable_search_threshold: 100,
-            width: '100%'
-        });
-            $('.form-control-chosen-optgroup').chosen({
-            width: '100%'
-        });
-
-        var idCliente = 0;
+       var idCliente = 0;
         var numPaquete = 0;
         var pesoRealTotal = 0;
         var pesoVolumetricoTotal = 0;
@@ -255,7 +234,7 @@ $clientes = obtenerClientes($conexion);
         function procesarPaquete() {
 
             if (validarCamposPaquete()) {
-
+                console.log("ProcesarPaquete");
                 ++numPaquete;
 
                 var tipoProducto = $("#inputProducto option:selected").val();
@@ -291,10 +270,14 @@ $clientes = obtenerClientes($conexion);
 
                 var pesoVolumetricoInd = (largo * ancho * alto) / 5000;
                 var pesoTotalPaquete = peso * cantidad;
+                console.log("pesoTotalPaqute");
+                console.log(pesoTotalPaquete);
                 var pesoVolTotalPaquete = pesoVolumetricoInd * cantidad;
 
+                console.log("totalesPesosreales");
+                console.log(totalesPesosReales);
                 totalesPesosReales.push(pesoTotalPaquete);
-                //console.log(totalesPesosReales);
+
 
                 totalesPesosVolum.push(pesoVolTotalPaquete);
                 //console.log(totalesPesosVolum);
@@ -324,7 +307,7 @@ $clientes = obtenerClientes($conexion);
                     "<td><input type='hidden' value='" + stringPaquete + "' + name='paquete[]'></td>" +
                     "</tr>";
 
-                //alert(stringPaquete);
+                alert(stringPaquete);
 
                 //$("#paquetes tr:last").append(renglonPaquetes);
                 //$("#paquetes tbody tr:last").append(renglonPaquetes);
@@ -365,12 +348,15 @@ $clientes = obtenerClientes($conexion);
         }
 
         function validarCamposPaquete() {
+
+            console.log("validarCamposPaquete");
+
             $valido = true;
 
             var producto = $("#inputProducto").val();
 
             if(producto == "default") {
-                //console.log("producto default");
+                console.log("producto default");
                 $valido = false;
             }
 
@@ -428,10 +414,10 @@ $clientes = obtenerClientes($conexion);
             }*/
 
             if((isNaN(largo)) || (isNaN(ancho)) || (isNaN(alto)) || (isNaN(peso))) {
-                //alert("alguno no es numero");
+                alert("alguno no es numero");
                 $valido = false;
             } else if(largo < 0 || ancho < 0 || alto < 0 || peso < 0) {
-                //alert("alguno es menor a 0");
+                alert("alguno es menor a 0");
                 $valido = false;
             }
 
@@ -723,16 +709,6 @@ $clientes = obtenerClientes($conexion);
                 </div>
 
                 <div class="form-row">
-                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
-                        <option></option>
-                        <option>Option One</option>
-                        <option>Option Two</option>
-                        <option>Option Three</option>
-                    </select>
-                </div>
-
-
-                <div class="form-row">
                     <h2 class="font-weight-normal">Servicio</h2>
                 </div>
                 <div class="form-row">
@@ -891,7 +867,7 @@ $clientes = obtenerClientes($conexion);
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-success" onclick="procesarPaquete()">Guardar</button>
+                                <button type="button" class="btn btn-success" onclick="procesarPaquete()" data-dismiss="modal">Guardar</button>
                             </div>
                         </div>
                     </div>

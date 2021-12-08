@@ -1,10 +1,10 @@
 <?php
-$status = session_status();
+/*$status = session_status();
 
 if($status == PHP_SESSION_NONE) {
     //echo "no hay sesion";
     session_start();
-}
+}*/
 
 
 
@@ -14,7 +14,7 @@ if($status == PHP_SESSION_NONE) {
 /*echo "id cliente<br>";
 echo $idCliente ."<br>";*/
 
-//require_once '../../../config/global.php';
+require_once '../../../config/global.php';
 require_once '../../../config/db.php';
 //echo "hola<br>";
 $idCliente = $_POST['cliente'];
@@ -28,23 +28,23 @@ $pesoRealTotal = $_POST['pesoRealTotal'];
 $pesoTotalVol = $_POST['pesoTotalVol'];
 $pesoAFacturar = $_POST['pesoAFacturar'];
 //echo "hola" . "<br>";
-echo $idCliente . "<br>";
+/*echo $idCliente . "<br>";
 echo $direcDestino . "<br>";
-echo $tipoServicio . "<br>";
+echo $tipoServicio . "<br>";*/
 
 if(array_key_exists('asegurar', $_POST)) {
-    echo "asegurar si existe<br>";
+    //echo "asegurar si existe<br>";
     $asegurado = $_POST['asegurar'];
 } else {
-    echo "asegurar no existe<br>";
+    //echo "asegurar no existe<br>";
     $asegurado ='N';
 }
 
 if(array_key_exists('factura', $_POST)) {
-    echo "factura si existe<br>";
+    //echo "factura si existe<br>";
     $factura = $_POST['factura'];
 } else {
-    echo "factura no existe<br>";
+    //echo "factura no existe<br>";
     $factura ='N';
 }
 
@@ -83,7 +83,8 @@ $recoleccion = 'N';
 
     //EMPIEZA AQUI
 
-    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
+    //$obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias = 'sucursal';";
+    $obtenerDirecOrigen = "SELECT id FROM direcciones WHERE id_cliente = $idCliente AND alias LIKE '%ucursal';";
     $resultado = mysqli_query($conexion, $obtenerDirecOrigen);
 
 
@@ -100,12 +101,12 @@ $recoleccion = 'N';
 
         $direcOrigen = $direcsOrigen['id'];
 
-        echo "<br>";
+        /*echo "<br>";
         echo "id dir origen: " . $direcOrigen;
         echo "<br>";
-        echo "<br>";
+        echo "<br>";*/
     } else {
-        echo mysqli_error($conexion);
+        //echo mysqli_error($conexion);
     }
 
 
@@ -161,10 +162,10 @@ if($resultado) {
 
     $idCotizacion = mysqli_insert_id($conexion);
 
-    echo "<br>";
+    /*echo "<br>";
     echo "id cotizacion: " . $idCotizacion;
     echo "<br>";
-    echo "<br>";
+    echo "<br>";*/
 
     foreach($paquetes as $paqueteIndice) {
         /*echo "paqueteIndice<br>";
@@ -215,18 +216,20 @@ if($resultado) {
         if($resultado) {
             $idPaqueteCot = mysqli_insert_id($conexion);
 
-            echo "<br>";
+            /*echo "<br>";
             echo "id paquete cotizado" . $idPaqueteCot;
             echo "<br>";
-            echo "<br>";
+            echo "<br>";*/
         } else {
-            echo mysqli_error($conexion);
+            //echo mysqli_error($conexion);
         }
 
     }
 
+    header('location: index.php');
+
 } else {
-    echo mysqli_error($conexion);
+    //echo mysqli_error($conexion);
 }
 
 ?>
