@@ -7741,6 +7741,7 @@ class TCPDF {
 			return chr($c);
 		} elseif ($c <= 0x7F) {
 			// one byte
+            $c = intval($c);
 			return chr($c);
 		} elseif ($c <= 0x7FF) {
 			// two bytes
@@ -22928,7 +22929,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 											// justify block
 											if (!$this->empty_string($this->lispacer)) {
 												$this->lispacer = '';
-												continue 2;
+												break;
 											}
 											preg_match('/([0-9\.\+\-]*)[\s]([0-9\.\+\-]*)[\s]([0-9\.\+\-]*)[\s]('.$strpiece[1][0].')[\s](re)([\s]*)/x', $pmid, $xmatches);
 											$currentxpos = $xmatches[1];
