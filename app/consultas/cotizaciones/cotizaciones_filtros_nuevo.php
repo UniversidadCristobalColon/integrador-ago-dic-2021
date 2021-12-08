@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $estadopaq = $_POST['status'];
     $fechas = $_POST['fecha'];
 }
-
 //funcion buscar
 if (isset($_POST['buscar'])) {
     if (($_POST['tiposerv'] or $_POST['fecha'] or $_POST['name'] or $_POST['mun'] or $_POST['status'])) {
