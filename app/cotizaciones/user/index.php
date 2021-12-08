@@ -11,6 +11,20 @@ $email_usuario = $_SESSION['email_usuario'];
 
 if ($tipo_perfil != 2) {
     header('location: ../../main.php');
+}else{
+    $sql = "SELECT id, alias FROM direcciones WHERE alias LIKE '%Sucursal Pakmail%' AND id_cliente = $id_cliente LIMIT 1";
+    $result = mysqli_query($conexion, $sql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        if (is_null($row)) {
+            // Creación de dirección por default de sucursal en la libreta de direcciones del cliente
+            $insertSucursal = "INSERT INTO direcciones
+            (id_cliente,calle,num_exterior,num_interior,entre_calles,referencia,cp,id_colonia,creacion,status, alias)
+            VALUES
+            ($id_cliente,'Calle España','422','1','Av. George Washington y Paseo José Martí','Distribuidor Autorizado','91919','109708',NOW(),'A','Sucursal Pakmail')";
+            $res = mysqli_query($conexion, $insertSucursal);
+        }
+    }    
 }
 
 // var_dump($id_usuario);
