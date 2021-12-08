@@ -10,7 +10,7 @@ if (array_key_exists('idCliente', $_GET)) {
     $admin = true;
 }
 else {
-    $cliente = $_SESSION['id_usuario'];
+    $cliente = $_SESSION['id_cliente'];
 
 //$cliente = 23;
 
@@ -354,7 +354,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                 success: function (response){
                     if(response == 'Direccion creada con exito' || response == 'Direccion actualizada con exito'){
                         $('#modal_nueva_direccion').modal('hide');
-                        alert('Dirección guardada correctamente.');
+                        // alert('Dirección guardada correctamente.');
                         <?php if(isset($admin)) { ?>
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
                         <?php
@@ -419,7 +419,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                     console.log(response);
 
                     if (response == 'Direccion eliminada correctamente'){
-                        alert('Dirección eliminada correctamente.');
+                        // alert('Dirección eliminada correctamente.');
                         window.location.href = 'index.php';
                     } else {
                         alert('Ocurrió un error');
