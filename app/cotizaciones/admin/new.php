@@ -414,10 +414,10 @@ $clientes = obtenerClientes($conexion);
             }*/
 
             if((isNaN(largo)) || (isNaN(ancho)) || (isNaN(alto)) || (isNaN(peso))) {
-                alert("Un dato del paquete no es numero");
+                //alert("Un dato del paquete no es numero");
                 $valido = false;
             } else if(largo < 0 || ancho < 0 || alto < 0 || peso < 0) {
-                alert("Un dato del paquete es menor a 0");
+                //alert("Un dato del paquete es menor a 0");
                 $valido = false;
             }
 
