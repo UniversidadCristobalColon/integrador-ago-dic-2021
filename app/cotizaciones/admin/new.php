@@ -50,10 +50,16 @@ function obtenerDirecciones($conexion, $idCliente) {
                clientes.apellidos,
                clientes.email,
                clientes.celular,
-               clientes.telefono
+               clientes.telefono,
+               colonias.colonia,
+               municipios.municipio,
+               estados.estado
         FROM `direcciones`
         INNER JOIN `clientes` ON direcciones.id_cliente = clientes.id
         INNER JOIN `usuarios` ON clientes.id = usuarios.id_cliente
+        INNER JOIN `colonias` ON direcciones.id_colonia = colonias.id
+        INNER JOIN `municipios` ON colonias.id_municipio = municipios.id
+        INNER JOIN `estados` ON municipios.id_estado = estados.id
         WHERE direcciones.id_cliente = $idCliente AND usuarios.id_perfil = 2 AND direcciones.alias NOT LIKE '%ucursal';";
 
         $resultado = mysqli_query($conexion, $selectDirecciones);
@@ -134,14 +140,15 @@ function obtenerClientes($conexion) {
     echo "<br>";*/
 
     $selectClientes = "
-        SELECT 
-               id, 
-               nombre, 
-               apellidos, 
-               celular, 
-               telefono,
-               email
-        FROM `clientes`;";
+        SELECT c.id,
+               c.nombre,
+               c.apellidos,
+               c.celular,
+               c.telefono,
+               c.email
+               FROM `clientes` AS c
+               INNER JOIN `usuarios` AS u ON c.id = u.id_cliente
+               WHERE u.id_perfil = 2;";
 
     $resultado = mysqli_query($conexion, $selectClientes);
 
@@ -208,6 +215,27 @@ $clientes = obtenerClientes($conexion);
                 }
             });
         });*/
+
+        $(document).ready(function(){
+            $('.form-control-chosen').chosen();
+        });
+
+            $('.form-control-chosen').chosen({
+            allow_single_deselect: true,
+            width: '100%'
+        });
+            $('.form-control-chosen-required').chosen({
+            allow_single_deselect: false,
+            width: '100%'
+        });
+            $('.form-control-chosen-search-threshold-100').chosen({
+            allow_single_deselect: true,
+            disable_search_threshold: 100,
+            width: '100%'
+        });
+            $('.form-control-chosen-optgroup').chosen({
+            width: '100%'
+        });
 
         var idCliente = 0;
         var numPaquete = 0;
@@ -665,6 +693,15 @@ $clientes = obtenerClientes($conexion);
                     </table>
                 </div>
 
+                <div class="form-row">
+                    <select id="single" class="form-control form-control-chosen" data-placeholder="Please select...">
+                        <option></option>
+                        <option>Option One</option>
+                        <option>Option Two</option>
+                        <option>Option Three</option>
+                    </select>
+                </div>
+
 
                 <div class="form-row">
                     <h2 class="font-weight-normal">Servicio</h2>
@@ -907,7 +944,11 @@ $clientes = obtenerClientes($conexion);
                             $entreCalles = $tablaDireccion['entre_calles'];
                             $referencia = $tablaDireccion['referencia'];
                             $alias = $tablaDireccion['alias'];
-                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ",  entre calles " . $entreCalles. ", CP: " . $cp;
+                            $colonia = $tablaDireccion['colonia'];
+                            $municipio = $tablaDireccion['municipio'];
+                            $estado = $tablaDireccion['estado'];
+
+                            $direccion = $calle . ", numero ext: " . $numExt . " y/o numero int: " . $numInt . ",  entre calles " . $entreCalles. ", CP: " . $cp . "<br>Colonia: " . $colonia . "<br>Municipio: " . $municipio . "<br>Estado: " .$estado;
 
                             $idCliente = $tablaDireccion['id_cliente'];
                             $nombre = $tablaDireccion['nombre'];
