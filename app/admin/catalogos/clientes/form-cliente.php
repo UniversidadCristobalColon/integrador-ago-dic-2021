@@ -2,14 +2,6 @@
 require_once '../../../../config/global.php';
 require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../');
-
-function filtrado($datos){
-    $datos = trim($datos);
-    $datos = stripslashes($datos);
-    $datos = htmlspecialchars($datos);
-    return $datos;
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,6 +11,27 @@ function filtrado($datos){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <style>
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+
+        }
+    </style>
 
     <title><?php echo PAGE_TITLE ?></title>
 
@@ -49,18 +62,7 @@ function filtrado($datos){
         <!-- /.container-fluid -->
 
         <div class="container">
-            <?php
-            if(isset($_POST["submit"]) && $_SERVER["REQUEST_METHOD"] == "POST"){
-                if(empty($_POST['rfc']) || strlen($_POST['rfc']) < 13){
-                    $error[] = "Minimo 13 caracteres en el RFC";
-                    echo $error;
-                }
-                if(empty($error)){
-                    $rfc = filtrado($_POST['rfc']);
-                }
-            }
-            ?>
-            <form id="guardarcliente" action="guardar.php" method="post" enctype="multipart/form-data">
+            <form action="guardar.php" method="post" enctype="multipart/form-data">
             <div class="row mb-5">
                 <div class="col">
                     <button type="submit" class="btn btn-success">Guardar</button>
@@ -103,15 +105,14 @@ function filtrado($datos){
                         </div>
                         <div class="form-group col-md-6">
                             <label>RFC</label>
-                            <input type = "text" class="form-control" name="rfc">
-                        <?php
-                        if(isset($error)){
-                            foreach ($error as $r){
-                                echo "<li> $r </li>";
-                            }
-                        }
-                        ?>
+                            <input type = "text" class="form-control" name="rfc" id="rfc" pattern="(?=.*[A-Z]).{13,}">
+                            <div id="message">
+                                <div id="capital" class="invalid">Letras mayusculas</div>
+                                <div id="length" class="invalid"><b>Minimo 13 Caracteres</b></div>
+                            </div>
                         </div>
+
+
                         <div class="form-group col-md-6">
                             <label>Email Secundario</label>
                             <input type = "email" class="form-control" name="email2">
@@ -173,6 +174,7 @@ function filtrado($datos){
                             <input type = "text" class="form-control" name="referencia">
                         </div>
                     </div>
+                    <script src="rfc.js"></script>
             </form>
         </div>
         <!-- /.container -->
