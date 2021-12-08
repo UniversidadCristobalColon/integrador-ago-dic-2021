@@ -34,7 +34,6 @@ $query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS 
            INNER JOIN municipios m on col.id_municipio = m.id 
            INNER join envios e on cli.id = e.cliente $where";
 $consulta = $conexion->query($query);
-
 $resultado = $conexion->query($query);
 $envios = array();
 if ($resultado) {
