@@ -33,7 +33,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Sección</li>
+                    <li class="breadcrumb-item">Colonia</li>
                     <li class="breadcrumb-item active" aria-current="page">Nueva colonia</li>
                 </ol>
             </nav>
