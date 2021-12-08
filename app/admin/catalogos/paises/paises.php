@@ -1,7 +1,23 @@
 <?php
 require_once '../../../../config/global.php';
+require '../../../../config/db.php';
 
 define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
+
+$id_pais ='';
+$pais ='';
+
+if (!empty($_GET['id'])){
+    $id_pais = $_GET['id'];
+    $sql = "SELECT * FROM paises WHERE id = $id_pais";
+    $resultado = mysqli_query($conexion, $sql);
+
+    if ($resultado){
+        $fila = mysqli_fetch_assoc($resultado);
+        $pais = $fila['pais'];
+
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -46,25 +62,29 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
              </div> -->
 
 
-         </div>
+        </div>
 
-         <!-- /.container-fluid -->
+        <!-- /.container-fluid -->
 
         <div class="container">
-            <div class="row mb-5">
-                <div class="col">
-                    <a href="index.php" class="btn btn-success">Guardar</a>
+            <form action="guardar.php" method="post">
+                <input type="hidden" name="id_pais" value="<?php echo $id_pais ?>" />
+                <div class="row mb-5">
+                    <div class="col">
+                        <input type="submit" name="accion" value="Guardar" class="btn btn-success"/>
+                    </div>
+                    <div class="col text-right">
+                        <a href="index.php" class="btn btn-link">Cancelar</a>
+                    </div>
                 </div>
-                <div class="col text-right">
-                    <a href="index.php" class="btn btn-link">Cancelar</a>
-                </div>
-            </div>
 
-            <form>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="inputEstado">País</label>
-                        <input type="text" class="form-control" id="inputPais" required>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputPais">País</label>
+                            <input type="text"  name="pais" class="form-control" value="<?php echo $pais ?>" required>
+                        </div>
+                </form>
             </form>
         </div>
         <!-- /.container -->
