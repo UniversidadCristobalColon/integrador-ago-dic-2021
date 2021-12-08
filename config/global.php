@@ -11,7 +11,8 @@ if(isset($_SESSION['id_usuario'])){
     $apellidos_usuario=$_SESSION['apellidos_usuario'];
 }else{
     $ruta='/integrador-ago-dic-2021/app/';
-    header("location:{$ruta}index.php");}
+    header("location:{$ruta}index.php");
+}
 
 /*
 function verificarSesion($ruta = ''){
