@@ -1,6 +1,8 @@
 <?php
 require '../../../../config/db.php';
+require '../../../../config/global.php';
 
+    $id_cliente = $_POST['id_cliente'];
     $id_cotizacion = $_POST['id_cotizacion'];
     $paqueteria_id = $_POST['paqueteria_id'];
     $tiempo_name = $_POST['tiempo_name'];
@@ -32,6 +34,7 @@ require '../../../../config/db.php';
         }
     }
     if ($resultadoUpdate == true) {
+        notificacion($id_cliente, 2, ('Cotización ' . $id_cotizacion . ' contestada.'));
         header('location: ../manage.php?id=' . $id_cotizacion);
     }else{
         echo mysqli_error($conexion);
