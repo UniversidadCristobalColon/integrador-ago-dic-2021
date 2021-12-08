@@ -349,7 +349,7 @@ if ($result) {
                                             <input type="text" class="w-100 form-control" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                         </div>
                                         <div class="col-4 w-100">
-                                            <input type="text" class="w-100 form-control" value="<?php echo $one['precio'] ?>" readonly="readonly">
+                                            <input type="text" class="w-100 form-control" value="<?php echo '$' . number_format($one['precio'],2) ?>" readonly="readonly">
                                         </div>
                                     </div>
                                 </div>
@@ -394,7 +394,7 @@ if ($result) {
                                         <input type="text" class="form-control" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input type="text" class="form-control" value="<?php echo $one['precio'] ?>" readonly="readonly">
+                                        <input type="text" class="form-control" value="<?php echo '$' . number_format($one['precio'],2) ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>
@@ -446,7 +446,7 @@ if ($result) {
                                         <input class="form-control" type="text" value="<?php echo $one['tiempo_estimado'] ?>" readonly="readonly">
                                     </div>
                                     <div class="col-4 w-100">
-                                        <input class="form-control" type="text" value="<?php echo $one['precio'] ?>" readonly="readonly">
+                                        <input class="form-control" type="text" value="<?php echo '$' . number_format($one['precio'],2) ?>" readonly="readonly">
                                     </div>
                                 </div>
                             <?php } ?>

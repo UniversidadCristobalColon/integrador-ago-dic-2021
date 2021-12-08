@@ -24,7 +24,7 @@ $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli
     CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem,
     CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest,
     cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cliente = $id_cliente ORDER BY cotiz.actualizacion DESC";
+    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cliente = $id_cliente ORDER BY cotiz.id_cotizacion DESC";
 $result = mysqli_query($conexion, $sql);
 $cotizaciones = array();
 if ($result) {
@@ -126,16 +126,16 @@ if ($result) {
                                     <td><?php echo $one['tipo_servicio'] ?></td>
                                     <td>
                                         <?php if ($one['status'] == 0) { ?>
-                                            <span class="badge badge-pill badge-secondary">Esperando respuesta...</span>
+                                            <span class="badge badge-pill badge-secondary">En espera</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 1) { ?>
-                                            <span class="badge badge-pill badge-success">Seleccione una opción</span>
+                                            <span class="badge badge-pill badge-success">Pendiente</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 2) { ?>
-                                            <span class="badge badge-pill badge-secondary">Esperando guía</span>
+                                            <span class="badge badge-pill badge-secondary">En espera</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 3) { ?>
-                                            <span class="badge badge-pill badge-dark">Ya puedes ver tu guía</span>
+                                            <span class="badge badge-pill badge-dark">Con guía</span>
                                         <?php } ?>
                                         <?php if ($one['status'] == 4) { ?>
                                             Borrado/Cancelado

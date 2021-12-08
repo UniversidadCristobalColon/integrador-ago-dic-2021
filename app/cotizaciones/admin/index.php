@@ -16,7 +16,7 @@ $sql = "SELECT cotiz.id_cotizacion AS id_cotizacion, CONCAT(cli.nombre, ' ', cli
     cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura,
     cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia,
     cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest ORDER BY cotiz.actualizacion DESC";
+    INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest ORDER BY cotiz.id_cotizacion DESC";
 $result = mysqli_query($conexion, $sql);
 $cotizaciones = array();
 if ($result) {
