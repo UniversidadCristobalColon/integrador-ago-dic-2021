@@ -24,8 +24,6 @@ if(!empty($_GET['id'])){
     $id_cliente = $_GET['id'];
 
     $query = "SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = $id_cliente";
-//select * from clientes a, fiscales b where a.id = b.id_cliente and a.id = $id_cliente
-//SELECT * FROM clientes a, fiscales b WHERE a.id = b.id_cliente and a.id = 126;
     $resultado = mysqli_query($conexion, $query);
 
     if($resultado){
@@ -49,10 +47,10 @@ if(!empty($_GET['id'])){
         $estado = $fila['estado'];
         $referencia = $fila['referencia'];
     }
-
-
-
-
+    $query2 = "SELECT * FROM fiscales WHERE id_cliente = $id_cliente";
+    if ($result = mysqli_query($conexion, $query2))
+        while ($row = $result->fetch_assoc())
+            $est = $row;
 }
 ?>
 <!DOCTYPE html>
@@ -64,6 +62,27 @@ if(!empty($_GET['id'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <style>
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+
+        }
+    </style>
 
     <title><?php echo PAGE_TITLE ?></title>
 
@@ -97,7 +116,7 @@ if(!empty($_GET['id'])){
             <form action="guardar.php" method="post" enctype="multipart/form-data">
                 <div class="row mb-5">
                     <div class="col">
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-success">Actualizar</button>
                         <input type="hidden" name="id_cliente" value="<?php echo $id_cliente?>"/>
                     </div>
                     <div class="col text-right">
@@ -138,7 +157,11 @@ if(!empty($_GET['id'])){
                         </div>
                         <div class="form-group col-md-6">
                             <label>RFC</label>
-                            <input type = "text" class="form-control" name="rfc" value="<?php echo $rfc ?>">
+                            <input type = "text" class="form-control" name="rfc" id="rfc" pattern="(?=.*[A-Z]).{13,}" value="<?php echo $rfc?>">
+                            <div id="message">
+                                <div id="capital" class="valid">Letras mayusculas</div>
+                                <div id="length" class="valid"><b>Minimo 13 Caracteres</b></div>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Email Secundario</label>
@@ -186,13 +209,14 @@ if(!empty($_GET['id'])){
                                 <option>Seleccione una opción:</option>
                                 <?php
                                 $query = "SELECT * FROM estados";
-                                $ejecutar = mysqli_query($conexion,$query);
-                                ?>
+                                if($result = mysqli_query($conexion, $query)){
+                                    while($row = $result->fetch_assoc()){
+                                        ?>
+                                 <option value="<?php echo $row["id"]; ?>"<?php echo $row["id"] == $est['id_estado'] ? "selected" : "" ; ?>><?php echo $row["estado"]; ?></option>
                                 <?php
-                                foreach ($ejecutar as $opciones):
-                                    ?>
-                                    <option value="<?php echo $opciones['id']?>"><?php echo $opciones['estado']?></option>
-                                <?php endforeach ?>
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -200,6 +224,7 @@ if(!empty($_GET['id'])){
                             <input type = "text" class="form-control" name="referencia" value="<?php echo $referencia?>">
                         </div>
                     </div>
+                    <script src="rfc.js"></script>
             </form>
         </div>
         <!-- /.container -->

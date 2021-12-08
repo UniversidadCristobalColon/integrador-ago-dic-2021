@@ -51,6 +51,17 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                     <li class="breadcrumb-item active" aria-current="page">Clientes</li>
                 </ol>
             </nav>
+            <?php
+            if(isset($_SESSION['guardar_error']) == true && $_SESSION['guardar_error'] == 1 ){
+                $_SESSION['guardar_error'] = 0;
+            ?>
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> Usuario guardado incorrectamente
+            </div>
+            <?php
+            }
+            ?>
+
 
             <div class="row my-3">
                 <div class="col text-right">
