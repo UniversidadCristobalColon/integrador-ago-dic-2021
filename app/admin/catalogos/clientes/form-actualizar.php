@@ -206,7 +206,7 @@ if(!empty($_GET['id'])){
                         <div class="form-group col-md-6">
                             <label>Estado</label>
                             <select name="estado">
-                                <option>Seleccione una opción:</option>
+                                <option value = 0 >Seleccione una opción:</option>
                                 <?php
                                 $query = "SELECT * FROM estados";
                                 if($result = mysqli_query($conexion, $query)){

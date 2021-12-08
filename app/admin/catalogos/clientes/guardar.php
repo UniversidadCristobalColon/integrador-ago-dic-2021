@@ -23,7 +23,6 @@ $municipio = $_POST['municipio'];
 $estado = $_POST['estado'];
 $referencia = $_POST['referencia'];
 
-
 if(empty($id_cliente)){
     $query = "INSERT INTO clientes (id, nombre, apellidos, email, celular, telefono, creacion)
 VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //ejecutar primero este
@@ -37,10 +36,11 @@ VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //
         while($row = mysqli_fetch_assoc($datos)){
             $idf = $row['id'];
         }
-        $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior,
+            $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior,
 num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, entrecalles, referencia,status)
 VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
 '$codigopostal', '$localidad', '$municipio', '$estado', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
+
         $resultado = mysqli_query($conexion, $query2);
 
         if($resultado == true){
