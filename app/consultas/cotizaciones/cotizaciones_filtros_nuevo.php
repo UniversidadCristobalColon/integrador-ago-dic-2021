@@ -26,13 +26,15 @@ $query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS 
               dir_dest.cp)                    
          AS dir_dest,
            cotiz.tipo_servicio, cotiz.fecha_creacion,
-       m.municipio
+       m.municipio,e.seguimiento
         , col.cp
          FROM cotizaciones cotiz
            INNER JOIN clientes cli ON cli.id = cotiz.id_cliente
            INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest 
            INNER JOIN colonias col ON col.id = dir_dest.id_colonia
-           INNER JOIN municipios m on col.id_municipio = m.id $where";
+           INNER JOIN municipios m on col.id_municipio = m.id 
+           INNER join envios e on cli.id = e.cliente $where";
+
 
 $consulta = $conexion->query($query);
 ?>
@@ -73,38 +75,30 @@ $consulta = $conexion->query($query);
                 <div class="row  align-items-end">
                     <div class="col-md-2">
                         <label>Nombre:</label>
-                        <form action=“CotizacionesExcel.php” method=“get”>
-                            <input class="form-control" placeholder="Nombre" name="name"/>
-                        </form>
+                            <input type="text" class="form-control" placeholder="Nombre" name="name"/>
                     </div>
                         <div class="col-md-2">
                             <label>Municipio:</label>
-                            <form action=“CotizacionesExcel.php” method=“get”>
-                                <input class="form-control" placeholder="Municipio" name="mun"/>
-                            </form>
+                                <input type="text" class="form-control" placeholder="Municipio" name="mun"/>
                         </div>
                     <div class="col-md-2">
                         <label>Tipo de servicio:</label>
-                        <form action=“CotizacionesExcel.php” method=“get”>
                             <select name="tiposerv" class="form-control">
                                 <option value="">Todos</option>
                                 <option value="Dia siguiente">Dia siguiente</option>
                                 <option value="Estandar">Estandar</option>
                                 <option value="Urgente">Urgente</option>
-                            </select>
                         </form>
                     </div>
                     <div class="col-md-2">
                         <label>Fechas: </label>
-                        <form action=“CotizacionesExcel.php” method=“get”>
                             <input name="fecha" type="date" value="fecha_creacion" class="form-control">
-                        </form>
                     </div>
                     <div class="col-md-1">
                         <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-primary">Exportar a Excel</button>
+                        <a href="CotizacionesExcel.php" target="_blank">Exportar a Excel</a>
                     </div>
                 </div>
             </form>
@@ -115,6 +109,7 @@ $consulta = $conexion->query($query);
                     <tr>
                         <th>Tipo de servicio</th>
                         <th>Cliente</th>
+                        <th>Seguimiento</th>
                         <th>Dirección del destinatario</th>
                         <th>Fecha de creación</th>
                     </tr>
@@ -125,6 +120,7 @@ $consulta = $conexion->query($query);
                         echo '<tr>',
                             '<td>' . $registro['tipo_servicio'] . '</td>' .
                             '<td>' . $registro['cliente'] . '</td>' .
+                            '<td>' . $registro['seguimiento'] . '</td>' .
                             '<td>' . $registro['municipio'] . '</td>' .
                             '<td>' . $registro['fecha_creacion'] . '</td>';
                     } ?>
