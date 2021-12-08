@@ -93,7 +93,7 @@ $id_tabla_paquetes = '';
             </nav>
 
             <form method="get" action="index.php">
-                <div class="form-group row col-sm-8">
+                <div class="form-group row">
                     <label for="staticEmail" class="col-sm-1 col-form-label">Desde:</label>
                     <div class="col-sm-2">
                         <input type="date" class="form-control" name="inicio" id="inicio" value="<?php echo $date2; ?>">
@@ -279,7 +279,7 @@ $id_tabla_paquetes = '';
                                 </td>
                                 <td>
                                     Costo: $<?php echo $e['costo']; ?><br>
-                                    Entrega en <?php echo $e['tiempo_estimado']; ?> días<br>
+                                    Entrega en <?php echo $e['tiempo_estimado']; ?><br>
                                     <button type="button" class="btn btn-link btn-sm btn-sm" data-toggle="modal"
                                             data-target="#paquetes<?php echo $idEnv; ?>">Ver paquetes
                                     </button>
