@@ -41,7 +41,7 @@ require '../config/db.php';
             <form method="post" action = "../config/correo.php">
                 <div class="form-group">
                     <div class="form-label-group">
-                        <!--cambie el nombre y id del input de correo-->
+                        <!--Cambie el nombre y id del input de correo-->
 
                         <input type="email" name="email_destino" id="email_destino" class="form-control" placeholder="Correo electrónico"
                                required="required" autofocus="autofocus">
