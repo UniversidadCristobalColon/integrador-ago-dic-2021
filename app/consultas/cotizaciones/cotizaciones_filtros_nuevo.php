@@ -10,14 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tipodeserv = $_POST['tiposerv'];
     $nombre = $_POST['name'];
     $muni = $_POST['mun'];
+    $estadopaq = $_POST['status'];
     $fechas = $_POST['fecha'];
-
 }
 
 //funcion buscar
 if (isset($_POST['buscar'])) {
-    if (($_POST['tiposerv'] or $_POST['fecha'] or $_POST['name'] or $_POST['mun'])) {
-        $where = "where tipo_servicio like '" . $tipodeserv . "%' and fecha_creacion like '" . $fechas . "%' and CONCAT(cli.nombre, ' ', cli.apellidos) like '" . $nombre . "%' and municipio like '" . $muni . "%'";
+    if (($_POST['tiposerv'] or $_POST['fecha'] or $_POST['name'] or $_POST['mun'] or $_POST['status'])) {
+        $where = "where cotiz.tipo_servicio like '" . $tipodeserv . "%' and cotiz.fecha_creacion like '" . $fechas . "%' and CONCAT(cli.nombre, ' ', cli.apellidos) like '" . $nombre . "%' 
+        and m.municipio like '" . $muni . "%' and e.seguimiento like '" . $estadopaq . "%'";
     }
 }
 
@@ -34,17 +35,15 @@ $query = "SELECT cotiz.id_cotizacion, CONCAT(cli.nombre, ' ', cli.apellidos) AS 
            INNER JOIN colonias col ON col.id = dir_dest.id_colonia
            INNER JOIN municipios m on col.id_municipio = m.id 
            INNER join envios e on cli.id = e.cliente $where";
+$consulta = $conexion->query($query);
 
-$resultado = mysqli_query($conexion, $query);
+$resultado = $conexion->query($query);
 $envios = array();
 if ($resultado) {
     while ($fila = mysqli_fetch_assoc($resultado)) {
         $envios[] = $fila;
     }
 }
-
-
-$consulta = $conexion->query($query);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -96,6 +95,16 @@ $consulta = $conexion->query($query);
                             <option value="Dia siguiente">Dia siguiente</option>
                             <option value="Estandar">Estandar</option>
                             <option value="Urgente">Urgente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Estado del paquete:</label>
+                        <select name="status" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="P">Pendientes</option>
+                            <option value="C">En camino</option>
+                            <option value="E">Entregado</option>
+                            <option value="X">Cancelado</option>
                         </select>
                     </div>
                     <div class="col-md-2">
