@@ -64,22 +64,27 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
                                 <option selected>C</option>
                                 <option>S</option>
                             </select>
+                            <small class="text-muted" >C = Caja / S = Sobre</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for = "inputpeso" >Peso*</label>
-                            <input type = "text" class="form-control" name="peso" required value="">
+                            <label for = "inputpeso" >Peso</label>
+                            <input type = "text" class="form-control" name="peso" value="">
+                            <small class="text-muted" >Gramos</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for = "inputalto" >Altura*</label>
-                            <input type = "text" class="form-control" name="alto" required value="">
+                            <label for = "inputalto" >Altura</label>
+                            <input type = "text" class="form-control" name="alto" value="">
+                            <small class="text-muted" >Centímetros</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for = "inputancho" >Ancho*</label>
-                            <input type = "text" class="form-control" name="ancho" required value="">
+                            <label for = "inputancho" >Ancho</label>
+                            <input type = "text" class="form-control" name="ancho" value="">
+                            <small class="text-muted" >Centímetros</small>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for = "inputlargo" >Largo*</label>
-                            <input type = "text" class="form-control" name="largo" required value="">
+                            <label for = "inputlargo" >Largo</label>
+                            <input type = "text" class="form-control" name="largo" value="">
+                            <small class="text-muted" >Centímetros</small>
                         </div>
                 </fieldset>
             </form>

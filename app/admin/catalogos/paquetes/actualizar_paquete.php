@@ -91,31 +91,29 @@ if(!empty($_GET['id'])){
                         <select name="tipo" class="form-control" required>
                             <option selected>C</option>
                             <option>S</option>
+                            <small class="text-muted" >C = Caja / S = Sobre</small>
                         </select>
                     </div>
-                        <div class="form-group col-md-6">
-                            <label>Estatus*</label>
-                            <select name="status" class="form-control" required>
-                                <option selected>A</option>
-                                <option>B</option>
-                            </select>
-                        </div>
                             <div class="form-group col-md-6">
                                 <label for = "inputpeso" >Peso*</label>
                                 <input type = "text" class="form-control" name="peso" required value="<?php echo $peso ?>">
+                                <small class="text-muted" >Centímetros</small>
                             </div>
                         <div class="form-group col-md-6">
                                 <label for = "inputalto" >Altura*</label>
                                 <input type = "text" class="form-control" name="alto" required value="<?php echo $alto ?>">
+                                <small class="text-muted" >Centímetros</small>
                             </div>
                         <div class="form-group col-md-6">
                             <label for = "inputancho" >Ancho*</label>
                             <input type = "text" class="form-control" name="ancho" required value="<?php echo $ancho ?>">
-                        </div>
+                            <small class="text-muted" >Centímetros</small>
+                            </div>
                         <div class="form-group col-md-6">
                             <label for = "inputlargo" >Largo*</label>
                             <input type = "text" class="form-control" name="largo" required value="<?php echo $largo ?>">
-                        </div>
+                            <small class="text-muted" >Centímetros</small>
+                            </div>
                     <div class="form-group col-md-6">
 
                         <input type = "hidden" class="form-control" name="id" required value="<?php echo $_GET['id']?>">

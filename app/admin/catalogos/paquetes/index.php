@@ -80,10 +80,8 @@ if($resultado) {
                          <th>Ancho</th>
                          <th>Largo</th>
                          <th>Estatus</th>
-                         <th>Creación</th>
-                         <th>Actualización</th>
+                         <th>Ultima Modificación</th>
                          <th>Acciones</th>
-                         <th></th>
 
 
                      </tr>
@@ -92,20 +90,44 @@ if($resultado) {
                      <?php
                      $contador = 0;
                      foreach ($paqueterias as $p){
+                         $id = $p['id'];
                          ?>
                          <tr>
                              <td><?php echo $p['descripcion'] ?></td>
-                             <td><?php echo $p['tipo']?></td>
+                             <?php
+                             if($p['tipo'] == 'C'){
+                                 $tipos = 'Caja' ;
+                             }else{
+                                 $tipos = 'Sobre';
+                             }
+                             ?>
+                             <td><?php echo $tipos?></td>
                              <td><?php echo $p['peso'] ?></td>
                              <td><?php echo $p['alto']?></td>
                              <td><?php echo $p['ancho'] ?></td>
                              <td><?php echo $p['largo']?></td>
-                             <td><?php echo $p['status']?></td>
-                             <td><?php echo $p['creacion']?></td>
-                             <td><?php echo $p['actualizacion']?></td>
+                             <?php
+                             if($p['status'] == 'A'){
+                                 $estatus = 'Activo' ;
+                             }else{
+                                 $estatus = 'Desactivado';
+                             }
+                             ?>
+                             <td><?php echo $estatus?></td>
+                             <?php
+                             if(empty($p['actualizacion'])){
+                                 $actual = $p['creacion'];
+                             }else{
+                                 $actual = $p['actualizacion'];
+                             }
+                             ?>
+                             <td><?php echo $actual ?></td>
 
-                             <td><a href="borrar.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Eliminar</a></td>
-                             <td><a href="actualizar_paquete.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Actualizar</a></td>
+                             <td>
+                                 <a href="actualizar_paquete.php?id=<?php echo $p['id'] ?>" class="btn btn-link btn-sm btn-sm">Editar</a>
+
+                                 <?php echo $p["status"] == "A" ? "<a href='./eliminar.php?id= $id ' class='btn btn-link btn-sm'>Eliminar</a>" : "<a href='./reactivar.php?id=$id' class='btn btn-link btn-sm'>Reactivar</a>"; ?>
+                             </td>
                          </tr>
                          <?php
                      }
