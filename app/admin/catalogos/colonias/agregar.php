@@ -142,7 +142,6 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
 <?php getModalLogout() ?>
 
 <?php getBottomIncudes( RUTA_INCLUDE ) ?>
@@ -150,7 +149,7 @@ define('RUTA_INCLUDE', '../../../../'); //ajustar a necesidad
 <script>
 
     document.getElementById("estado").addEventListener("change",function(){
-        fetch('http://localhost/integrador-ago-dic-2021/app/admin/catalogos/colonias/getMunicipios.php?id_estado=' + this.value)
+        fetch('getMunicipios.php?id_estado=' + this.value)
             .then(response => response.json())
             .then(municipios => {
                 const select = document.getElementById("municipio");
