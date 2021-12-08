@@ -220,11 +220,23 @@ EOD;
 
 function notificacion($id_usuario, $id_perfil,$contenido){
     global $conexion;
-    $query = "insert into notificaciones (id, descripcion, id_usuario, leida, creacion,id_perfil) values (null,'$contenido','$id_usuario','N',NOW(),'$id_perfil')";
+    if($id_usuario){
+        $sql = "select * from usuarios where id_cliente = $id_usuario";
+        $resultado = mysqli_query($conexion, $sql);
+        $notis = array();
+        if ($resultado) {
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $notis[] = $fila;
+            }
+            foreach ($notis as $uSuario){
+                $id_usuario2 = $uSuario['id'];
+            }
+        }else{
+            mysqli_errno($conexion);
+        }
+    }
+    $query = "insert into notificaciones (id, descripcion, id_usuario, leida, creacion,id_perfil) values (null,'$contenido','$id_usuario2','N',NOW(),'$id_perfil')";
     mysqli_query($conexion, $query);
-
-
-
 }
 
 ?>

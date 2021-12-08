@@ -30,6 +30,16 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <script>
+        function vistono(leida_fecha){
+            if(leida_fecha == ' '){
+                set color: grey;
+            }else{
+                ('td').css('color', 'grey');
+            }
+
+        }
+    </script>
     <title><?php echo PAGE_TITLE ?></title>
 
 
@@ -65,7 +75,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                         <thead>
                         <tr>
                             <th>Descripcion</th>
-                            <th>Fecha</th>
+                            <th>Notificacion Recibida</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -75,9 +85,10 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                                 ?>
 
                                 <tr>
-                                    <td><?php echo $propositos['descripcion'] ?></td>
-                                    <td><?php echo $propositos['creacion'] ?></td>
+                                    <td id="descrip"><?php echo $propositos['descripcion'] ?></td>
+                                    <td id="fecha"><?php echo $propositos['creacion'] ?></td>
                                     <td><a href="nuevanoti.php?id=<?php echo $propositos['id'] ?>"
+                                           onclick="vistono('<?php echo $propositos['leida_fecha'] ?>')"
                                            class="btn btn-success btn-sm">Marcar como Leido</a></td>
                                 </tr>
                                 <?php
@@ -88,6 +99,7 @@ define('RUTA_INCLUDE', '../../'); //ajustar a necesidad
                                         <td><?php echo $propositos['descripcion'] ?></td>
                                         <td><?php echo $propositos['creacion'] ?></td>
                                         <td><a href="nuevanoti.php?id=<?php echo $propositos['id'] ?>"
+                                               onclick="vistono('<?php echo $propositos['leida_fecha'] ?>')"
                                                class="btn btn-success btn-sm">Marcar como Leido</a></td>
                                     </tr>
                                     <?php
