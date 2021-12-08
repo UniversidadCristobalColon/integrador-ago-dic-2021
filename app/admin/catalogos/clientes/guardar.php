@@ -52,11 +52,11 @@ VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior'
             }
             $query3 = "INSERT INTO usuarios (id, id_cliente ,password, user, id_perfil) VALUES (null, $iduser, '', '$email1', 2)";
             $resultado = mysqli_query($conexion, $query3);
-            $_SESSION['guardar_error'] = 0;
+            $_SESSION['registro_exitoso'] = "Cliente agregado exitosamente";
         }
 
     }else{
-        $_SESSION['guardar_error'] = 1;
+        $_SESSION['guardar_error'] = "No se pudo agregar el usuario";
         echo mysqli_errno($conexion);
     }
 
