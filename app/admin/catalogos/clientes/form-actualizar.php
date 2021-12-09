@@ -4,6 +4,7 @@ require '../../../../config/db.php';
 define('RUTA_INCLUDE', '../../../../');
 $nombre = '';
 $apellidos = '';
+$em = '';
 $celular = '';
 $telefono = '';
 $razon = '';
@@ -29,6 +30,7 @@ if(!empty($_GET['id'])){
         $fila = mysqli_fetch_assoc($resultado);
         $nombre = $fila['nombre'];
         $apellidos = $fila['apellidos'];
+        $em = $fila['email'];
         $celular = $fila['celular'];
         $telefono = $fila['telefono'];
         $razon = $fila['razon'];
@@ -143,7 +145,7 @@ if(!empty($_GET['id'])){
                         </div>
                         <div class="form-group col-md-6">
                             <label>Email-*</label>
-                            <input type = "email" class="form-control" name="email1" required value="<?php echo $email1 ?>" >
+                            <input type = "email" class="form-control" name="email1" required value="<?php echo $em ?>" >
                         </div>
                     </div>
                 </fieldset>
