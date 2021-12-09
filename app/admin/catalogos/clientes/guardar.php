@@ -30,16 +30,17 @@ VALUES (null,'$nombre','$apellidos','$email1','$celular','$telefono',NOW())"; //
 
     if($resultado == true){
         header('location: index.php');
-        $sql = "SELECT id FROM clientes ORDER BY id DESC LIMIT 1";
+        $sql = "SELECT id, email FROM clientes ORDER BY id DESC LIMIT 1";
         $datos = mysqli_query($conexion, $sql);
 
         while($row = mysqli_fetch_assoc($datos)){
             $idf = $row['id'];
+            $em = $row['email'];
         }
             $query2 = "INSERT INTO fiscales (id, id_cliente, rfc, razon, calle, num_exterior,
 num_interior, colonia, cp, localidad, municipio, id_estado, email1, email2, creacion, entrecalles, referencia,status)
 VALUES (null, '$idf', '$rfc', '$razon', '$calle', '$numexterior', '$numinterior', '$colonia', 
-'$codigopostal', '$localidad', '$municipio', '$estado', '$email1', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
+'$codigopostal', '$localidad', '$municipio', '$estado', '$em', '$email2', NOW(),'$entrecalles', '$referencia', 'A')";
 
         $resultado = mysqli_query($conexion, $query2);
 
