@@ -13,16 +13,32 @@ if ($tipo_perfil != 1) {
 $id_cotizacion = $_GET['id'];
 // CONSULTA INFORMACIÓN DE LA COTIZACIÓN SELECCIONADA
 $sqlCotizacion = "SELECT CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente, cotiz.id_cliente,
-        CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp) AS dir_rem,
-        CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp) AS dir_dest,
-        cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status FROM cotizaciones cotiz INNER JOIN clientes cli ON cli.id = cotiz.id_cliente INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
-        INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest WHERE cotiz.id_cotizacion = $id_cotizacion";
+CONCAT(dir_rem.calle, ' #', dir_rem.num_exterior, ', Entre ', dir_rem.entre_calles, ' C.P. ', dir_rem.cp,
+       (SELECT CONCAT(' ',municipio, ', ',estado) FROM cotizaciones cotiz
+		INNER JOIN direcciones dir_rem ON cotiz.id_dir_rem = dir_rem.id
+		INNER JOIN colonias col ON dir_rem.id_colonia = col.id
+		INNER JOIN municipios mun ON col.id_municipio = mun.id
+		INNER JOIN estados est ON est.id = mun.id_estado
+		WHERE cotiz.id_cotizacion = $id_cotizacion)) AS dir_rem,
+CONCAT(dir_dest.calle, ' #', dir_dest.num_exterior, ', Entre ', dir_dest.entre_calles, ' C.P. ', dir_dest.cp,
+       (SELECT CONCAT(CONCAT(' ',municipio, ', ',estado)) FROM cotizaciones cotiz
+		INNER JOIN direcciones dir_dest ON cotiz.id_dir_dest = dir_dest.id
+		INNER JOIN colonias col ON dir_dest.id_colonia = col.id
+		INNER JOIN municipios mun ON col.id_municipio = mun.id
+		INNER JOIN estados est ON est.id = mun.id_estado
+		WHERE cotiz.id_cotizacion = $id_cotizacion)) AS dir_dest, cotiz.tipo_servicio, cotiz.asegurado, cotiz.factura, cotiz.recoleccion, cotiz.fecha_creacion, cotiz.fecha_respuesta, cotiz.fecha_resolucion, cotiz.actualizacion, cotiz.guia, cotiz.status
+FROM cotizaciones cotiz
+INNER JOIN clientes cli ON cli.id = cotiz.id_cliente
+INNER JOIN direcciones dir_rem ON dir_rem.id = cotiz.id_dir_rem
+INNER JOIN direcciones dir_dest ON dir_dest.id = cotiz.id_dir_dest
+WHERE cotiz.id_cotizacion = $id_cotizacion;";
 $result = mysqli_query($conexion, $sqlCotizacion);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     if (!is_null($row)) {
         $cliente = $row['cliente'];
         $id_cliente = $row['id_cliente'];
+        echo $id_cliente;
         $dir_rem = $row['dir_rem'];
         $dir_dest = $row['dir_dest'];
         $tipo_servicio = $row['tipo_servicio'];
@@ -402,7 +418,7 @@ if ($result) {
                             <div class="row text-center">
                                 <form action="config/submitGuia.php" method="post">
                                     <div class="col-12">
-                                        <input type="text" class="mb-2 form-control" name="guia" required>
+                                        <input type="number" class="mb-2 form-control" name="guia" required>
                                     </div>
                                     <div class="col-12">
                                         <input type="hidden" name="id_cotizacion" value="<?php echo $id_cotizacion ?>">
