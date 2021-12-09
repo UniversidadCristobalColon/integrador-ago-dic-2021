@@ -1,5 +1,7 @@
 # Proyecto integrador agosto - diciembre 2021
 
+![](img/foto/foto-presentacion.jpeg "Presentación del proyecto 8/12/2021")
+
 ## Materias
 
 1. Ingeniería de Software II
