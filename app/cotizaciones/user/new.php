@@ -41,7 +41,7 @@ function obtenerDirecciones($conexion, $idCliente) {
             referencia,
             alias
             FROM `direcciones`
-            WHERE id_cliente = $idCliente AND alias <> 'sucursal';";
+            WHERE id_cliente = $idCliente AND alias <> 'Sucursal Pakmail';";
 
     $resultado = mysqli_query($conexion, $selectDirecciones);
 
