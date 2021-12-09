@@ -38,7 +38,7 @@ if ($result) {
     if (!is_null($row)) {
         $cliente = $row['cliente'];
         $id_cliente = $row['id_cliente'];
-        echo $id_cliente;
+        // echo $id_cliente;
         $dir_rem = $row['dir_rem'];
         $dir_dest = $row['dir_dest'];
         $tipo_servicio = $row['tipo_servicio'];
